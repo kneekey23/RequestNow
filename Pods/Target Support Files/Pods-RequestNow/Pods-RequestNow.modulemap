@@ -1,0 +1,6 @@
+framework module Pods_RequestNow {
+  umbrella header "Pods-RequestNow-umbrella.h"
+
+  export *
+  module * { export * }
+}
