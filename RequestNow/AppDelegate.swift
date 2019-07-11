@@ -16,6 +16,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        self.window = UIWindow(frame: UIScreen.main.bounds)
+        // LoginVC, if neither trainer or client is logged in
+        let loginStoryboard: UIStoryboard = UIStoryboard(name: "Login", bundle: nil)
+        let loginViewController: UIViewController = loginStoryboard.instantiateViewController(withIdentifier: "EventLoginView") 
+        
+        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let requestViewController: UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "RequestsViewController")
+        
+        if UserDefaults.standard.string(forKey: "eventKey") != nil {
+            self.window?.rootViewController = requestViewController
+        }
+        else {
+        self.window?.rootViewController = loginViewController
+        }
+
         return true
     }
 

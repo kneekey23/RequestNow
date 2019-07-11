@@ -7,17 +7,60 @@
 //
 
 import UIKit
+import Alamofire
+import SwiftyJSON
+import AlamofireObjectMapper
+import CoreData
 
 class RequestsViewController: UITableViewController {
 
    var requests: [Request]?
+    var requestResponse: Requests?
    var nameOfEvent: String?
+    var defaults = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.tableFooterView = UIView(frame: .zero)
-
+        self.getRequests()
         // Do any additional setup after loading the view.
+    }
+    
+    func getRequests() {
+        Alamofire.request(EVENT_DATA + "?event_key=" + defaults.string(forKey: "eventKey")!, method: .get, encoding: JSONEncoding.default, headers: HEADER).responseObject { (response: DataResponse<Requests>) in
+            
+            if response.result.error == nil {
+                print(response.result)
+                print("Success! Got all requests")
+                dump(response.result.value)
+                
+                if let data = response.result.value {
+                    let json = JSON(data)
+                    if json["message"].string  == "Internal server error" {
+                        let alert = UIAlertController(title: "Error", message: "Please try logging in again with a current event code. The event code that is saved is incorrect", preferredStyle: .alert)
+                        
+                        let ok = UIAlertAction(title: "Ok", style: .cancel) { (action) -> Void in
+                            
+                        }
+                        alert.addAction(ok)
+                        self.navigationController!.present(alert, animated: true, completion: nil)
+                    }
+                    else{
+                        self.requestResponse = data
+                        self.requests = self.requestResponse?.requestList
+                        self.tableView.reloadData()
+                        
+                    }
+                    
+                    
+                }
+                
+                
+            } else {
+                print("Error!")
+                debugPrint(response.result.error as Any)
+            }
+        }
     }
     
    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

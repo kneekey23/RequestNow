@@ -40,6 +40,8 @@ class EventLoginController: UIViewController {
                     }
                     else{
                         self.requestResponse = data
+                        //store event key to call requests from next page
+                        UserDefaults.standard.set(self.eventKeyTxtField.text!, forKey: "eventKey")
                    
                     }
                     
@@ -65,17 +67,16 @@ class EventLoginController: UIViewController {
     }
     
     func segueToRequests(){
-         performSegue(withIdentifier: "toRequestApp", sender: self)
+         let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "RequestsViewController") as! UITabBarController
+        self.present(vc, animated: true, completion: nil)
+        
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "toRequestApp" {
-            if let requestVC = segue.destination as? RequestsViewController {
-                requestVC.requests = self.requestResponse?.requestList
-                requestVC.nameOfEvent = self.requestResponse?.nameOfEvent
 
-            }
-        }
+
+        
     }
 
 }
