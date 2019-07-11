@@ -50,13 +50,13 @@
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name of Song" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SHK-X1-L8G">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name of Song" textAlignment="natural" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SHK-X1-L8G">
                                             <rect key="frame" x="79" y="29" width="135" height="27"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name of Artist" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XtY-AD-rvT">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name of Artist" textAlignment="natural" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XtY-AD-rvT">
                                             <rect key="frame" x="79" y="57" width="117" height="17"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="17" id="gbj-LB-E3T"/>
@@ -65,26 +65,37 @@
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gve-AE-3Bf">
+                                            <rect key="frame" x="79" y="32" width="295" height="47"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                     <constraints>
+                                        <constraint firstAttribute="trailingMargin" secondItem="gve-AE-3Bf" secondAttribute="trailing" constant="20" id="6hm-uk-7Te"/>
                                         <constraint firstItem="Quw-o6-g9d" firstAttribute="top" secondItem="bkX-qe-QaY" secondAttribute="top" id="AgH-ON-yjD"/>
                                         <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="XtY-AD-rvT" secondAttribute="trailing" constant="20" symbolic="YES" id="DZZ-vv-3sv"/>
                                         <constraint firstItem="Quw-o6-g9d" firstAttribute="leading" secondItem="bkX-qe-QaY" secondAttribute="leading" id="FL9-px-1CC"/>
                                         <constraint firstItem="SHK-X1-L8G" firstAttribute="top" secondItem="bkX-qe-QaY" secondAttribute="top" constant="29" id="Rlh-aa-Ves"/>
                                         <constraint firstItem="SHK-X1-L8G" firstAttribute="leading" secondItem="Quw-o6-g9d" secondAttribute="trailing" constant="23" id="Wyr-ji-gBh"/>
+                                        <constraint firstItem="gve-AE-3Bf" firstAttribute="bottom" secondItem="bkX-qe-QaY" secondAttribute="bottomMargin" id="X7m-9W-H0z"/>
                                         <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="SHK-X1-L8G" secondAttribute="trailing" constant="20" symbolic="YES" id="YlZ-32-Sxx"/>
                                         <constraint firstItem="SHK-X1-L8G" firstAttribute="leading" secondItem="StC-Q4-0iY" secondAttribute="leading" id="ai0-fF-WDS"/>
+                                        <constraint firstItem="gve-AE-3Bf" firstAttribute="leading" secondItem="XtY-AD-rvT" secondAttribute="leading" id="cUU-CT-puB"/>
                                         <constraint firstItem="SHK-X1-L8G" firstAttribute="top" secondItem="StC-Q4-0iY" secondAttribute="bottom" constant="2" id="iCt-gP-Tql"/>
                                         <constraint firstItem="SHK-X1-L8G" firstAttribute="leading" secondItem="XtY-AD-rvT" secondAttribute="leading" id="jeO-OT-Xyy"/>
                                         <constraint firstItem="SHK-X1-L8G" firstAttribute="leading" secondItem="bkX-qe-QaY" secondAttribute="leading" constant="79" id="mae-0F-kO5"/>
                                         <constraint firstItem="Quw-o6-g9d" firstAttribute="centerY" secondItem="bkX-qe-QaY" secondAttribute="centerY" id="std-DX-yU0"/>
                                         <constraint firstItem="XtY-AD-rvT" firstAttribute="top" secondItem="SHK-X1-L8G" secondAttribute="bottom" constant="1" id="tkE-I5-26n"/>
+                                        <constraint firstItem="gve-AE-3Bf" firstAttribute="top" secondItem="StC-Q4-0iY" secondAttribute="bottom" constant="5" id="vIY-Wx-gvm"/>
                                         <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="StC-Q4-0iY" secondAttribute="trailing" constant="20" symbolic="YES" id="w1Q-cl-URX"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="artist" destination="XtY-AD-rvT" id="GYK-jY-HHz"/>
+                                    <outlet property="originalMessage" destination="gve-AE-3Bf" id="gN1-vc-vax"/>
                                     <outlet property="songName" destination="SHK-X1-L8G" id="s5b-Py-iIu"/>
                                     <outlet property="time" destination="StC-Q4-0iY" id="72f-AP-Ly0"/>
                                 </connections>

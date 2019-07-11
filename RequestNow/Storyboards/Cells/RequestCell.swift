@@ -14,7 +14,8 @@ class RequestCell: UITableViewCell {
     @IBOutlet weak var songName: UILabel!
     
     @IBOutlet weak var artist: UILabel!
-  
+    @IBOutlet weak var originalMessage: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

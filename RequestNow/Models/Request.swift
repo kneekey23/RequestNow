@@ -13,7 +13,7 @@ import ObjectMapper
 class Request: Mappable {
     
     // Basic Trainer Info
-    var id: String?
+    var id: Int?
     var originalRequest: String?
     var artist: String?
     var songName: String?

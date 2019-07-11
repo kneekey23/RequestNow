@@ -19,11 +19,21 @@ class RequestsViewController: UITableViewController {
    var nameOfEvent: String?
     var defaults = UserDefaults.standard
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.tableFooterView = UIView(frame: .zero)
         self.getRequests()
+        self.refreshControl = UIRefreshControl()
+        refreshControl!.addTarget(self, action: #selector(refreshRequests(_:)), for: .valueChanged)
+        refreshControl!.tintColor = UIColor(red:0.25, green:0.72, blue:0.85, alpha:1.0)
         // Do any additional setup after loading the view.
+    }
+    
+    
+    @objc private func refreshRequests(_ sender: Any) {
+        // Fetch Weather Data
+        getRequests()
     }
     
     func getRequests() {
@@ -49,6 +59,49 @@ class RequestsViewController: UITableViewController {
                         self.requestResponse = data
                         self.requests = self.requestResponse?.requestList
                         self.tableView.reloadData()
+                        self.refreshControl!.endRefreshing()
+                        //self.activityIndicatorView.stopAnimating()
+                        
+                    }
+                    
+                    
+                }
+                
+                
+            } else {
+                print("Error!")
+                debugPrint(response.result.error as Any)
+            }
+        }
+    }
+    
+    func deleteRequest(id: Int) {
+        print("id to be deleted:" + String(id))
+        let body: [String: Any] = [
+            "request_id": id
+        ]
+        
+        Alamofire.request(DELETE_REQUEST, method: .post,parameters: body, encoding: JSONEncoding.default, headers: HEADER).responseObject { (response: DataResponse<Requests>) in
+            
+            if response.result.error == nil {
+                print(response.result)
+                print("Success! Deleted Request")
+                dump(response.result.value)
+                
+                if let data = response.result.value {
+                    let json = JSON(data)
+                    if json["message"].string  == "Internal server error" {
+                        let alert = UIAlertController(title: "Error", message: "This request can't be deleted.", preferredStyle: .alert)
+                        
+                        let ok = UIAlertAction(title: "Ok", style: .cancel) { (action) -> Void in
+                            
+                        }
+                        alert.addAction(ok)
+                        self.navigationController!.present(alert, animated: true, completion: nil)
+                    }
+                    else{
+       
+                        self.getRequests()
                         
                     }
                     
@@ -65,9 +118,17 @@ class RequestsViewController: UITableViewController {
     
    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "requestCell") as! RequestCell
+        if requests![indexPath.row].songName == nil && requests![indexPath.row].artist == nil {
+            cell.originalMessage.text = requests![indexPath.row].originalRequest
+            cell.songName.text = ""
+            cell.artist.text = ""
+        }
+        else {
+            cell.songName.text = requests![indexPath.row].songName
+            cell.artist.text = requests![indexPath.row].artist
+            cell.originalMessage.text = ""
+        }
     
-        cell.songName.text = requests![indexPath.row].songName
-        cell.artist.text = requests![indexPath.row].artist
         cell.time.text = "Incoming Song Request - " + requests![indexPath.row].timeOfRequest!
     
         return cell
@@ -85,6 +146,16 @@ class RequestsViewController: UITableViewController {
             return 0
         }
 
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            requests?.remove(at: indexPath.row)
+            self.deleteRequest(id: requests![indexPath.row].id!)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        } else if editingStyle == .insert {
+            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
+        }
     }
 
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
