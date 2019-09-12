@@ -9,6 +9,12 @@
 import UIKit
 import UserNotifications
 
+enum Identifiers {
+    static let viewAction = "VIEW_IDENTIFIER"
+    static let requestCategory = "REQUEST_CATEGORY"
+}
+
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -42,13 +48,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let notification = notificationOption as? [String: AnyObject],
             let aps = notification["aps"] as? [String: AnyObject] {
             
-            // 2 add notification to request list
-          // let newRequest = Request.init(map: aps["songRequest"])
-           // requestViewController.requests =
+            // refresh notifications
+            RequestService.instance.getRequests(eventKey: aps["eventKey"] as! Int, completion: { (success) in
+                if success {
+                    (self.window?.rootViewController as? UITabBarController)?.selectedIndex = 0
+                }
+                else {
+                    print("notification failed")
+                }
+            })
             
             // 3
-              self.window?.rootViewController = requestViewController
-          //  (window?.rootViewController as? UITabBarController)?.selectedIndex = 1
+             // self.window?.rootViewController = requestViewController
+           (window?.rootViewController as? UITabBarController)?.selectedIndex = 0
         }
         
         return true
@@ -83,6 +95,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 print("Permission granted: \(granted)")
                 guard granted else { return }
+                
+                // 1
+                
+                let viewAction = UNNotificationAction(identifier: Identifiers.viewAction, title: "View", options: [.foreground])
+                
+                // 2
+                let requestCategory = UNNotificationCategory(
+                    identifier: Identifiers.requestCategory, actions: [viewAction],
+                    intentIdentifiers: [], options: [])
+                
+                // 3
+                UNUserNotificationCenter.current().setNotificationCategories([requestCategory])
                 self?.getNotificationSettings()
         }
     }
@@ -123,8 +147,50 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return
         }
         //add notificaiton to request list
-       // NewsItem.makeNewsItem(aps)
+        RequestService.instance.getRequests(eventKey: aps["eventKey"] as! Int, completion: { (success) in
+            if success {
+                NotificationCenter.default.post(
+                    name: UPDATE_REQUESTS,
+                    object: self)
+                (self.window?.rootViewController as? UITabBarController)?.selectedIndex = 0
+            }
+            else {
+              print("notification failed")
+            }
+        })
+      //  print(aps)
+    
     }
 
 }
 
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        didReceive response: UNNotificationResponse,
+        withCompletionHandler completionHandler: @escaping () -> Void) {
+        
+        // 1
+        let userInfo = response.notification.request.content.userInfo
+        
+        // 2
+        if let aps = userInfo["aps"] as? [String: AnyObject] {
+            print(aps)
+            //redirect user to request controller and update requests
+            RequestService.instance.getRequests(eventKey: aps["eventKey"] as! Int, completion: { (success) in
+                if success {
+                    NotificationCenter.default.post(
+                        name: UPDATE_REQUESTS,
+                        object: self)
+                    (self.window?.rootViewController as? UITabBarController)?.selectedIndex = 0
+                }
+                else {
+                    print("notification failed")
+                }
+            })
+        }
+        
+        // 4
+        completionHandler()
+    }
+}

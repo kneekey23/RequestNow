@@ -15,47 +15,23 @@ class EventLoginController: UIViewController, UITextFieldDelegate {
     
     var requests: [Request] = [Request]()
     var requestResponse: Requests?
+    var requestService: RequestService = RequestService.instance
 
     var nameOfEvent: String?
 
     @IBAction func submitEventKey(_ sender: Any) {
         
-        Alamofire.request(EVENT_DATA + "?event_key=" + eventKeyTxtField.text!, method: .get, encoding: JSONEncoding.default, headers: HEADER).responseObject { (response: DataResponse<Requests>) in
-            
-            if response.result.error == nil {
-                print(response.result)
-                print("Success! Got all requests")
-                dump(response.result.value)
-               
-                if let data = response.result.value {
-                    let json = JSON(data)
-                    if json["message"].string  == "Internal server error" {
-                        let alert = UIAlertController(title: "Error", message: "Please enter a current event code. The event code you entered was incorrect", preferredStyle: .alert)
-                        
-                        let ok = UIAlertAction(title: "Ok", style: .cancel) { (action) -> Void in
-                            
-                        }
-                        alert.addAction(ok)
-                        self.navigationController!.present(alert, animated: true, completion: nil)
-                    }
-                    else{
-                        self.requestResponse = data
-                        //store event key to call requests from next page
-                        UserDefaults.standard.set(self.eventKeyTxtField.text!, forKey: "eventKey")
-                   
-                    }
-                    
-                        self.segueToRequests()
-                }
-
-                
-            } else {
-                print("Error!")
-                debugPrint(response.result.error as Any)
+        requestService.getRequests(eventKey: Int(eventKeyTxtField.text!)!, completion: { (success) in
+            if success {
+                self.segueToRequests()
             }
-        }
-        
-        
+            else{
+                let alert = UIAlertController(title: "Error", message: "Please enter a current event code. The event code you entered was incorrect", preferredStyle: .alert)
+                let ok = UIAlertAction(title: "Ok", style: .cancel) { (action) -> Void in }
+                alert.addAction(ok)
+                self.navigationController!.present(alert, animated: true, completion: nil)
+            }
+        })
     }
     
     @IBOutlet weak var eventKeyTxtField: UITextField!

@@ -15,9 +15,10 @@ import CoreData
 class RequestsViewController: UITableViewController {
 
    var requests: [Request]?
-    var requestResponse: Requests?
+   
    var nameOfEvent: String?
     var defaults = UserDefaults.standard
+    var requestService: RequestService = RequestService.instance
     
     
     override func viewDidLoad() {
@@ -28,92 +29,56 @@ class RequestsViewController: UITableViewController {
         refreshControl!.addTarget(self, action: #selector(refreshRequests(_:)), for: .valueChanged)
         refreshControl!.tintColor = UIColor(red:0.25, green:0.72, blue:0.85, alpha:1.0)
         // Do any additional setup after loading the view.
+         NotificationCenter.default.addObserver(self, selector: #selector(RequestsViewController.recievedPushNotification(_:)), name: UPDATE_REQUESTS, object: nil)
+    }
+    
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    @objc func recievedPushNotification(_ notification: Notification) {
+        DispatchQueue.main.async {
+            print("got a new song request")
+            self.tableView.reloadData()
+        }
     }
     
     
     @objc private func refreshRequests(_ sender: Any) {
-      
         getRequests()
     }
     
+    
     func getRequests() {
-        Alamofire.request(EVENT_DATA + "?event_key=" + defaults.string(forKey: "eventKey")!, method: .get, encoding: JSONEncoding.default, headers: HEADER).responseObject { (response: DataResponse<Requests>) in
-            
-            if response.result.error == nil {
-                print(response.result)
-                print("Success! Got all requests")
-                dump(response.result.value)
-                
-                if let data = response.result.value {
-                    let json = JSON(data)
-                    if json["message"].string  == "Internal server error" {
-                        let alert = UIAlertController(title: "Error", message: "Please try logging in again with a current event code. The event code that is saved is incorrect", preferredStyle: .alert)
-                        
-                        let ok = UIAlertAction(title: "Ok", style: .cancel) { (action) -> Void in
-                            
-                        }
-                        alert.addAction(ok)
-                        self.navigationController!.present(alert, animated: true, completion: nil)
-                    }
-                    else{
-                        self.requestResponse = data
-                        self.requests = self.requestResponse?.requestList
-                        self.tableView.reloadData()
-                        self.refreshControl!.endRefreshing()
-                        //self.activityIndicatorView.stopAnimating()
-                        
-                    }
-                    
-                    
-                }
-                
-                
-            } else {
-                print("Error!")
-                debugPrint(response.result.error as Any)
+        requestService.getRequests(eventKey: defaults.integer(forKey: "eventKey"), completion: { (success) in
+            if success {
+                self.requests = self.requestService.requests
+                self.tableView.reloadData()
+                self.refreshControl!.endRefreshing()
             }
-        }
+            else {
+                let alert = UIAlertController(title: "Error", message: "Please try logging in again with a current event code. The event code that is saved is incorrect", preferredStyle: .alert)
+                let ok = UIAlertAction(title: "Ok", style: .cancel) { (action) -> Void in }
+                alert.addAction(ok)
+                self.navigationController!.present(alert, animated: true, completion: nil)
+            }
+        })
     }
+   
     
     func deleteRequest(id: Int) {
-        print("id to be deleted:" + String(id))
-        let body: [String: Any] = [
-            "request_id": id
-        ]
-        
-        Alamofire.request(DELETE_REQUEST, method: .post,parameters: body, encoding: JSONEncoding.default, headers: HEADER).responseObject { (response: DataResponse<Requests>) in
-            
-            if response.result.error == nil {
-                print(response.result)
-                print("Success! Deleted Request")
-                dump(response.result.value)
-                
-                if let data = response.result.value {
-                    let json = JSON(data)
-                    if json["message"].string  == "Internal server error" {
-                        let alert = UIAlertController(title: "Error", message: "This request can't be deleted.", preferredStyle: .alert)
-                        
-                        let ok = UIAlertAction(title: "Ok", style: .cancel) { (action) -> Void in
-                            
-                        }
-                        alert.addAction(ok)
-                        self.navigationController!.present(alert, animated: true, completion: nil)
-                    }
-                    else{
-       
-                        self.getRequests()
-                        
-                    }
-                    
-                    
-                }
-                
-                
-            } else {
-                print("Error!")
-                debugPrint(response.result.error as Any)
+        requestService.deleteRequest(id: id, completion: { (success) in
+            if success {
+                self.getRequests()
             }
-        }
+            else{
+                let alert = UIAlertController(title: "Error", message: "This request can't be deleted.", preferredStyle: .alert)
+                let ok = UIAlertAction(title: "Ok", style: .cancel) { (action) -> Void in }
+                alert.addAction(ok)
+                self.navigationController!.present(alert, animated: true, completion: nil)
+            }
+        })
     }
     
    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

@@ -12,6 +12,7 @@ import ObjectMapper
 
 class Requests: Mappable {
     
+    
     // Basic Trainer Info
     var requestList: [Request]?
     var nameOfEvent: String?

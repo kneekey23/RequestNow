@@ -19,3 +19,7 @@ let HEADER = [
 let API_ENDPOINT = "https://9f7yr4mpnf.execute-api.us-east-1.amazonaws.com/dev/";
 let EVENT_DATA = API_ENDPOINT + "get_event_data";
 let DELETE_REQUEST = API_ENDPOINT + "delete_req";
+
+let UPDATE_REQUESTS = Notification.Name("updateRequests")
+
+typealias CompletionHandler = (_ success: Bool) -> ()
