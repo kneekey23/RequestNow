@@ -14,9 +14,8 @@ import CoreData
 
 class RequestsViewController: UITableViewController {
 
-   var requests: [Request]?
-   
-   var nameOfEvent: String?
+    var requests: [Request]?
+    var nameOfEvent: String?
     var defaults = UserDefaults.standard
     var requestService: RequestService = RequestService.instance
     
@@ -54,6 +53,7 @@ class RequestsViewController: UITableViewController {
         requestService.getRequests(eventKey: defaults.integer(forKey: "eventKey"), completion: { (success) in
             if success {
                 self.requests = self.requestService.requests
+                self.nameOfEvent = self.requestService.nameOfEvent
                 self.tableView.reloadData()
                 self.refreshControl!.endRefreshing()
             }
@@ -94,7 +94,7 @@ class RequestsViewController: UITableViewController {
             cell.originalMessage.text = ""
         }
     
-        cell.time.text = "Incoming Song Request - " + requests![indexPath.row].timeOfRequest!
+    cell.time.text = "Incoming Song Request - " + (requests![indexPath.row].timeOfRequest!.toDate()?.toTime())!
     
         return cell
     }
@@ -127,13 +127,23 @@ class RequestsViewController: UITableViewController {
         let headerView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: tableView.frame.width, height: 100))
         headerView.backgroundColor = UIColor.groupTableViewBackground
         let label = UILabel()
-        label.frame = CGRect.init(x: 5, y: 5, width: headerView.frame.width-10, height: headerView.frame.height-10)
+        label.frame = CGRect.init(x: 0, y: 0, width: headerView.frame.width, height: 30)
         label.text = "Request Now"
         label.font = UIFont.boldSystemFont(ofSize: 17)
+        label.textAlignment = .center
+        let eventNameLabel = UILabel()
+        eventNameLabel.frame = CGRect.init(x: 0, y: 20, width: headerView.frame.width, height: 70)
+        eventNameLabel.text = nameOfEvent ?? "Event Name"
+        eventNameLabel.font = UIFont.init(name: "System", size: 30)
+        eventNameLabel.textAlignment = .center
+        eventNameLabel.numberOfLines = 3
+        eventNameLabel.contentMode = .scaleToFill
+        eventNameLabel.lineBreakMode = .byWordWrapping
         //label.font = UIFont().futuraPTMediumFont(16) // my custom font
        // label.textColor = UIColor.charcolBlackColour() // my custom colour
         
         headerView.addSubview(label)
+        headerView.addSubview(eventNameLabel)
         
         return headerView
     }

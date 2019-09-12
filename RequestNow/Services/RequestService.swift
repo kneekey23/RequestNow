@@ -17,6 +17,7 @@ class RequestService {
     var defaults = UserDefaults.standard
     static let instance = RequestService()
     var requests: [Request]?
+    var nameOfEvent: String?
     
     func getRequests(eventKey: Int, completion: @escaping CompletionHandler) {
         Alamofire.request(EVENT_DATA + "?event_key=" + String(eventKey), method: .get, encoding: JSONEncoding.default, headers: HEADER).responseObject { (response: DataResponse<Requests>) in
@@ -34,6 +35,7 @@ class RequestService {
                     else{
                         let requestResponse: Requests = data
                         self.requests = requestResponse.requestList
+                        self.nameOfEvent = requestResponse.nameOfEvent
                          UserDefaults.standard.set(eventKey, forKey: "eventKey")
                         
                         completion(true)
