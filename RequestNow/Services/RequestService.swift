@@ -22,9 +22,9 @@ class RequestService {
         Alamofire.request(EVENT_DATA + "?event_key=" + String(eventKey), method: .get, encoding: JSONEncoding.default, headers: HEADER).responseObject { (response: DataResponse<Requests>) in
             
             if response.result.error == nil {
-                print(response.result)
+               // print(response.result)
                 print("Success! Got all requests")
-                dump(response.result.value)
+               // dump(response.result.value)
                 
                 if let data = response.result.value {
                     let json = JSON(data)

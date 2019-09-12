@@ -47,7 +47,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // 1
         if let notification = notificationOption as? [String: AnyObject],
             let aps = notification["aps"] as? [String: AnyObject] {
-            
+          
             // refresh notifications
             RequestService.instance.getRequests(eventKey: aps["eventKey"] as! Int, completion: { (success) in
                 if success {
@@ -82,6 +82,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        UIApplication.shared.applicationIconBadgeNumber = 0
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
@@ -146,6 +147,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             completionHandler(.failed)
             return
         }
+   
         //add notificaiton to request list
         RequestService.instance.getRequests(eventKey: aps["eventKey"] as! Int, completion: { (success) in
             if success {
@@ -161,6 +163,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       //  print(aps)
     
     }
+    
+
 
 }
 
@@ -176,6 +180,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         // 2
         if let aps = userInfo["aps"] as? [String: AnyObject] {
             print(aps)
+      
             //redirect user to request controller and update requests
             RequestService.instance.getRequests(eventKey: aps["eventKey"] as! Int, completion: { (success) in
                 if success {
