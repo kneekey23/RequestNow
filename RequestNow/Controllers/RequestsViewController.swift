@@ -32,7 +32,7 @@ class RequestsViewController: UITableViewController {
     
     
     @objc private func refreshRequests(_ sender: Any) {
-        // Fetch Weather Data
+      
         getRequests()
     }
     

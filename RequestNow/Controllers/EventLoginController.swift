@@ -11,7 +11,7 @@ import Alamofire
 import SwiftyJSON
 import AlamofireObjectMapper
 
-class EventLoginController: UIViewController {
+class EventLoginController: UIViewController, UITextFieldDelegate {
     
     var requests: [Request] = [Request]()
     var requestResponse: Requests?
@@ -63,6 +63,7 @@ class EventLoginController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "Welcome to RequestNow"
+        self.eventKeyTxtField.delegate = self
         // Do any additional setup after loading the view.
     }
     
@@ -72,12 +73,18 @@ class EventLoginController: UIViewController {
         self.present(vc, animated: true, completion: nil)
         
     }
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-
-
-        
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        eventKeyTxtField.resignFirstResponder()
+        return true
     }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
+ 
+
 
 }
 
