@@ -49,7 +49,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let aps = notification["aps"] as? [String: AnyObject] {
           
             // refresh notifications
-            RequestService.instance.getRequests(eventKey: aps["eventKey"] as! Int, completion: { (success) in
+            RequestService.instance.getRequests(eventKey: aps["eventId"] as! Int, completion: { (success) in
                 if success {
                     (self.window?.rootViewController as? UITabBarController)?.selectedIndex = 0
                 }
@@ -129,6 +129,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let tokenParts = deviceToken.map { data in String(format: "%02.2hhx", data) }
         let token = tokenParts.joined()
         print("Device Token: \(token)")
+        UserDefaults.standard.set(token, forKey: "deviceToken")
+        let eventKey = UserDefaults.standard.integer(forKey: "eventKey")
+        if eventKey != nil {
+            RequestService.instance.registerDeviceToken(eventKey: eventKey, deviceToken: token, completion: { (success) in
+                print("registered")
+            })
+        }
     }
     
     func application(
@@ -143,13 +150,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         fetchCompletionHandler completionHandler:
         @escaping (UIBackgroundFetchResult) -> Void
         ) {
+        dump(userInfo)
         guard let aps = userInfo["aps"] as? [String: AnyObject] else {
             completionHandler(.failed)
             return
         }
-   
+        print(aps)
         //add notificaiton to request list
-        RequestService.instance.getRequests(eventKey: aps["eventKey"] as! Int, completion: { (success) in
+        RequestService.instance.getRequests(eventKey: aps["eventId"] as! Int, completion: { (success) in
             if success {
                 NotificationCenter.default.post(
                     name: UPDATE_REQUESTS,
@@ -164,6 +172,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     }
     
+    
+    func convertToDictionary(text: String) -> [String: Any]? {
+        if let data = text.data(using: .utf8) {
+            do {
+                return try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+        return nil
+    }
 
 
 }

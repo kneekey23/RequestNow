@@ -24,6 +24,7 @@ class RequestsViewController: UITableViewController {
         super.viewDidLoad()
         tableView.tableFooterView = UIView(frame: .zero)
         self.getRequests()
+       // self.registerForPushNotifications()
         self.refreshControl = UIRefreshControl()
         refreshControl!.addTarget(self, action: #selector(refreshRequests(_:)), for: .valueChanged)
         refreshControl!.tintColor = UIColor(red:0.25, green:0.72, blue:0.85, alpha:1.0)
@@ -50,6 +51,7 @@ class RequestsViewController: UITableViewController {
     
     
     func getRequests() {
+        
         requestService.getRequests(eventKey: defaults.integer(forKey: "eventKey"), completion: { (success) in
             if success {
                 self.requests = self.requestService.requests
@@ -65,7 +67,23 @@ class RequestsViewController: UITableViewController {
             }
         })
     }
-   
+    
+    func registerForPushNotifications() {
+        DispatchQueue.global(qos: .utility).async {
+            if let deviceToken = UserDefaults.standard.string(forKey: "deviceToken"){
+                let eventKey = UserDefaults.standard.integer(forKey: "eventKey")
+                self.requestService.registerDeviceToken(eventKey: eventKey, deviceToken: deviceToken, completion: { (success) in
+                    if success {
+                        print("device registered for push notifications")
+                    }
+                    else {
+                        print("device registration for push notifications was unsucessful")
+                    }
+                })
+            }
+        }
+    }
+
     
     func deleteRequest(id: Int) {
         requestService.deleteRequest(id: id, completion: { (success) in

@@ -60,7 +60,7 @@ class RequestService {
             if response.result.error == nil {
                 print(response.result)
                 print("Success! Deleted Request")
-                dump(response.result.value)
+                //dump(response.result.value)
                 
                 if let data = response.result.value {
                     let json = JSON(data)
@@ -71,11 +71,33 @@ class RequestService {
                        completion(true)
                     }
                 }
-            } else {
+            }
+            else {
                 print("Error!")
                 completion(false)
                 debugPrint(response.result.error as Any)
             }
+        }
+    }
+    
+    func registerDeviceToken(eventKey: Int, deviceToken: String, completion: @escaping CompletionHandler) {
+        
+        let body: [String: Any] = [
+            "device_id": deviceToken,
+            "event_id": eventKey
+        ]
+        
+        Alamofire.request(REGISTER_TOKEN, method: .post, parameters: body, encoding: JSONEncoding.default, headers: HEADER).responseJSON{(response) in
+            
+            if response.result.error == nil {
+                print(response.result)
+                print("device registered!")
+                dump(response.result.value)
+            }
+            else {
+                print("Error!")
+            }
+           
         }
     }
     

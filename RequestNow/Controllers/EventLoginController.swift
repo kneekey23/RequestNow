@@ -21,7 +21,13 @@ class EventLoginController: UIViewController, UITextFieldDelegate {
 
     @IBAction func submitEventKey(_ sender: Any) {
         
-        requestService.getRequests(eventKey: Int(eventKeyTxtField.text!)!, completion: { (success) in
+        if let eventKey = eventKeyTxtField.text, let unwrappedEventKey = Int(eventKey) {
+            
+        DispatchQueue.global(qos: .utility).async {
+            self.registerDeviceTokenForPushNotifications(eventKey: unwrappedEventKey)
+        }
+        
+        requestService.getRequests(eventKey: unwrappedEventKey, completion: { (success) in
             if success {
                 self.segueToRequests()
             }
@@ -32,9 +38,23 @@ class EventLoginController: UIViewController, UITextFieldDelegate {
                 self.navigationController!.present(alert, animated: true, completion: nil)
             }
         })
+        }
     }
     
     @IBOutlet weak var eventKeyTxtField: UITextField!
+    
+    func registerDeviceTokenForPushNotifications(eventKey: Int) {
+        if let deviceToken = UserDefaults.standard.string(forKey: "deviceToken") {
+            requestService.registerDeviceToken(eventKey: eventKey, deviceToken: deviceToken, completion: { (success) in
+                if success {
+                    print("device registered for push notifications")
+                }
+                else {
+                    print("device registration for push notifications was unsucessful")
+                }
+            })
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
