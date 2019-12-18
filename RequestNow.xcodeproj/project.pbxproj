@@ -20,6 +20,8 @@
 		8164B6C922D42B440091F621 /* RequestCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8164B6C822D42B440091F621 /* RequestCell.swift */; };
 		8164B6CB22D6AAC90091F621 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8164B6CA22D6AAC90091F621 /* Login.storyboard */; };
 		8164B6CD22D6B75E0091F621 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8164B6CC22D6B75E0091F621 /* SettingsViewController.swift */; };
+		8192133223A9D1E7002FF041 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8192133123A9D1E7002FF041 /* SceneDelegate.swift */; };
+		8192133523A9D754002FF041 /* RequestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8192133423A9D754002FF041 /* RequestViewModel.swift */; };
 		81D16621232AB9AB00BC447D /* RequestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D16620232AB9AB00BC447D /* RequestService.swift */; };
 		81D16624232ADADA00BC447D /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D16623232ADADA00BC447D /* String+Extensions.swift */; };
 		81D16626232ADB3700BC447D /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D16625232ADB3700BC447D /* Date+Extension.swift */; };
@@ -43,6 +45,8 @@
 		8164B6C822D42B440091F621 /* RequestCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestCell.swift; sourceTree = "<group>"; };
 		8164B6CA22D6AAC90091F621 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		8164B6CC22D6B75E0091F621 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		8192133123A9D1E7002FF041 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		8192133423A9D754002FF041 /* RequestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestViewModel.swift; sourceTree = "<group>"; };
 		81D1661E232AAC6700BC447D /* RequestNow.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RequestNow.entitlements; sourceTree = "<group>"; };
 		81D16620232AB9AB00BC447D /* RequestService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestService.swift; sourceTree = "<group>"; };
 		81D16623232ADADA00BC447D /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
@@ -84,13 +88,14 @@
 		8164B6A722D406D30091F621 /* RequestNow */ = {
 			isa = PBXGroup;
 			children = (
+				8164B6A822D406D30091F621 /* AppDelegate.swift */,
+				8192133123A9D1E7002FF041 /* SceneDelegate.swift */,
 				81D16622232ADAC700BC447D /* Extensions */,
-				81D1661F232AB99800BC447D /* Services */,
+				81D1661F232AB99800BC447D /* API */,
 				81D1661E232AAC6700BC447D /* RequestNow.entitlements */,
-				8164B6C222D41F0E0091F621 /* Models */,
 				8164B6BD22D408070091F621 /* Storyboards */,
 				8164B6BC22D407EA0091F621 /* Controllers */,
-				8164B6A822D406D30091F621 /* AppDelegate.swift */,
+				8192133323A9D73D002FF041 /* ViewModels */,
 				8164B6B122D406D40091F621 /* Assets.xcassets */,
 				8164B6B622D406D40091F621 /* Info.plist */,
 				8164B6BE22D40C1B0091F621 /* Constants.swift */,
@@ -137,12 +142,21 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
-		81D1661F232AB99800BC447D /* Services */ = {
+		8192133323A9D73D002FF041 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				8192133423A9D754002FF041 /* RequestViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		81D1661F232AB99800BC447D /* API */ = {
+			isa = PBXGroup;
+			children = (
+				8164B6C222D41F0E0091F621 /* Models */,
 				81D16620232AB9AB00BC447D /* RequestService.swift */,
 			);
-			path = Services;
+			path = API;
 			sourceTree = "<group>";
 		};
 		81D16622232ADAC700BC447D /* Extensions */ = {
@@ -314,9 +328,11 @@
 				81D16626232ADB3700BC447D /* Date+Extension.swift in Sources */,
 				8164B6A922D406D30091F621 /* AppDelegate.swift in Sources */,
 				8164B6AB22D406D30091F621 /* EventLoginController.swift in Sources */,
+				8192133223A9D1E7002FF041 /* SceneDelegate.swift in Sources */,
 				8164B6C922D42B440091F621 /* RequestCell.swift in Sources */,
 				8164B6C622D421CC0091F621 /* Requests.swift in Sources */,
 				8164B6BF22D40C1B0091F621 /* Constants.swift in Sources */,
+				8192133523A9D754002FF041 /* RequestViewModel.swift in Sources */,
 				8164B6CD22D6B75E0091F621 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -394,7 +410,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -449,7 +465,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -466,8 +482,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = RequestNow/RequestNow.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1.3;
 				DEVELOPMENT_TEAM = 9EVWV3K6BK;
 				INFOPLIST_FILE = RequestNow/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -486,8 +504,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = RequestNow/RequestNow.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1.3;
 				DEVELOPMENT_TEAM = 9EVWV3K6BK;
 				INFOPLIST_FILE = RequestNow/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

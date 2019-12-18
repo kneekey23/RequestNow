@@ -10,13 +10,13 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 import AlamofireObjectMapper
+import Combine
 
+@available(iOS 13.0, *)
 class EventLoginController: UIViewController, UITextFieldDelegate {
     
     var requests: [Request] = [Request]()
     var requestResponse: Requests?
-    var requestService: RequestService = RequestService.instance
-
     var nameOfEvent: String?
 
     @IBAction func submitEventKey(_ sender: Any) {
@@ -27,17 +27,17 @@ class EventLoginController: UIViewController, UITextFieldDelegate {
             self.registerDeviceTokenForPushNotifications(eventKey: unwrappedEventKey)
         }
         
-        requestService.getRequests(eventKey: unwrappedEventKey, completion: { (success) in
-            if success {
-                self.segueToRequests()
-            }
-            else{
-                let alert = UIAlertController(title: "Error", message: "Please enter a current event code. The event code you entered was incorrect", preferredStyle: .alert)
-                let ok = UIAlertAction(title: "Ok", style: .cancel) { (action) -> Void in }
-                alert.addAction(ok)
-                self.navigationController!.present(alert, animated: true, completion: nil)
-            }
-        })
+//        requestService.getRequests(eventId: unwrappedEventKey, completion: { (success) in
+//            if success {
+//                self.segueToRequests()
+//            }
+//            else{
+//                let alert = UIAlertController(title: "Error", message: "Please enter a current event code. The event code you entered was incorrect", preferredStyle: .alert)
+//                let ok = UIAlertAction(title: "Ok", style: .cancel) { (action) -> Void in }
+//                alert.addAction(ok)
+//                self.navigationController!.present(alert, animated: true, completion: nil)
+//            }
+//        })
         }
     }
     
@@ -45,14 +45,14 @@ class EventLoginController: UIViewController, UITextFieldDelegate {
     
     func registerDeviceTokenForPushNotifications(eventKey: Int) {
         if let deviceToken = UserDefaults.standard.string(forKey: "deviceToken") {
-            requestService.registerDeviceToken(eventKey: eventKey, deviceToken: deviceToken, completion: { (success) in
-                if success {
-                    print("device registered for push notifications")
-                }
-                else {
-                    print("device registration for push notifications was unsucessful")
-                }
-            })
+//            requestService.registerDeviceToken(eventKey: eventKey, deviceToken: deviceToken, completion: { (success) in
+//                if success {
+//                    print("device registered for push notifications")
+//                }
+//                else {
+//                    print("device registration for push notifications was unsucessful")
+//                }
+//            })
         }
     }
     

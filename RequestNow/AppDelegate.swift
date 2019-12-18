@@ -49,14 +49,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let aps = notification["aps"] as? [String: AnyObject] {
           
             // refresh notifications
-            RequestService.instance.getRequests(eventKey: aps["eventId"] as! Int, completion: { (success) in
-                if success {
-                    (self.window?.rootViewController as? UITabBarController)?.selectedIndex = 0
-                }
-                else {
-                    print("notification failed")
-                }
-            })
+//            RequestService.getRequests(eventId: aps["eventId"] as! Int, completion: { (success) in
+//                if success {
+//                    (self.window?.rootViewController as? UITabBarController)?.selectedIndex = 0
+//                }
+//                else {
+//                    print("notification failed")
+//                }
+//            })
             
             // 3
              // self.window?.rootViewController = requestViewController
@@ -131,10 +131,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print("Device Token: \(token)")
         UserDefaults.standard.set(token, forKey: "deviceToken")
         let eventKey = UserDefaults.standard.integer(forKey: "eventKey")
-        if eventKey != nil {
-            RequestService.instance.registerDeviceToken(eventKey: eventKey, deviceToken: token, completion: { (success) in
-                print("registered")
-            })
+        if eventKey != 0 {
+//            RequestService.instance.registerDeviceToken(eventKey: eventKey, deviceToken: token, completion: { (success) in
+//                print("registered")
+//            })
         }
     }
     
@@ -157,17 +157,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         print(aps)
         //add notificaiton to request list
-        RequestService.instance.getRequests(eventKey: aps["eventId"] as! Int, completion: { (success) in
-            if success {
-                NotificationCenter.default.post(
-                    name: UPDATE_REQUESTS,
-                    object: self)
-                (self.window?.rootViewController as? UITabBarController)?.selectedIndex = 0
-            }
-            else {
-              print("notification failed")
-            }
-        })
+//        RequestService.instance.getRequests(eventKey: aps["eventId"] as! Int, completion: { (success) in
+//            if success {
+//                NotificationCenter.default.post(
+//                    name: UPDATE_REQUESTS,
+//                    object: self)
+//                (self.window?.rootViewController as? UITabBarController)?.selectedIndex = 0
+//            }
+//            else {
+//              print("notification failed")
+//            }
+//        })
       //  print(aps)
     
     }
@@ -201,17 +201,17 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
             print(aps)
       
             //redirect user to request controller and update requests
-            RequestService.instance.getRequests(eventKey: aps["eventKey"] as! Int, completion: { (success) in
-                if success {
-                    NotificationCenter.default.post(
-                        name: UPDATE_REQUESTS,
-                        object: self)
-                    (self.window?.rootViewController as? UITabBarController)?.selectedIndex = 0
-                }
-                else {
-                    print("notification failed")
-                }
-            })
+//            RequestService.instance.getRequests(eventKey: aps["eventKey"] as! Int, completion: { (success) in
+//                if success {
+//                    NotificationCenter.default.post(
+//                        name: UPDATE_REQUESTS,
+//                        object: self)
+//                    (self.window?.rootViewController as? UITabBarController)?.selectedIndex = 0
+//                }
+//                else {
+//                    print("notification failed")
+//                }
+//            })
         }
         
         // 4
