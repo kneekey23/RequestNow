@@ -19,6 +19,7 @@ enum Identifiers {
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    private var requestService: RequestServiceProtocol = RequestService()
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -32,14 +33,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let requestViewController: UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "RequestsViewController")
         
-        if UserDefaults.standard.string(forKey: "eventKey") != nil {
+        if UserDefaults.standard.string(forKey: "eventId") != nil {
             self.window?.rootViewController = requestViewController
         }
         else {
         self.window?.rootViewController = loginViewController
         }
-        registerForPushNotifications()
         
+        registerForPushNotifications()
         
         // Check if launched from notification
         let notificationOption = launchOptions?[.remoteNotification]
@@ -49,17 +50,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let aps = notification["aps"] as? [String: AnyObject] {
           
             // refresh notifications
-//            RequestService.getRequests(eventId: aps["eventId"] as! Int, completion: { (success) in
-//                if success {
-//                    (self.window?.rootViewController as? UITabBarController)?.selectedIndex = 0
-//                }
-//                else {
-//                    print("notification failed")
-//                }
-//            })
+           
+            let newRequestData = aps["songRequest"]
+            let newRequest = try! JSONDecoder().decode(Request.self, from: newRequestData as! Data)
+            NotificationCenter.default.post(name: UPDATE_REQUESTS, object:newRequest)
             
             // 3
-             // self.window?.rootViewController = requestViewController
            (window?.rootViewController as? UITabBarController)?.selectedIndex = 0
         }
         
@@ -130,11 +126,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let token = tokenParts.joined()
         print("Device Token: \(token)")
         UserDefaults.standard.set(token, forKey: "deviceToken")
-        let eventKey = UserDefaults.standard.integer(forKey: "eventKey")
-        if eventKey != 0 {
-//            RequestService.instance.registerDeviceToken(eventKey: eventKey, deviceToken: token, completion: { (success) in
-//                print("registered")
-//            })
+        let eventId = UserDefaults.standard.string(forKey: "eventId")
+        if let eventId = eventId, !eventId.isEmpty {
+            requestService.registerDeviceToken(eventId: eventId, deviceToken: token)
         }
     }
     
@@ -157,17 +151,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         print(aps)
         //add notificaiton to request list
-//        RequestService.instance.getRequests(eventKey: aps["eventId"] as! Int, completion: { (success) in
-//            if success {
-//                NotificationCenter.default.post(
-//                    name: UPDATE_REQUESTS,
-//                    object: self)
-//                (self.window?.rootViewController as? UITabBarController)?.selectedIndex = 0
-//            }
-//            else {
-//              print("notification failed")
-//            }
-//        })
+        let newRequestData = aps["songRequest"]
+        let newRequest = try! JSONDecoder().decode(Request.self, from: newRequestData as! Data)
+        NotificationCenter.default.post(name: UPDATE_REQUESTS, object:newRequest)
       //  print(aps)
     
     }
@@ -183,8 +169,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         return nil
     }
-
-
 }
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
@@ -199,19 +183,9 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         // 2
         if let aps = userInfo["aps"] as? [String: AnyObject] {
             print(aps)
-      
-            //redirect user to request controller and update requests
-//            RequestService.instance.getRequests(eventKey: aps["eventKey"] as! Int, completion: { (success) in
-//                if success {
-//                    NotificationCenter.default.post(
-//                        name: UPDATE_REQUESTS,
-//                        object: self)
-//                    (self.window?.rootViewController as? UITabBarController)?.selectedIndex = 0
-//                }
-//                else {
-//                    print("notification failed")
-//                }
-//            })
+            let newRequestData = aps["songRequest"]
+            let newRequest = try! JSONDecoder().decode(Request.self, from: newRequestData as! Data)
+            NotificationCenter.default.post(name: UPDATE_REQUESTS, object:newRequest)
         }
         
         // 4

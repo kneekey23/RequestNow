@@ -6,11 +6,7 @@
 //  Copyright © 2019 Confir Inc. All rights reserved.
 //
 
-import UIKit
-import Foundation
-import ObjectMapper
-
-class Requests: Codable {
+struct RequestData: Codable {
     
     public let requestList: [Request]
     public let nameOfEvent: String

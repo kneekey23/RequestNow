@@ -7,60 +7,45 @@
 //
 
 import UIKit
-import Alamofire
-import SwiftyJSON
-import AlamofireObjectMapper
 import Combine
 
-@available(iOS 13.0, *)
 class EventLoginController: UIViewController, UITextFieldDelegate {
     
-    var requests: [Request] = [Request]()
-    var requestResponse: Requests?
-    var nameOfEvent: String?
+    var viewModel: RequestViewModel!
 
     @IBAction func submitEventKey(_ sender: Any) {
         
-        if let eventKey = eventKeyTxtField.text, let unwrappedEventKey = Int(eventKey) {
-            
-        DispatchQueue.global(qos: .utility).async {
-            self.registerDeviceTokenForPushNotifications(eventKey: unwrappedEventKey)
+        if !viewModel.eventId.isEmpty {
+            self.segueToRequests()
         }
-        
-//        requestService.getRequests(eventId: unwrappedEventKey, completion: { (success) in
-//            if success {
-//                self.segueToRequests()
-//            }
-//            else{
-//                let alert = UIAlertController(title: "Error", message: "Please enter a current event code. The event code you entered was incorrect", preferredStyle: .alert)
-//                let ok = UIAlertAction(title: "Ok", style: .cancel) { (action) -> Void in }
-//                alert.addAction(ok)
-//                self.navigationController!.present(alert, animated: true, completion: nil)
-//            }
-//        })
+        else {
+            let alert = UIAlertController(title: "Error", message: "Please enter a current event code. The event code you entered was incorrect", preferredStyle: .alert)
+            let ok = UIAlertAction(title: "Ok", style: .cancel) { (action) -> Void in }
+            alert.addAction(ok)
+            self.present(alert, animated: true, completion: nil)
         }
     }
     
     @IBOutlet weak var eventKeyTxtField: UITextField!
     
-    func registerDeviceTokenForPushNotifications(eventKey: Int) {
-        if let deviceToken = UserDefaults.standard.string(forKey: "deviceToken") {
-//            requestService.registerDeviceToken(eventKey: eventKey, deviceToken: deviceToken, completion: { (success) in
-//                if success {
-//                    print("device registered for push notifications")
-//                }
-//                else {
-//                    print("device registration for push notifications was unsucessful")
-//                }
-//            })
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.title = "Welcome to RequestNow"
-        self.eventKeyTxtField.delegate = self
+        self.viewModel = RequestViewModel()
+        navigationItem.title = "Welcome to RequestNow"
+        eventKeyTxtField.delegate = self
+        setUpBindings()
         // Do any additional setup after loading the view.
+    }
+    
+    private func setUpBindings() {
+        func bindViewToViewModel() {
+            _ = eventKeyTxtField.textPublisher
+                .debounce(for: 0.1, scheduler: RunLoop.main)
+                .removeDuplicates()
+                .assign(to: \.eventKey, on: viewModel)
+            
+        }
+        bindViewToViewModel()
     }
     
     func segueToRequests(){
@@ -78,9 +63,5 @@ class EventLoginController: UIViewController, UITextFieldDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
-    
- 
-
-
 }
 

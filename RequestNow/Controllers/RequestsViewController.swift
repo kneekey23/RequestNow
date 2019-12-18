@@ -10,32 +10,18 @@ import UIKit
 import CoreData
 
 class RequestsViewController: UITableViewController {
-
-   // var requests: [Request]?
-    var nameOfEvent: String?
-    var defaults = UserDefaults.standard
-    private let viewModel: RequestViewModel
     
-    init(viewModel: RequestViewModel = RequestViewModel()) {
-        self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    var viewModel: RequestViewModel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.tableFooterView = UIView(frame: .zero)
-       // self.getRequests()
-      
+        viewModel = RequestViewModel()
         self.refreshControl = UIRefreshControl()
        // refreshControl!.addTarget(self, action: viewModel.getRequests(with:), for: .valueChanged)
         refreshControl!.tintColor = UIColor(red:0.25, green:0.72, blue:0.85, alpha:1.0)
         setUpBindings()
         // Do any additional setup after loading the view.
-//         NotificationCenter.default.addObserver(self, selector: #selector(RequestsViewController.recievedPushNotification(_:)), name: UPDATE_REQUESTS, object: nil)
     }
     
     private func setUpBindings() {
@@ -72,58 +58,6 @@ class RequestsViewController: UITableViewController {
         present(alertController, animated: true, completion: nil)
     }
     
-//
-//    deinit {
-//        NotificationCenter.default.removeObserver(self)
-//    }
-//
-//    @objc func recievedPushNotification(_ notification: Notification) {
-//        DispatchQueue.main.async {
-//            print("got a new song request")
-//            self.tableView.reloadData()
-//        }
-//    }
-    
-    
-//    @objc private func refreshRequests(_ sender: Any) {
-//        getRequests()
-//    }
-//
-    
-//    func getRequests() {
-//
-//        requestService.getRequests2(eventId: defaults.integer(forKey: "eventKey"), completion: { (success) in
-//            if success {
-//                self.requests = self.requestService.requests
-//                self.nameOfEvent = self.requestService.nameOfEvent
-//                self.tableView.reloadData()
-//                self.refreshControl!.endRefreshing()
-//            }
-//            else {
-//                let alert = UIAlertController(title: "Error", message: "Please try logging in again with a current event code. The event code that is saved is incorrect", preferredStyle: .alert)
-//                let ok = UIAlertAction(title: "Ok", style: .cancel) { (action) -> Void in }
-//                alert.addAction(ok)
-//                self.navigationController!.present(alert, animated: true, completion: nil)
-//            }
-//        })
-//    }
-    
-//    func registerForPushNotifications() {
-//        DispatchQueue.global(qos: .utility).async {
-//            if let deviceToken = UserDefaults.standard.string(forKey: "deviceToken"){
-//                let eventKey = UserDefaults.standard.integer(forKey: "eventKey")
-//                self.requestService.registerDeviceToken(eventKey: eventKey, deviceToken: deviceToken, completion: { (success) in
-//                    if success {
-//                        print("device registered for push notifications")
-//                    }
-//                    else {
-//                        print("device registration for push notifications was unsucessful")
-//                    }
-//                })
-//            }
-//        }
-//    }
-
     
 //    func deleteRequest(id: Int) {
 //        requestService.deleteRequest(id: id, completion: { (success) in
@@ -186,7 +120,7 @@ class RequestsViewController: UITableViewController {
         label.textAlignment = .center
         let eventNameLabel = UILabel()
         eventNameLabel.frame = CGRect.init(x: 0, y: 20, width: headerView.frame.width, height: 70)
-        eventNameLabel.text = nameOfEvent ?? "Event Name"
+        eventNameLabel.text = viewModel.nameOfEvent
         eventNameLabel.font = UIFont.init(name: "System", size: 30)
         eventNameLabel.textAlignment = .center
         eventNameLabel.numberOfLines = 3

@@ -17,54 +17,22 @@ enum ServiceError: Error {
 
 
 protocol RequestServiceProtocol {
-    func getRequests(eventId: String?) -> AnyPublisher<[Request], Error>
+    func getRequests(eventId: String?) -> AnyPublisher<RequestData, Error>
+    func getEventId(eventKey: String?) -> AnyPublisher<String, Error>
+    func registerDeviceToken(eventId: String, deviceToken: String)
 }
 
 final class RequestService: RequestServiceProtocol {
     
-//    var defaults = UserDefaults.standard
-//   // static let instance = RequestService()
-//    @Published var requests: Requests
-//    var nameOfEvent: String?
-    
-//    func getRequests(eventKey: Int, completion: @escaping CompletionHandler) {
-//        Alamofire.request(EVENT_DATA + "?event_key=" + String(eventKey), method: .get, encoding: JSONEncoding.default, headers: HEADER).responseObject { (response: DataResponse<Requests>) in
-//
-//            if response.result.error == nil {
-//               // print(response.result)
-//                print("Success! Got all requests")
-//               // dump(response.result.value)
-//
-//                if let data = response.result.value {
-//                    let json = JSON(data)
-//                    if json["message"].string  == "Internal server error" {
-//                        completion(false)
-//                    }
-//                    else{
-//                        let requestResponse: Requests = data
-//                        self.requests = requestResponse.requestList
-//                        self.nameOfEvent = requestResponse.nameOfEvent
-//                         UserDefaults.standard.set(eventKey, forKey: "eventKey")
-//
-//                        completion(true)
-//                    }
-//                }
-//            } else {
-//                print("Error!")
-//                completion(false)
-//                debugPrint(response.result.error as Any)
-//            }
-//        }
-//    }
-    
-    func getRequests(eventId: String?) -> AnyPublisher<[Request], Error> {
+    var defaults = UserDefaults.standard
+    func getRequests(eventId: String?) -> AnyPublisher<RequestData, Error> {
         var dataTask: URLSessionDataTask?
         
         let onSubscription: (Subscription) -> Void = { _ in dataTask?.resume() }
         let onCancel: () -> Void = { dataTask?.cancel() }
         
         // promise type is Result<[Player], Error>
-        return Future<[Request], Error> { [weak self] promise in
+        return Future<RequestData, Error> { promise in
             guard let eventId = eventId, let urlRequest = URL(string: EVENT_DATA + "?event_id=" + eventId) else {
                 promise(.failure(ServiceError.urlRequest))
                 return
@@ -78,8 +46,8 @@ final class RequestService: RequestServiceProtocol {
                     return
                 }
                 do {
-                    let requests = try JSONDecoder().decode(Requests.self, from: data)
-                    promise(.success(requests.requestList))
+                    let requests = try JSONDecoder().decode(RequestData.self, from: data)
+                    promise(.success(requests))
                 } catch {
                     promise(.failure(ServiceError.decode))
                 }
@@ -90,57 +58,105 @@ final class RequestService: RequestServiceProtocol {
         .eraseToAnyPublisher()
     }
     
-//    func deleteRequest(id: Int, completion: @escaping CompletionHandler) {
-//
-//        let body: [String: Any] = [
-//            "request_id": id
-//        ]
-//
-//        Alamofire.request(DELETE_REQUEST, method: .post,parameters: body, encoding: JSONEncoding.default, headers: HEADER).responseObject { (response: DataResponse<Requests>) in
-//
-//            if response.result.error == nil {
-//                print(response.result)
-//                print("Success! Deleted Request")
-//                //dump(response.result.value)
-//
-//                if let data = response.result.value {
-//                    let json = JSON(data)
-//                    if json["message"].string  == "Internal server error" {
-//                       completion(false)
-//                    }
-//                    else{
-//                       completion(true)
-//                    }
-//                }
-//            }
-//            else {
-//                print("Error!")
-//                completion(false)
-//                debugPrint(response.result.error as Any)
-//            }
-//        }
-//    }
+    func getEventId(eventKey: String?) -> AnyPublisher<String, Error> {
+        var dataTask: URLSessionDataTask?
+        
+        let onSubscription: (Subscription) -> Void = { _ in dataTask?.resume() }
+        let onCancel: () -> Void = { dataTask?.cancel() }
+        
+        return Future<String, Error> { promise in
+            guard let eventKey = eventKey, let urlRequest = URL(string: EVENT_ID + "?event_key=" + eventKey) else {
+                promise(.failure(ServiceError.urlRequest))
+                return
+            }
+            
+            dataTask = URLSession.shared.dataTask(with: urlRequest) { data, _,error in
+                
+                guard let data = data else {
+                    if let error = error {
+                        promise(.failure(error))
+                    }
+                    return
+                }
+                
+                do {
+                    let json = try JSONSerialization.jsonObject(with: data, options: [])
+                    if let dictionary = json as? [String: Any] {
+                        if let eventId = dictionary["event_id"] as? String {
+                            UserDefaults.standard.set(eventId, forKey: "eventId")
+                            promise(.success(eventId))
+                        }
+                    }
+                } catch {
+                    promise(.failure(ServiceError.decode))
+                }
+                
+            }
+        }
+        .handleEvents(receiveSubscription: onSubscription, receiveCancel: onCancel)
+        .receive(on: DispatchQueue.main)
+        .eraseToAnyPublisher()
+    }
     
-//    func registerDeviceToken(eventKey: Int, deviceToken: String, completion: @escaping CompletionHandler) {
-//
-//        let body: [String: Any] = [
-//            "device_id": deviceToken,
-//            "event_id": eventKey
-//        ]
-//
-//        Alamofire.request(REGISTER_TOKEN, method: .post, parameters: body, encoding: JSONEncoding.default, headers: HEADER).responseJSON{(response) in
-//
-//            if response.result.error == nil {
-//                print(response.result)
-//                print("device registered!")
-//                dump(response.result.value)
-//            }
-//            else {
-//                print("Error!")
-//            }
-//
-//        }
-//    }
+    func deleteRequest(id: Int) {
+
+        let body: [String: Any] = [
+            "request_id": id
+        ]
+        guard let serviceUrl = URL(string: DELETE_REQUEST) else { return }
+        
+        var request = URLRequest(url: serviceUrl)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
+        guard let httpBody = try? JSONSerialization.data(withJSONObject: body, options: []) else {
+            return
+        }
+        request.httpBody = httpBody
+
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let response = response {
+                print(response)
+            }
+            if let data = data {
+                do {
+                    let json = try JSONSerialization.jsonObject(with: data, options: [])
+                    print(json)
+                } catch {
+                    print(error)
+                }
+            }
+            }.resume()
+    }
+    
+    func registerDeviceToken(eventId: String, deviceToken: String) {
+
+        let body = ["device_id": deviceToken,"event_id": eventId]
+        guard let serviceUrl = URL(string: REGISTER_TOKEN) else { return }
+        
+        var request = URLRequest(url: serviceUrl)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
+        guard let httpBody = try? JSONSerialization.data(withJSONObject: body, options: []) else {
+            return
+        }
+        request.httpBody = httpBody
+
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let response = response {
+                print(response)
+            }
+            if let data = data {
+                do {
+                    let json = try JSONSerialization.jsonObject(with: data, options: [])
+                    print(json)
+                } catch {
+                    print(error)
+                }
+            }
+            }.resume()
+    }
     
    
 }

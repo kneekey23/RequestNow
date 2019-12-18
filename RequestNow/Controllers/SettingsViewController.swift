@@ -25,7 +25,7 @@ class SettingsViewController: UITableViewController {
         
     }
     @IBAction func logOut(_ sender: Any) {
-        UserDefaults.standard.removeObject(forKey: "eventKey")
+        UserDefaults.standard.removeObject(forKey: "eventId")
         let storyboard = UIStoryboard.init(name: "Login", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "EventLoginView")
         self.present(vc, animated: true, completion: nil)

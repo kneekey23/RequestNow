@@ -17,9 +17,10 @@ let HEADER = [
 ]
 
 let API_ENDPOINT = "https://9f7yr4mpnf.execute-api.us-east-1.amazonaws.com/dev/"
-let EVENT_DATA = API_ENDPOINT + "get_event_data"
-let DELETE_REQUEST = API_ENDPOINT + "delete_req"
-let REGISTER_TOKEN = API_ENDPOINT + "sns_token_exchange" 
+let EVENT_DATA = API_ENDPOINT + "get_requests"
+let DELETE_REQUEST = API_ENDPOINT + "delete_request"
+let REGISTER_TOKEN = API_ENDPOINT + "sns_token_exchange"
+let EVENT_ID = API_ENDPOINT + "get_event_id"
 
 let UPDATE_REQUESTS = Notification.Name("updateRequests")
 

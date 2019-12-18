@@ -18,19 +18,39 @@ enum RequestViewModelState {
 final class RequestViewModel {
     @Published var eventId: String = ""
     
+    @Published var eventKey: String = ""
+    
+    @Published var nameOfEvent: String = ""
+    
     @Published private(set) var requestViewModels: [RequestCellViewModel] = []
     
     @Published private(set) var state: RequestViewModelState = .loading
     
     private var eventIdCancellable: AnyCancellable?
     
+    private var eventKeyCancellable: AnyCancellable?
+    
+    private var pushNotificationCancellable: AnyCancellable?
+    
     private let requestService: RequestServiceProtocol
     
     init(requestService: RequestServiceProtocol = RequestService()) {
         self.requestService = requestService
         
+        eventKeyCancellable = $eventKey.sink { [weak self] in
+            self?.getEventId(with: $0)
+        }
+        
         eventIdCancellable = $eventId.sink { [weak self] in
             self?.getRequests(with: $0)
+            self?.registerDeviceTokenForPushNotifications(with: $0)
+        }
+        
+        pushNotificationCancellable = NotificationCenter.Publisher(center: .default,
+                                                                   name: UPDATE_REQUESTS,
+                                                                   object: nil)
+        .sink { notification in
+            self.requestViewModels.append(RequestCellViewModel(request: notification.object as! Request))
         }
     }
     
@@ -43,8 +63,32 @@ final class RequestViewModel {
                 case .failure(let error): self?.state = .error(error)
                 case .finished: self?.state = .finishedLoading
                 }
-            }) { [weak self] requests in
-                self?.requestViewModels = requests.map { RequestCellViewModel(request: $0) }
+            }) { [weak self] requestData in
+                self?.requestViewModels = requestData.requestList.map { RequestCellViewModel(request: $0) }
+                self?.nameOfEvent = requestData.nameOfEvent
+        }
+    }
+    
+    func getEventId(with eventKey: String) {
+        state = .loading
+        _ = requestService
+        .getEventId(eventKey: eventKey)
+        .sink(receiveCompletion: { [weak self] (completion) in
+            switch completion {
+            case .failure(let error): self?.state = .error(error)
+            case .finished: self?.state = .finishedLoading
+            }
+            
+        }) { [weak self] eventId in
+            self?.eventId = eventId
+        }
+    }
+    
+    func registerDeviceTokenForPushNotifications(with eventId: String) {
+        if let deviceToken = UserDefaults.standard.string(forKey: "deviceToken") {
+            DispatchQueue.global(qos: .utility).async {
+                self.requestService.registerDeviceToken(eventId: eventId, deviceToken: deviceToken)
+            }
         }
     }
 }
