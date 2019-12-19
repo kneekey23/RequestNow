@@ -28,7 +28,7 @@ struct LoginView: View {
                     NavigationLink(destination: MainView(), tag: 1, selection: $action) {
                         EmptyView()
                     }
-                    Image("first")
+                    Image("chat")
                     Text("Request Now")
                         .font(.custom("Segoe UI", size: 32))
                         .foregroundColor(Color.white)

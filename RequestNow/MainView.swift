@@ -17,7 +17,7 @@ struct MainView: View {
                 .font(.title)
                 .tabItem {
                     VStack {
-                        Image("first")
+                        Image("1.music.fill")
                         Text("Requests")
                     }
                 }
@@ -26,7 +26,7 @@ struct MainView: View {
                 .font(.title)
                 .tabItem {
                     VStack {
-                        Image("second")
+                        Image("2.history")
                         Text("Messages")
                     }
                 }
@@ -35,12 +35,26 @@ struct MainView: View {
                 .font(.title)
                 .tabItem {
                     VStack {
-                        Image("first")
+                        Image("3.settings")
                         Text("Settings")
                     }
                 }
                 .tag(2)
-        }
+        }.edgesIgnoringSafeArea(.top)
+    }
+}
+
+extension UITabBarController {
+    override open func viewDidLoad() {
+        let standardAppearance = UITabBarAppearance()
+        standardAppearance.backgroundColor = ColorCodes.lighterShadeOfDarkGrey.uicolor()
+    standardAppearance.stackedLayoutAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.white, .font: UIFont(name: "Segoe UI", size: 10)!]
+        standardAppearance.stackedLayoutAppearance.selected.titleTextAttributes = [.foregroundColor: ColorCodes.teal.uicolor(), .font: UIFont(name: "Segoe UI", size: 10)!]
+        standardAppearance.selectionIndicatorTintColor = ColorCodes.teal.uicolor()
+        standardAppearance.shadowColor = .white
+        standardAppearance.stackedItemPositioning = .fill
+        
+        tabBar.standardAppearance = standardAppearance
     }
 }
 
