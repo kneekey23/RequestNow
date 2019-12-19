@@ -16,7 +16,7 @@ struct RequestRow: View {
     
     var body: some View {
         HStack {
-            Image("first")
+            Image("chat")
             VStack(alignment: .leading) {
                 if !viewModel.songName.isEmpty && !viewModel.artist.isEmpty {
                 Text(viewModel.songName)
@@ -33,33 +33,37 @@ struct RequestRow: View {
                 }
                 HStack {
                 HStack {
-                    Image("second")
+                    Image("time")
                     Text(viewModel.time)
                     .font(.custom("Segou UI", size: 14))
                     .foregroundColor(ColorCodes.lightGrey.color())
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
-                }.background(ColorCodes.darkGrey.color())
+                }
+                .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
+                .background(ColorCodes.darkGrey.color())
                 HStack {
-                    Image("first")
+                    Image("chat")
                     Text(viewModel.artist)
                     .font(.custom("Segou UI", size: 14))
                     .foregroundColor(ColorCodes.lightGrey.color())
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
-                }.background(ColorCodes.darkGrey.color())
+                }
+                .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
+                .background(ColorCodes.darkGrey.color())
                 }
             }
             Spacer()
-            VStack {
+            VStack(alignment: .trailing) {
                 Button(action: {
                     self.isExpanded.toggle()
                 }) {
-                    Image("first")
+                    Image("plus")
                     }
-                .foregroundColor(Color.white).background(ColorCodes.darkGrey.color())
+                .foregroundColor(Color.white)
+                .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
+                .background(ColorCodes.darkGrey.color())
             }
             if isExpanded {
                 HStack {
-                    Image("first")
+                    Image("plus")
                     Text(viewModel.originalMessage)
                         .frame(idealHeight: .infinity)
                 }.background(ColorCodes.lighterShadeOfDarkGrey.color())

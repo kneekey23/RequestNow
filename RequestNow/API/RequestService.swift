@@ -15,7 +15,6 @@ enum ServiceError: Error {
     case decode
 }
 
-
 protocol RequestServiceProtocol {
     func getRequests(eventId: String?) -> AnyPublisher<RequestData, Error>
     func getEventId(eventKey: String?) -> AnyPublisher<String, Error>
@@ -31,7 +30,6 @@ final class RequestService: RequestServiceProtocol {
         let onSubscription: (Subscription) -> Void = { _ in dataTask?.resume() }
         let onCancel: () -> Void = { dataTask?.cancel() }
         
-        // promise type is Result<[Player], Error>
         return Future<RequestData, Error> { promise in
             guard let eventId = eventId, let url = URL(string: EVENT_DATA + "?event_id=" + eventId) else {
                 promise(.failure(ServiceError.urlRequest))
@@ -55,12 +53,7 @@ final class RequestService: RequestServiceProtocol {
                 }
                 do {
                     let decoder = JSONDecoder()
-                    decoder.keyDecodingStrategy = .convertFromSnakeCase
-                    let formatter = DateFormatter()
-                    formatter.dateFormat = "yyyy-MM-dd hh:mm:ss"
-                    formatter.calendar = Calendar(identifier: .iso8601)
-                    formatter.timeZone = TimeZone(secondsFromGMT: 0)
-                    formatter.locale = Locale(identifier: "en_US_POSIX")
+                    let formatter = DateFormatter.dateTimeFormat
                     decoder.dateDecodingStrategy = .formatted(formatter)
                     let requests = try decoder.decode(RequestData.self, from: data)
                     promise(.success(requests))

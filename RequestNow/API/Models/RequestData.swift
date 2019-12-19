@@ -6,7 +6,7 @@
 //  Copyright © 2019 Confir Inc. All rights reserved.
 //
 
-struct RequestData: Decodable {
+struct RequestData: Codable {
     
     public let songRequests: [Request]
     public let eventName: String

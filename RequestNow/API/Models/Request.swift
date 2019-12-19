@@ -9,33 +9,15 @@
 import UIKit
 import Foundation
 
-class Request: Codable, Identifiable {
+struct Request: Codable, Identifiable {
     
-    // Basic Trainer Info
     public let id: Int
     public let originalRequest: String
     public let artist: String?
     public let songName: String?
     public let timeOfRequest: Date
     public let isFavorite: Bool
-    public let fromNumber: String?
-    
-    public init(id: Int,
-                originalRequest: String,
-                artist: String,
-                songName: String,
-                timeOfRequest: Date,
-                isFavorite: Bool,
-                fromNumber: String){
-        self.id = id
-        self.originalRequest = originalRequest
-        self.artist = artist
-        self.songName = songName
-        self.timeOfRequest = timeOfRequest
-        self.isFavorite = isFavorite
-        self.fromNumber = fromNumber
-        
-    }
+    public let fromNumber: String
     
     enum CodingKeys: String, CodingKey {
         case id = "id"
@@ -48,8 +30,6 @@ class Request: Codable, Identifiable {
      
     }
 }
-
-
 
 
 
