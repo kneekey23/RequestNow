@@ -105,7 +105,8 @@ final class RequestViewModel: ObservableObject {
             }
             
         }) { [weak self] eventId in
-            self?.eventId = eventId            
+            self?.eventId = eventId
+           
         }
     }
     
@@ -115,6 +116,10 @@ final class RequestViewModel: ObservableObject {
                 self.requestService.registerDeviceToken(eventId: eventId, deviceToken: deviceToken)
             }
         }
+    }
+    
+    func logout() {
+        UserDefaults.standard.removeObject(forKey: "eventId")
     }
 }
 
@@ -139,6 +144,6 @@ final class RequestCellViewModel: ObservableObject {
         artist = request.artist ?? ""
         originalMessage = request.originalRequest
         id = request.id
-        fromNumber = request.fromNumber ?? ""
+        fromNumber = request.fromNumber
     }
 }

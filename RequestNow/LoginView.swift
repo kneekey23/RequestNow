@@ -13,7 +13,10 @@ struct LoginView: View {
     
     @ObservedObject var viewModel: RequestViewModel
     @State var editingMode: Bool = false
-    @State private var action: Int? = 0
+    @Environment(\.viewController) private var viewControllerHolder: UIViewController?
+     private var viewController: UIViewController? {
+        self.viewControllerHolder
+     }
     
     init() {
         viewModel = RequestViewModel()
@@ -25,10 +28,9 @@ struct LoginView: View {
                 ColorCodes.darkGrey.color()
                     .edgesIgnoringSafeArea(.all)
                 VStack {
-                    NavigationLink(destination: MainView(), tag: 1, selection: $action) {
-                        EmptyView()
-                    }
-                    Image("chat")
+                    Image("requestnowlogo")
+                    .resizable()
+                    .frame(width: 100.0, height: 100.0)
                     Text("Request Now")
                         .font(.custom("Segoe UI", size: 32))
                         .foregroundColor(Color.white)
@@ -60,7 +62,9 @@ struct LoginView: View {
                     Button(action: {
                         self.viewModel.getEventId(with: self.viewModel.eventKey)
                         if !self.viewModel.eventKey.isEmpty {
-                            self.action = 1
+                            self.viewController?.present(style: .fullScreen) {
+                                  MainView()
+                            }
                         }
                     }) {
                         HStack {
@@ -74,6 +78,12 @@ struct LoginView: View {
                 }
             }.offset(y: editingMode ? -150 : 0)
         }
+    }
+}
+
+extension UINavigationController {
+    override open func viewDidLoad() {
+        self.navigationController?.modalPresentationStyle = .overCurrentContext
     }
 }
 
