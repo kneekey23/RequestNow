@@ -13,14 +13,14 @@ class Message: Codable, Identifiable {
     // Basic Trainer Info
     public let id: Int
     public let originalRequest: String
-    public let timeOfRequest: String
+    public let timeOfRequest: Date
     public let isFavorite: Bool
     public let fromNumber: String
     public let messageCount: Int
     
     public init(id: Int,
                 originalRequest: String,
-                timeOfRequest: String,
+                timeOfRequest: Date,
                 isFavorite: Bool,
                 fromNumber: String,
                 messageCount: Int){

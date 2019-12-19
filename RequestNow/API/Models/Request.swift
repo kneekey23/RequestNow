@@ -16,7 +16,7 @@ class Request: Codable, Identifiable {
     public let originalRequest: String
     public let artist: String?
     public let songName: String?
-    public let timeOfRequest: String
+    public let timeOfRequest: Date
     public let isFavorite: Bool
     public let fromNumber: String?
     
@@ -24,7 +24,7 @@ class Request: Codable, Identifiable {
                 originalRequest: String,
                 artist: String,
                 songName: String,
-                timeOfRequest: String,
+                timeOfRequest: Date,
                 isFavorite: Bool,
                 fromNumber: String){
         self.id = id
@@ -48,6 +48,8 @@ class Request: Codable, Identifiable {
      
     }
 }
+
+
 
 
 

@@ -55,7 +55,13 @@ final class RequestService: RequestServiceProtocol {
                 }
                 do {
                     let decoder = JSONDecoder()
-                   // decoder.keyDecodingStrategy = .convertFromSnakeCase
+                    decoder.keyDecodingStrategy = .convertFromSnakeCase
+                    let formatter = DateFormatter()
+                    formatter.dateFormat = "yyyy-MM-dd hh:mm:ss"
+                    formatter.calendar = Calendar(identifier: .iso8601)
+                    formatter.timeZone = TimeZone(secondsFromGMT: 0)
+                    formatter.locale = Locale(identifier: "en_US_POSIX")
+                    decoder.dateDecodingStrategy = .formatted(formatter)
                     let requests = try decoder.decode(RequestData.self, from: data)
                     promise(.success(requests))
                 } catch {

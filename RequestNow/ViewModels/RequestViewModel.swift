@@ -134,7 +134,7 @@ final class RequestCellViewModel: ObservableObject {
     }
     
     func setUpBindings() {
-        time = request.timeOfRequest
+        time = request.timeOfRequest.toTime()
         songName = request.songName ?? ""
         artist = request.artist ?? ""
         originalMessage = request.originalRequest
