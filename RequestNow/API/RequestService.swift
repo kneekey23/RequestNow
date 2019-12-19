@@ -33,10 +33,18 @@ final class RequestService: RequestServiceProtocol {
         
         // promise type is Result<[Player], Error>
         return Future<RequestData, Error> { promise in
-            guard let eventId = eventId, let urlRequest = URL(string: EVENT_DATA + "?event_id=" + eventId) else {
+            guard let eventId = eventId, let url = URL(string: EVENT_DATA + "?event_id=" + eventId) else {
                 promise(.failure(ServiceError.urlRequest))
                 return
             }
+            
+            var urlRequest = URLRequest(url: url)
+            urlRequest.timeoutInterval = 10.0
+            urlRequest.httpMethod = "GET"
+            urlRequest.allHTTPHeaderFields = [
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            ]
             
             dataTask = URLSession.shared.dataTask(with: urlRequest) { (data, _, error) in
                 guard let data = data else {
@@ -46,15 +54,17 @@ final class RequestService: RequestServiceProtocol {
                     return
                 }
                 do {
-                    let requests = try JSONDecoder().decode(RequestData.self, from: data)
+                    let decoder = JSONDecoder()
+                   // decoder.keyDecodingStrategy = .convertFromSnakeCase
+                    let requests = try decoder.decode(RequestData.self, from: data)
                     promise(.success(requests))
                 } catch {
                     promise(.failure(ServiceError.decode))
                 }
             }
         }
-        .handleEvents(receiveSubscription: onSubscription, receiveCancel: onCancel)
         .receive(on: DispatchQueue.main)
+        .handleEvents(receiveSubscription: onSubscription, receiveCancel: onCancel)
         .eraseToAnyPublisher()
     }
     
@@ -65,10 +75,17 @@ final class RequestService: RequestServiceProtocol {
         let onCancel: () -> Void = { dataTask?.cancel() }
         
         return Future<String, Error> { promise in
-            guard let eventKey = eventKey, let urlRequest = URL(string: EVENT_ID + "?event_key=" + eventKey) else {
+            guard let eventKey = eventKey, let url = URL(string: EVENT_ID + "?event_code=" + eventKey) else {
                 promise(.failure(ServiceError.urlRequest))
                 return
             }
+            var urlRequest = URLRequest(url: url)
+            urlRequest.timeoutInterval = 10.0
+            urlRequest.httpMethod = "GET"
+            urlRequest.allHTTPHeaderFields = [
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            ]
             
             dataTask = URLSession.shared.dataTask(with: urlRequest) { data, _,error in
                 
@@ -82,9 +99,10 @@ final class RequestService: RequestServiceProtocol {
                 do {
                     let json = try JSONSerialization.jsonObject(with: data, options: [])
                     if let dictionary = json as? [String: Any] {
-                        if let eventId = dictionary["event_id"] as? String {
-                            UserDefaults.standard.set(eventId, forKey: "eventId")
-                            promise(.success(eventId))
+                        if let eventId = dictionary["eventId"] as? Int {
+                            let eventIdString = String(eventId)
+                            UserDefaults.standard.set(eventIdString, forKey: "eventId")
+                            promise(.success(eventIdString))
                         }
                     }
                 } catch {
@@ -93,8 +111,8 @@ final class RequestService: RequestServiceProtocol {
                 
             }
         }
-        .handleEvents(receiveSubscription: onSubscription, receiveCancel: onCancel)
         .receive(on: DispatchQueue.main)
+        .handleEvents(receiveSubscription: onSubscription, receiveCancel: onCancel)
         .eraseToAnyPublisher()
     }
     

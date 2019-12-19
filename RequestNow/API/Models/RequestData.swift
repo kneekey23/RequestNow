@@ -6,19 +6,25 @@
 //  Copyright © 2019 Confir Inc. All rights reserved.
 //
 
-struct RequestData: Codable {
+struct RequestData: Decodable {
     
-    public let requestList: [Request]
-    public let nameOfEvent: String
+    public let songRequests: [Request]
+    public let eventName: String
+    public let userId: Int
+    public let messages: [Message]
     
     enum CodingKeys: String, CodingKey {
-        case nameOfEvent = "NameOfEvent"
-        case requestList = "Requests"
+        case eventName = "eventName"
+        case songRequests = "songRequests"
+        case userId = "userId"
+        case messages = "messages"
     }
 
-    public init(nameOfEvent: String, requestList: [Request]) {
-        self.requestList = requestList
-        self.nameOfEvent = nameOfEvent
+    public init(nameOfEvent: String, requestList: [Request], userId: Int, messages: [Message]) {
+        self.songRequests = requestList
+        self.eventName = nameOfEvent
+        self.userId = userId
+        self.messages = messages
     }
     
 }

@@ -6,7 +6,7 @@
 //  Copyright © 2019 Confir Inc. All rights reserved.
 //
 
-import Foundation
+import SwiftUI
 import Combine
 
 enum RequestViewModelState {
@@ -15,14 +15,28 @@ enum RequestViewModelState {
     case error(Error)
 }
 
-final class RequestViewModel {
+final class RequestViewModel: ObservableObject {
+    
+    var didChange = PassthroughSubject<RequestViewModel, Never>()
+    
     @Published var eventId: String = ""
     
     @Published var eventKey: String = ""
     
     @Published var nameOfEvent: String = ""
     
-    @Published private(set) var requestViewModels: [RequestCellViewModel] = []
+    @Published var errorMessage: String = ""
+    
+    @Published private(set) var requests: [Request] = [] {
+        didSet {
+            didChange.send(self)
+        }
+    }
+    @Published private(set) var requestsViewModels: [RequestCellViewModel] = [] {
+        didSet {
+            didChange.send(self)
+        }
+    }
     
     @Published private(set) var state: RequestViewModelState = .loading
     
@@ -32,13 +46,17 @@ final class RequestViewModel {
     
     private var pushNotificationCancellable: AnyCancellable?
     
+    private var getRequestsCancellable: AnyCancellable?
+    
     private let requestService: RequestServiceProtocol
     
     init(requestService: RequestServiceProtocol = RequestService()) {
         self.requestService = requestService
-        
+        eventId = UserDefaults.standard.string(forKey: "eventId") ?? ""
         eventKeyCancellable = $eventKey.sink { [weak self] in
+            if $0.count == 4 {
             self?.getEventId(with: $0)
+            }
         }
         
         eventIdCancellable = $eventId.sink { [weak self] in
@@ -50,37 +68,44 @@ final class RequestViewModel {
                                                                    name: UPDATE_REQUESTS,
                                                                    object: nil)
         .sink { notification in
-            self.requestViewModels.append(RequestCellViewModel(request: notification.object as! Request))
+            self.requests.append(notification.object as! Request)
+            self.requestsViewModels.append(RequestCellViewModel(request: notification.object as! Request))
         }
     }
     
     func getRequests(with eventId: String?) {
         state = .loading
-        _ = requestService
+        getRequestsCancellable = requestService
             .getRequests(eventId: eventId)
             .sink(receiveCompletion: { [weak self] (completion) in
                 switch completion {
-                case .failure(let error): self?.state = .error(error)
+                case .failure(let error):
+                    self?.state = .error(error)
                 case .finished: self?.state = .finishedLoading
                 }
             }) { [weak self] requestData in
-                self?.requestViewModels = requestData.requestList.map { RequestCellViewModel(request: $0) }
-                self?.nameOfEvent = requestData.nameOfEvent
+                self?.requests = requestData.songRequests
+                self?.requestsViewModels = requestData.songRequests.map {
+                    RequestCellViewModel(request: $0)
+                }
+                self?.nameOfEvent = requestData.eventName
         }
     }
     
     func getEventId(with eventKey: String) {
         state = .loading
-        _ = requestService
+        eventIdCancellable = requestService
         .getEventId(eventKey: eventKey)
         .sink(receiveCompletion: { [weak self] (completion) in
             switch completion {
-            case .failure(let error): self?.state = .error(error)
+            case .failure(let error):
+                self?.state = .error(error)
+                self?.errorMessage = error.localizedDescription
             case .finished: self?.state = .finishedLoading
             }
             
         }) { [weak self] eventId in
-            self?.eventId = eventId
+            self?.eventId = eventId            
         }
     }
     
@@ -93,11 +118,13 @@ final class RequestViewModel {
     }
 }
 
-final class RequestCellViewModel {
+final class RequestCellViewModel: ObservableObject {
     @Published var time: String = ""
     @Published var songName: String = ""
     @Published var artist: String = ""
     @Published var originalMessage: String = ""
+    @Published var id: Int = 0
+    @Published var fromNumber: String = ""
     
     private let request: Request
     
@@ -108,8 +135,10 @@ final class RequestCellViewModel {
     
     func setUpBindings() {
         time = request.timeOfRequest
-        songName = request.songName
-        artist = request.artist
+        songName = request.songName ?? ""
+        artist = request.artist ?? ""
         originalMessage = request.originalRequest
+        id = request.id
+        fromNumber = request.fromNumber ?? ""
     }
 }

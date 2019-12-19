@@ -15,8 +15,8 @@ let darkGreyColor = "bababa"
 let HEADER = [
     "Content-Type": "application/json; charset=utf-8"
 ]
-
-let API_ENDPOINT = "https://9f7yr4mpnf.execute-api.us-east-1.amazonaws.com/dev/"
+//https://e0rrchgsgb.execute-api.us-east-1.amazonaws.com/prod/get_event_id?event_code=691b
+let API_ENDPOINT = "https://e0rrchgsgb.execute-api.us-east-1.amazonaws.com/prod/"
 let EVENT_DATA = API_ENDPOINT + "get_requests"
 let DELETE_REQUEST = API_ENDPOINT + "delete_request"
 let REGISTER_TOKEN = API_ENDPOINT + "sns_token_exchange"
