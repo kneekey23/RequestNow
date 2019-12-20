@@ -27,6 +27,8 @@ final class RequestViewModel: ObservableObject {
     
     @Published var errorMessage: String = ""
     
+    @Published var errorExists: Bool = false
+    
     @Published private(set) var requests: [Request] = [] {
         didSet {
             didChange.send(self)
@@ -47,6 +49,8 @@ final class RequestViewModel: ObservableObject {
     private var pushNotificationCancellable: AnyCancellable?
     
     private var getRequestsCancellable: AnyCancellable?
+    
+    private var deleteRequestCancellable: AnyCancellable?
     
     private let requestService: RequestServiceProtocol
     
@@ -101,12 +105,39 @@ final class RequestViewModel: ObservableObject {
             case .failure(let error):
                 self?.state = .error(error)
                 self?.errorMessage = error.localizedDescription
+                self?.errorExists = true
             case .finished: self?.state = .finishedLoading
             }
             
         }) { [weak self] eventId in
             self?.eventId = eventId
            
+        }
+    }
+    
+    func deleteRequest(index: Int) {
+        state = .loading
+        let id = self.requestsViewModels[index].id
+        deleteRequestCancellable = requestService
+            .deleteRequest(id: id)
+            .sink(receiveCompletion: { [weak self] (completion) in
+                switch completion {
+                case .failure(let error):
+                    self?.state = .error(error)
+                    self?.errorMessage = error.localizedDescription
+                    self?.errorExists = true
+                case .finished: self?.state = .finishedLoading
+                }
+                
+            }) { [weak self] success in
+                
+                if success {
+                    self?.requestsViewModels.remove(at: index)
+                }
+                else{
+                    self?.errorMessage = "Request could not be completed for some unknown reason. Please contact support."
+                    self?.errorExists = true
+                }
         }
     }
     
@@ -123,7 +154,9 @@ final class RequestViewModel: ObservableObject {
     }
 }
 
-final class RequestCellViewModel: ObservableObject {
+final class RequestCellViewModel: ObservableObject, Hashable {
+
+    
     @Published var time: String = ""
     @Published var songName: String = ""
     @Published var artist: String = ""

@@ -34,12 +34,24 @@ struct RequestsView: View {
                 List{
                     ForEach(viewModel.requestsViewModels, id: \.id) { requestViewModel in
                         RequestRow(viewModel: requestViewModel)
-                    }.listRowBackground(ColorCodes.darkGrey.color())
+                        }.onDelete(perform: delete)
+                    .listRowBackground(ColorCodes.darkGrey.color())
+                    
+                }
+                .alert(isPresented: $viewModel.errorExists) {
+                    Alert(title: Text("Error"), message: Text(viewModel.errorMessage), dismissButton: .default(Text("Ok")))
                 }
                 .navigationBarTitle(Text("Song Requests").font(.custom("Segoe UI", size: 40)))
         }
     }
+    
+    func delete(at offsets: IndexSet) {
+        for index in offsets {
+        viewModel.deleteRequest(index: index)
+        }
+    }
 }
+
 
 struct RequestsView_Previews: PreviewProvider {
     static var previews: some View {

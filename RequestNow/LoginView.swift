@@ -38,7 +38,7 @@ struct LoginView: View {
                     HStack{
                         VStack {
                             HStack {
-                                Image("second")
+                                Image("3.settings")
                                 TextField("Enter event key", text: $viewModel.eventKey, onEditingChanged: {edit in
                                     if edit == true
                                     {self.editingMode = true}

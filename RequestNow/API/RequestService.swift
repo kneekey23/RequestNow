@@ -13,17 +13,18 @@ enum ServiceError: Error {
     case url(URLError)
     case urlRequest
     case decode
+    case internalError(String)
 }
 
 protocol RequestServiceProtocol {
     func getRequests(eventId: String?) -> AnyPublisher<RequestData, Error>
     func getEventId(eventKey: String?) -> AnyPublisher<String, Error>
+    func deleteRequest(id: Int) -> AnyPublisher<Bool, Error>
     func registerDeviceToken(eventId: String, deviceToken: String)
 }
 
 final class RequestService: RequestServiceProtocol {
     
-    var defaults = UserDefaults.standard
     func getRequests(eventId: String?) -> AnyPublisher<RequestData, Error> {
         var dataTask: URLSessionDataTask?
         
@@ -115,35 +116,57 @@ final class RequestService: RequestServiceProtocol {
         .eraseToAnyPublisher()
     }
     
-    func deleteRequest(id: Int) {
-
-        let body: [String: Any] = [
-            "request_id": id
-        ]
-        guard let serviceUrl = URL(string: DELETE_REQUEST) else { return }
+    func deleteRequest(id: Int) -> AnyPublisher<Bool, Error> {
         
-        var request = URLRequest(url: serviceUrl)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.setValue("application/json", forHTTPHeaderField: "Accept")
-        guard let httpBody = try? JSONSerialization.data(withJSONObject: body, options: []) else {
-            return
-        }
-        request.httpBody = httpBody
-
-        URLSession.shared.dataTask(with: request) { (data, response, error) in
-            if let response = response {
-                print(response)
+        var dataTask: URLSessionDataTask?
+        
+        let onSubscription: (Subscription) -> Void = { _ in dataTask?.resume() }
+        let onCancel: () -> Void = { dataTask?.cancel() }
+        
+        return Future<Bool, Error> { promise in
+            
+            let body: [String: Any] = [
+                "id": id
+            ]
+            
+            guard let serviceUrl = URL(string: DELETE_REQUEST) else { return }
+            
+            var request = URLRequest(url: serviceUrl)
+            request.httpMethod = "POST"
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.setValue("application/json", forHTTPHeaderField: "Accept")
+            
+            guard let httpBody = try? JSONSerialization.data(withJSONObject: body, options: []) else {
+                return
             }
-            if let data = data {
+            request.httpBody = httpBody
+            
+            dataTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
+                guard let data = data else {
+                    if let error = error {
+                        promise(.failure(error))
+                    }
+                    return
+                }
+                
                 do {
                     let json = try JSONSerialization.jsonObject(with: data, options: [])
-                    print(json)
+                    if let dictionary = json as? [String: Any] {
+                        guard let success = dictionary["success"] as? Bool else {
+                            promise(.failure(ServiceError.internalError(dictionary["message"] as? String ?? "Internal Server Error")))
+                            return
+                        }
+                         promise(.success(success))
+                    }
                 } catch {
-                    print(error)
+                     promise(.failure(ServiceError.decode))
                 }
             }
-            }.resume()
+            
+        }
+        .receive(on: DispatchQueue.main)
+        .handleEvents(receiveSubscription: onSubscription, receiveCancel: onCancel)
+        .eraseToAnyPublisher()
     }
     
     func registerDeviceToken(eventId: String, deviceToken: String) {
