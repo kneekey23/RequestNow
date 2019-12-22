@@ -30,6 +30,7 @@
 		812A22F623AB2F2100F4D175 /* Segoe UI Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 812A22F223AB2F2100F4D175 /* Segoe UI Italic.ttf */; };
 		812A22F923AB59DA00F4D175 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812A22F823AB59DA00F4D175 /* Message.swift */; };
 		812A22FB23ABC00100F4D175 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812A22FA23ABC00100F4D175 /* UIViewController+Extension.swift */; };
+		812A22FE23B02EC500F4D175 /* MessageRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812A22FD23B02EC500F4D175 /* MessageRow.swift */; };
 		8192134523AA22E0002FF041 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8192134423AA22E0002FF041 /* AppDelegate.swift */; };
 		8192134723AA22E0002FF041 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8192134623AA22E0002FF041 /* SceneDelegate.swift */; };
 		8192134923AA22E0002FF041 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8192134823AA22E0002FF041 /* MainView.swift */; };
@@ -63,6 +64,7 @@
 		812A22F723AB395600F4D175 /* RequestNow.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = RequestNow.entitlements; sourceTree = "<group>"; };
 		812A22F823AB59DA00F4D175 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		812A22FA23ABC00100F4D175 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
+		812A22FD23B02EC500F4D175 /* MessageRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageRow.swift; sourceTree = "<group>"; };
 		8192134123AA22E0002FF041 /* RequestNow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RequestNow.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8192134423AA22E0002FF041 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8192134623AA22E0002FF041 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 				812A22D823AA561600F4D175 /* MessagesView.swift */,
 				812A22DA23AA565200F4D175 /* SettingsView.swift */,
 				812A22DE23AA5A3B00F4D175 /* RequestRow.swift */,
+				812A22FD23B02EC500F4D175 /* MessageRow.swift */,
 			);
 			path = TabbedViews;
 			sourceTree = "<group>";
@@ -276,6 +279,7 @@
 				812A22DF23AA5A3B00F4D175 /* RequestRow.swift in Sources */,
 				8192134523AA22E0002FF041 /* AppDelegate.swift in Sources */,
 				812A22F923AB59DA00F4D175 /* Message.swift in Sources */,
+				812A22FE23B02EC500F4D175 /* MessageRow.swift in Sources */,
 				8192134723AA22E0002FF041 /* SceneDelegate.swift in Sources */,
 				812A22CE23AA558B00F4D175 /* RequestViewModel.swift in Sources */,
 				812A22D023AA558B00F4D175 /* RequestData.swift in Sources */,

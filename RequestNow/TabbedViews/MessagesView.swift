@@ -8,9 +8,37 @@
 
 import SwiftUI
 
+let messageNavAppearance = UINavigationBarAppearance()
+
 struct MessagesView: View {
+    
+    @ObservedObject var viewModel: RequestViewModel
+    
+    init() {
+        viewModel = RequestViewModel()
+        
+        messageNavAppearance.configureWithOpaqueBackground()
+        
+        messageNavAppearance.backgroundColor = ColorCodes.darkGrey.uicolor()
+        messageNavAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+        messageNavAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+        
+        UINavigationBar.appearance().standardAppearance = messageNavAppearance
+        UINavigationBar.appearance().scrollEdgeAppearance = messageNavAppearance
+        
+        UITableView.appearance().separatorStyle = .none
+    }
+    
     var body: some View {
-        Text("Messages View")
+        NavigationView {
+            List{
+                ForEach(viewModel.messageViewModels, id: \.id) { messageViewModel in
+                    MessageRow(viewModel: messageViewModel)
+                }.listRowBackground(ColorCodes.darkGrey.color())
+                
+            }
+            .navigationBarTitle(Text("Messages").font(.custom("Segoe UI", size: 40)))
+        }
     }
 }
 

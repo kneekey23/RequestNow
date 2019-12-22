@@ -10,17 +10,17 @@ import SwiftUI
 import Combine
 
 struct RequestRow: View {
-   // @State var request: Request
+   
     @ObservedObject var viewModel: RequestCellViewModel
     @State var isExpanded: Bool = false
     
     var body: some View {
         HStack {
-            Image("chat")
+           // Image("chat")
             VStack(alignment: .leading) {
                 HStack {
                 if !viewModel.songName.isEmpty && !viewModel.artist.isEmpty {
-                    VStack(alignment: .leading) {
+                VStack(alignment: .leading) {
                 Text(viewModel.songName)
                     .font(.custom("Segoe UI", size: 20))
                     .foregroundColor(Color.white)

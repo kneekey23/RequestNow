@@ -29,12 +29,13 @@ final class RequestViewModel: ObservableObject {
     
     @Published var errorExists: Bool = false
     
-    @Published private(set) var requests: [Request] = [] {
+    @Published private(set) var requestsViewModels: [RequestCellViewModel] = [] {
         didSet {
             didChange.send(self)
         }
     }
-    @Published private(set) var requestsViewModels: [RequestCellViewModel] = [] {
+    
+    @Published private(set) var messageViewModels: [MessageCellViewModel] = [] {
         didSet {
             didChange.send(self)
         }
@@ -72,7 +73,7 @@ final class RequestViewModel: ObservableObject {
                                                                    name: UPDATE_REQUESTS,
                                                                    object: nil)
         .sink { notification in
-            self.requests.append(notification.object as! Request)
+           
             self.requestsViewModels.append(RequestCellViewModel(request: notification.object as! Request))
         }
     }
@@ -88,9 +89,12 @@ final class RequestViewModel: ObservableObject {
                 case .finished: self?.state = .finishedLoading
                 }
             }) { [weak self] requestData in
-                self?.requests = requestData.songRequests
+               
                 self?.requestsViewModels = requestData.songRequests.map {
                     RequestCellViewModel(request: $0)
+                }
+                self?.messageViewModels = requestData.messages.map {
+                    MessageCellViewModel(message: $0)
                 }
                 self?.nameOfEvent = requestData.eventName
         }
@@ -154,9 +158,8 @@ final class RequestViewModel: ObservableObject {
     }
 }
 
-final class RequestCellViewModel: ObservableObject, Hashable {
+final class RequestCellViewModel: ObservableObject {
 
-    
     @Published var time: String = ""
     @Published var songName: String = ""
     @Published var artist: String = ""
@@ -178,5 +181,29 @@ final class RequestCellViewModel: ObservableObject, Hashable {
         originalMessage = request.originalRequest
         id = request.id
         fromNumber = request.fromNumber
+    }
+}
+
+final class MessageCellViewModel: ObservableObject {
+    
+    @Published var time: String = ""
+    @Published var originalMessage: String = ""
+    @Published var messageCount: String = ""
+    @Published var fromNumber: String = ""
+    @Published var id: Int = 0
+    
+    private let message: Message
+    
+    init(message: Message) {
+        self.message = message
+        setUpBindings()
+    }
+    
+    func setUpBindings() {
+        time = message.timeOfRequest.toTime()
+        originalMessage = message.originalRequest
+        messageCount = String(message.messageCount)
+        fromNumber = message.fromNumber
+        id = message.id
     }
 }
