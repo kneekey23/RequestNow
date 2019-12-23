@@ -38,7 +38,7 @@ struct RequestsView: View {
                     .listRowBackground(ColorCodes.darkGrey.color())
                     
                 }
-                .alert(isPresented: $viewModel.errorExists) {
+                .alert(isPresented: $viewModel.showAlert) {
                     Alert(title: Text("Error"), message: Text(viewModel.errorMessage), dismissButton: .default(Text("Ok")))
                 }
                 .navigationBarTitle(Text("Song Requests").font(.custom("Segoe UI", size: 40)))

@@ -31,6 +31,7 @@
 		812A22F923AB59DA00F4D175 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812A22F823AB59DA00F4D175 /* Message.swift */; };
 		812A22FB23ABC00100F4D175 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812A22FA23ABC00100F4D175 /* UIViewController+Extension.swift */; };
 		812A22FE23B02EC500F4D175 /* MessageRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812A22FD23B02EC500F4D175 /* MessageRow.swift */; };
+		812A230223B0499C00F4D175 /* ThankYouNoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812A230123B0499C00F4D175 /* ThankYouNoteView.swift */; };
 		8192134523AA22E0002FF041 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8192134423AA22E0002FF041 /* AppDelegate.swift */; };
 		8192134723AA22E0002FF041 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8192134623AA22E0002FF041 /* SceneDelegate.swift */; };
 		8192134923AA22E0002FF041 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8192134823AA22E0002FF041 /* MainView.swift */; };
@@ -65,6 +66,7 @@
 		812A22F823AB59DA00F4D175 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		812A22FA23ABC00100F4D175 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		812A22FD23B02EC500F4D175 /* MessageRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageRow.swift; sourceTree = "<group>"; };
+		812A230123B0499C00F4D175 /* ThankYouNoteView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThankYouNoteView.swift; sourceTree = "<group>"; };
 		8192134123AA22E0002FF041 /* RequestNow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RequestNow.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8192134423AA22E0002FF041 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8192134623AA22E0002FF041 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 				812A22DA23AA565200F4D175 /* SettingsView.swift */,
 				812A22DE23AA5A3B00F4D175 /* RequestRow.swift */,
 				812A22FD23B02EC500F4D175 /* MessageRow.swift */,
+				812A230123B0499C00F4D175 /* ThankYouNoteView.swift */,
 			);
 			path = TabbedViews;
 			sourceTree = "<group>";
@@ -278,6 +281,7 @@
 				812A22D723AA55B800F4D175 /* RequestsView.swift in Sources */,
 				812A22DF23AA5A3B00F4D175 /* RequestRow.swift in Sources */,
 				8192134523AA22E0002FF041 /* AppDelegate.swift in Sources */,
+				812A230223B0499C00F4D175 /* ThankYouNoteView.swift in Sources */,
 				812A22F923AB59DA00F4D175 /* Message.swift in Sources */,
 				812A22FE23B02EC500F4D175 /* MessageRow.swift in Sources */,
 				8192134723AA22E0002FF041 /* SceneDelegate.swift in Sources */,
@@ -432,7 +436,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = RequestNow/RequestNow.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.5;
+				CURRENT_PROJECT_VERSION = 1.6;
 				DEVELOPMENT_ASSET_PATHS = "\"RequestNow/Preview Content\"";
 				DEVELOPMENT_TEAM = 9EVWV3K6BK;
 				ENABLE_PREVIEWS = YES;
@@ -454,7 +458,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = RequestNow/RequestNow.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.5;
+				CURRENT_PROJECT_VERSION = 1.6;
 				DEVELOPMENT_ASSET_PATHS = "\"RequestNow/Preview Content\"";
 				DEVELOPMENT_TEAM = 9EVWV3K6BK;
 				ENABLE_PREVIEWS = YES;

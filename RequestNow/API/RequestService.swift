@@ -177,21 +177,21 @@ final class RequestService: RequestServiceProtocol {
         let onCancel: () -> Void = { dataTask?.cancel() }
         
         return Future<Bool, Error> { promise in
-//            let body: [String: Any] = [
-//                "event_id": eventId
-//            ]
+            let body: [String: Any] = [
+                "event_id": eventId
+            ]
             
-            guard let serviceUrl = URL(string: SEND_THANKYOU_NOTE + "?event_id=" + eventId) else { return }
+            guard let serviceUrl = URL(string: SEND_THANKYOU_NOTE + eventId) else { return }
             
             var request = URLRequest(url: serviceUrl)
-            request.httpMethod = "GET"
+            request.httpMethod = "PUT"
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             request.setValue("application/json", forHTTPHeaderField: "Accept")
             
-//            guard let httpBody = try? JSONSerialization.data(withJSONObject: body, options: []) else {
-//                return
-//            }
-           // request.httpBody = httpBody
+            guard let httpBody = try? JSONSerialization.data(withJSONObject: body, options: []) else {
+                return
+            }
+            request.httpBody = httpBody
             
             dataTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
                 guard let data = data else {

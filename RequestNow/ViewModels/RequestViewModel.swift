@@ -15,6 +15,10 @@ enum RequestViewModelState {
     case error(Error)
 }
 
+enum ActiveAlert {
+    case error, success
+}
+
 final class RequestViewModel: ObservableObject {
     
     var didChange = PassthroughSubject<RequestViewModel, Never>()
@@ -27,13 +31,9 @@ final class RequestViewModel: ObservableObject {
     
     @Published var errorMessage: String = ""
     
-    @Published var errorExists: Bool = false
+    @Published var showAlert: Bool = false
     
-    @Published var showSuccessMessage: Bool = false
-    
-    @Published var settingsErrorMessage: String = ""
-    
-    @Published var settingsErrorExists: Bool = false
+    @Published var activeAlert: ActiveAlert = .error
     
     @Published private(set) var requestsViewModels: [RequestCellViewModel] = [] {
         didSet {
@@ -117,7 +117,7 @@ final class RequestViewModel: ObservableObject {
             case .failure(let error):
                 self?.state = .error(error)
                 self?.errorMessage = error.localizedDescription
-                self?.errorExists = true
+                self?.showAlert = true
             case .finished: self?.state = .finishedLoading
             }
             
@@ -137,7 +137,7 @@ final class RequestViewModel: ObservableObject {
                 case .failure(let error):
                     self?.state = .error(error)
                     self?.errorMessage = error.localizedDescription
-                    self?.errorExists = true
+                    self?.showAlert = true
                 case .finished: self?.state = .finishedLoading
                 }
                 
@@ -148,7 +148,7 @@ final class RequestViewModel: ObservableObject {
                 }
                 else{
                     self?.errorMessage = "Request could not be completed for some unknown reason. Please contact support."
-                    self?.errorExists = true
+                    self?.showAlert = true
                 }
         }
     }
@@ -161,17 +161,17 @@ final class RequestViewModel: ObservableObject {
             switch completion {
             case .failure(let error):
                 self?.state = .error(error)
-                self?.settingsErrorMessage = error.localizedDescription
-                self?.settingsErrorExists = true
+                self?.errorMessage = error.localizedDescription
+                self?.showAlert = true
             case .finished: self?.state = .finishedLoading
             }
         }) { [weak self] success in
             if success {
-                self?.showSuccessMessage = true
+                self?.showAlert = true
             }
             else {
-                self?.settingsErrorMessage = "Request could not be completed for some unknown reason. Please contact support."
-                self?.settingsErrorExists = true
+                self?.errorMessage = "Request could not be completed for some unknown reason. Please contact support."
+                self?.showAlert = true
             }
         }
     }

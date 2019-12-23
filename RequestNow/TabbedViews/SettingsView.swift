@@ -55,11 +55,13 @@ struct SettingsView: View {
                 }
                 .listRowBackground(ColorCodes.lighterShadeOfDarkGrey.color())
             }
-            .alert(isPresented: $viewModel.settingsErrorExists) {
-                Alert(title: Text("Error"), message: Text(viewModel.settingsErrorMessage), dismissButton: .default(Text("Ok")))
-            }
-            .alert(isPresented: $viewModel.showSuccessMessage) {
-                Alert(title: Text("Success"), message: Text("Your thank you note has been sent"), dismissButton: .default(Text("Ok")))
+            .alert(isPresented: $viewModel.showAlert) {
+                switch viewModel.activeAlert {
+                case .error:
+                    return  Alert(title: Text("Error"), message: Text(viewModel.errorMessage), dismissButton: .default(Text("Ok")))
+                case .success:
+                    return Alert(title: Text("Success"), message: Text("Your thank you note has been sent"), dismissButton: .default(Text("Ok")))
+                }
             }
             .listStyle(GroupedListStyle())
             .navigationBarTitle(Text("Settings"))
