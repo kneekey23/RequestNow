@@ -31,9 +31,13 @@ final class RequestViewModel: ObservableObject {
     
     @Published var errorMessage: String = ""
     
+    @Published var successMessage: String = ""
+    
     @Published var showAlert: Bool = false
     
     @Published var activeAlert: ActiveAlert = .error
+    
+    @Published var isShowingRefresh: Bool = false
     
     @Published private(set) var requestsViewModels: [RequestCellViewModel] = [] {
         didSet {
@@ -105,6 +109,12 @@ final class RequestViewModel: ObservableObject {
                     MessageCellViewModel(message: $0)
                 }
                 self?.nameOfEvent = requestData.eventName
+                if let viewModel = self {
+                    if viewModel.isShowingRefresh {
+                        viewModel.isShowingRefresh.toggle()
+                    }
+                }
+
         }
     }
     
@@ -135,18 +145,20 @@ final class RequestViewModel: ObservableObject {
             .sink(receiveCompletion: { [weak self] (completion) in
                 switch completion {
                 case .failure(let error):
+                    
+                    
                     self?.state = .error(error)
                     self?.errorMessage = error.localizedDescription
                     self?.showAlert = true
                 case .finished: self?.state = .finishedLoading
                 }
-                
             }) { [weak self] success in
                 
                 if success {
                     self?.requestsViewModels.remove(at: index)
                 }
                 else{
+                    self?.activeAlert = .error
                     self?.errorMessage = "Request could not be completed for some unknown reason. Please contact support."
                     self?.showAlert = true
                 }
@@ -165,11 +177,14 @@ final class RequestViewModel: ObservableObject {
                 self?.showAlert = true
             case .finished: self?.state = .finishedLoading
             }
-        }) { [weak self] success in
-            if success {
+        }) { [weak self] count in
+            if count > 0 {
+                self?.activeAlert = .success
                 self?.showAlert = true
+                self?.successMessage = "Thank you message was sent to " + String(count) + " guests."
             }
             else {
+                self?.activeAlert = .error
                 self?.errorMessage = "Request could not be completed for some unknown reason. Please contact support."
                 self?.showAlert = true
             }

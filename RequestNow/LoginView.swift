@@ -51,7 +51,7 @@ struct LoginView: View {
                                 .frame(height: 0.5, alignment: .bottom)
                                 .foregroundColor(Color.white)
                             if !viewModel.errorMessage.isEmpty {
-                                Text("There was an error with the request.")
+                                Text("There was an error with the request. That event key does not exist.")
                                     .foregroundColor(ColorCodes.pastelRed.color())
                                     .multilineTextAlignment(.center)
                                     .lineLimit(nil)
@@ -61,7 +61,7 @@ struct LoginView: View {
                     }
                     Button(action: {
                         self.viewModel.getEventId(with: self.viewModel.eventKey)
-                        if !self.viewModel.eventKey.isEmpty {
+                        if !self.viewModel.eventId.isEmpty {
                             self.viewController?.present(style: .fullScreen) {
                                   MainView()
                             }

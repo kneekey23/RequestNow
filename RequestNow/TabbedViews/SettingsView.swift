@@ -60,7 +60,7 @@ struct SettingsView: View {
                 case .error:
                     return  Alert(title: Text("Error"), message: Text(viewModel.errorMessage), dismissButton: .default(Text("Ok")))
                 case .success:
-                    return Alert(title: Text("Success"), message: Text("Your thank you note has been sent"), dismissButton: .default(Text("Ok")))
+                    return Alert(title: Text("Success"), message: Text(viewModel.successMessage), dismissButton: .default(Text("Ok")))
                 }
             }
             .listStyle(GroupedListStyle())

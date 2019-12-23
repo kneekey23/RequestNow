@@ -20,7 +20,7 @@ protocol RequestServiceProtocol {
     func getRequests(eventId: String?) -> AnyPublisher<RequestData, Error>
     func getEventId(eventKey: String?) -> AnyPublisher<String, Error>
     func deleteRequest(id: Int) -> AnyPublisher<Bool, Error>
-    func sendThankYouNote(eventId: String) -> AnyPublisher<Bool, Error>
+    func sendThankYouNote(eventId: String) -> AnyPublisher<Int, Error>
     func registerDeviceToken(eventId: String, deviceToken: String)
 }
 
@@ -100,11 +100,13 @@ final class RequestService: RequestServiceProtocol {
                 do {
                     let json = try JSONSerialization.jsonObject(with: data, options: [])
                     if let dictionary = json as? [String: Any] {
-                        if let eventId = dictionary["eventId"] as? Int {
-                            let eventIdString = String(eventId)
-                            UserDefaults.standard.set(eventIdString, forKey: "eventId")
-                            promise(.success(eventIdString))
+                        guard let eventId = dictionary["eventId"] as? Int else {
+                            promise(.failure(ServiceError.internalError("Event Id not found")))
+                            return
                         }
+                        let eventIdString = String(eventId)
+                        UserDefaults.standard.set(eventIdString, forKey: "eventId")
+                        promise(.success(eventIdString))
                     }
                 } catch {
                     promise(.failure(ServiceError.decode))
@@ -127,7 +129,7 @@ final class RequestService: RequestServiceProtocol {
         return Future<Bool, Error> { promise in
             
             let body: [String: Any] = [
-                "request_id": id
+                "request_id": String(id)
             ]
             
             guard let serviceUrl = URL(string: DELETE_REQUEST) else { return }
@@ -135,7 +137,7 @@ final class RequestService: RequestServiceProtocol {
             var request = URLRequest(url: serviceUrl)
             request.httpMethod = "PUT"
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            request.setValue("application/json", forHTTPHeaderField: "Accept")
+            //request.setValue("application/json", forHTTPHeaderField: "Accept")
             
             guard let httpBody = try? JSONSerialization.data(withJSONObject: body, options: []) else {
                 return
@@ -170,18 +172,18 @@ final class RequestService: RequestServiceProtocol {
         .eraseToAnyPublisher()
     }
     
-    func sendThankYouNote(eventId: String) -> AnyPublisher<Bool, Error> {
+    func sendThankYouNote(eventId: String) -> AnyPublisher<Int, Error> {
         var dataTask: URLSessionDataTask?
         
         let onSubscription: (Subscription) -> Void = { _ in dataTask?.resume() }
         let onCancel: () -> Void = { dataTask?.cancel() }
         
-        return Future<Bool, Error> { promise in
+        return Future<Int, Error> { promise in
             let body: [String: Any] = [
                 "event_id": eventId
             ]
             
-            guard let serviceUrl = URL(string: SEND_THANKYOU_NOTE + eventId) else { return }
+            guard let serviceUrl = URL(string: SEND_THANKYOU_NOTE) else { return }
             
             var request = URLRequest(url: serviceUrl)
             request.httpMethod = "PUT"
@@ -192,7 +194,7 @@ final class RequestService: RequestServiceProtocol {
                 return
             }
             request.httpBody = httpBody
-            
+            print(request)
             dataTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
                 guard let data = data else {
                     if let error = error {
@@ -204,11 +206,11 @@ final class RequestService: RequestServiceProtocol {
                 do {
                     let json = try JSONSerialization.jsonObject(with: data, options: [])
                     if let dictionary = json as? [String: Any] {
-                        guard let success = dictionary["success"] as? Bool else {
-                            promise(.failure(ServiceError.internalError(dictionary["message"] as? String ?? "Internal Server Error")))
+                        guard let count = dictionary["partygoerCount"] as? Int else {
+                            promise(.failure(ServiceError.internalError(dictionary["error"] as? String ?? "Internal Server Error")))
                             return
                         }
-                         promise(.success(success))
+                         promise(.success(count))
                     }
                 } catch {
                      promise(.failure(ServiceError.decode))

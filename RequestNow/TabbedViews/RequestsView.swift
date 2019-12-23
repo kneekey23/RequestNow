@@ -13,7 +13,7 @@ let coloredNavAppearance = UINavigationBarAppearance()
 struct RequestsView: View {
     
     @ObservedObject var viewModel: RequestViewModel
-    
+   
     init() {
         viewModel = RequestViewModel()
         
@@ -38,6 +38,10 @@ struct RequestsView: View {
                     .listRowBackground(ColorCodes.darkGrey.color())
                     
                 }
+                .background(PullToRefresh(action: {
+                    self.viewModel.getRequests(with: self.viewModel.eventId)
+
+                }, isShowing: $viewModel.isShowingRefresh))
                 .alert(isPresented: $viewModel.showAlert) {
                     Alert(title: Text("Error"), message: Text(viewModel.errorMessage), dismissButton: .default(Text("Ok")))
                 }
