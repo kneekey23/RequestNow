@@ -39,6 +39,9 @@ struct SettingsView: View {
                     Text("Send Thank you Note")
                         .foregroundColor(.white)
                 }.listRowBackground(ColorCodes.lighterShadeOfDarkGrey.color())
+                .onTapGesture {
+                    self.viewModel.sendThankYouNote()
+                }
                 Section {
                     Text("Logout")
                     .foregroundColor(.white)
@@ -51,6 +54,12 @@ struct SettingsView: View {
                         }
                 }
                 .listRowBackground(ColorCodes.lighterShadeOfDarkGrey.color())
+            }
+            .alert(isPresented: $viewModel.settingsErrorExists) {
+                Alert(title: Text("Error"), message: Text(viewModel.settingsErrorMessage), dismissButton: .default(Text("Ok")))
+            }
+            .alert(isPresented: $viewModel.showSuccessMessage) {
+                Alert(title: Text("Success"), message: Text("Your thank you note has been sent"), dismissButton: .default(Text("Ok")))
             }
             .listStyle(GroupedListStyle())
             .navigationBarTitle(Text("Settings"))

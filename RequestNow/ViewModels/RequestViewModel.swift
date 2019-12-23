@@ -29,6 +29,12 @@ final class RequestViewModel: ObservableObject {
     
     @Published var errorExists: Bool = false
     
+    @Published var showSuccessMessage: Bool = false
+    
+    @Published var settingsErrorMessage: String = ""
+    
+    @Published var settingsErrorExists: Bool = false
+    
     @Published private(set) var requestsViewModels: [RequestCellViewModel] = [] {
         didSet {
             didChange.send(self)
@@ -52,6 +58,8 @@ final class RequestViewModel: ObservableObject {
     private var getRequestsCancellable: AnyCancellable?
     
     private var deleteRequestCancellable: AnyCancellable?
+    
+    private var thankYouNoteRequestCancellable: AnyCancellable?
     
     private let requestService: RequestServiceProtocol
     
@@ -142,6 +150,29 @@ final class RequestViewModel: ObservableObject {
                     self?.errorMessage = "Request could not be completed for some unknown reason. Please contact support."
                     self?.errorExists = true
                 }
+        }
+    }
+    
+    func sendThankYouNote() {
+        state  = .loading
+        thankYouNoteRequestCancellable = requestService
+        .sendThankYouNote(eventId: eventId)
+        .sink(receiveCompletion: { [weak self] (completion) in
+            switch completion {
+            case .failure(let error):
+                self?.state = .error(error)
+                self?.settingsErrorMessage = error.localizedDescription
+                self?.settingsErrorExists = true
+            case .finished: self?.state = .finishedLoading
+            }
+        }) { [weak self] success in
+            if success {
+                self?.showSuccessMessage = true
+            }
+            else {
+                self?.settingsErrorMessage = "Request could not be completed for some unknown reason. Please contact support."
+                self?.settingsErrorExists = true
+            }
         }
     }
     

@@ -52,6 +52,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="requestnowlogo" width="351" height="283"/>
+        <image name="requestnowlogo" width="186" height="163"/>
     </resources>
 </document>

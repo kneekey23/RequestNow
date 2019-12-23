@@ -20,6 +20,7 @@ protocol RequestServiceProtocol {
     func getRequests(eventId: String?) -> AnyPublisher<RequestData, Error>
     func getEventId(eventKey: String?) -> AnyPublisher<String, Error>
     func deleteRequest(id: Int) -> AnyPublisher<Bool, Error>
+    func sendThankYouNote(eventId: String) -> AnyPublisher<Bool, Error>
     func registerDeviceToken(eventId: String, deviceToken: String)
 }
 
@@ -126,13 +127,13 @@ final class RequestService: RequestServiceProtocol {
         return Future<Bool, Error> { promise in
             
             let body: [String: Any] = [
-                "id": id
+                "request_id": id
             ]
             
             guard let serviceUrl = URL(string: DELETE_REQUEST) else { return }
             
             var request = URLRequest(url: serviceUrl)
-            request.httpMethod = "POST"
+            request.httpMethod = "PUT"
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             request.setValue("application/json", forHTTPHeaderField: "Accept")
             
@@ -165,6 +166,55 @@ final class RequestService: RequestServiceProtocol {
             
         }
         .receive(on: DispatchQueue.main)
+        .handleEvents(receiveSubscription: onSubscription, receiveCancel: onCancel)
+        .eraseToAnyPublisher()
+    }
+    
+    func sendThankYouNote(eventId: String) -> AnyPublisher<Bool, Error> {
+        var dataTask: URLSessionDataTask?
+        
+        let onSubscription: (Subscription) -> Void = { _ in dataTask?.resume() }
+        let onCancel: () -> Void = { dataTask?.cancel() }
+        
+        return Future<Bool, Error> { promise in
+//            let body: [String: Any] = [
+//                "event_id": eventId
+//            ]
+            
+            guard let serviceUrl = URL(string: SEND_THANKYOU_NOTE + "?event_id=" + eventId) else { return }
+            
+            var request = URLRequest(url: serviceUrl)
+            request.httpMethod = "GET"
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.setValue("application/json", forHTTPHeaderField: "Accept")
+            
+//            guard let httpBody = try? JSONSerialization.data(withJSONObject: body, options: []) else {
+//                return
+//            }
+           // request.httpBody = httpBody
+            
+            dataTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
+                guard let data = data else {
+                    if let error = error {
+                        promise(.failure(error))
+                    }
+                    return
+                }
+                
+                do {
+                    let json = try JSONSerialization.jsonObject(with: data, options: [])
+                    if let dictionary = json as? [String: Any] {
+                        guard let success = dictionary["success"] as? Bool else {
+                            promise(.failure(ServiceError.internalError(dictionary["message"] as? String ?? "Internal Server Error")))
+                            return
+                        }
+                         promise(.success(success))
+                    }
+                } catch {
+                     promise(.failure(ServiceError.decode))
+                }
+            }
+        }.receive(on: DispatchQueue.main)
         .handleEvents(receiveSubscription: onSubscription, receiveCancel: onCancel)
         .eraseToAnyPublisher()
     }
