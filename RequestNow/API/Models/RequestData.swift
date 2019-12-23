@@ -12,19 +12,22 @@ struct RequestData: Codable {
     public let eventName: String
     public let userId: Int
     public let messages: [Message]
+    public let eventNumber: String
     
     enum CodingKeys: String, CodingKey {
         case eventName = "eventName"
         case songRequests = "songRequests"
         case userId = "userId"
         case messages = "messages"
+        case eventNumber = "eventNumber"
     }
 
-    public init(nameOfEvent: String, requestList: [Request], userId: Int, messages: [Message]) {
+    public init(nameOfEvent: String, requestList: [Request], userId: Int, messages: [Message], eventNumber: String) {
         self.songRequests = requestList
         self.eventName = nameOfEvent
         self.userId = userId
         self.messages = messages
+        self.eventNumber = eventNumber
     }
     
 }

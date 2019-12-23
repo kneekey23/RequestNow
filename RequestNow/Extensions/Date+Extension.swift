@@ -10,11 +10,10 @@ import Foundation
 extension Date {
 
     func toTime() -> String {
-
-    let hour = Calendar.current.component(.hour, from: self)
-    let minutes = Calendar.current.component(.minute, from: self)
-
-    return "\(hour):\(minutes)"
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "hh:mm a"
+        let time = dateFormatter.string(from: self)
+        return time
     }
 }
 

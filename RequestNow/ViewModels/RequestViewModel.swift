@@ -29,6 +29,8 @@ final class RequestViewModel: ObservableObject {
     
     @Published var nameOfEvent: String = ""
     
+    @Published var eventNumber: String = ""
+    
     @Published var errorMessage: String = ""
     
     @Published var successMessage: String = ""
@@ -39,17 +41,9 @@ final class RequestViewModel: ObservableObject {
     
     @Published var isShowingRefresh: Bool = false
     
-    @Published private(set) var requestsViewModels: [RequestCellViewModel] = [] {
-        didSet {
-            didChange.send(self)
-        }
-    }
+    @Published private(set) var requestsViewModels: [RequestCellViewModel] = []
     
-    @Published private(set) var messageViewModels: [MessageCellViewModel] = [] {
-        didSet {
-            didChange.send(self)
-        }
-    }
+    @Published private(set) var messageViewModels: [MessageCellViewModel] = []
     
     @Published private(set) var state: RequestViewModelState = .loading
     
@@ -109,6 +103,7 @@ final class RequestViewModel: ObservableObject {
                     MessageCellViewModel(message: $0)
                 }
                 self?.nameOfEvent = requestData.eventName
+                self?.eventNumber = requestData.eventNumber
                 if let viewModel = self {
                     if viewModel.isShowingRefresh {
                         viewModel.isShowingRefresh.toggle()
@@ -193,9 +188,7 @@ final class RequestViewModel: ObservableObject {
     
     func registerDeviceTokenForPushNotifications(with eventId: String) {
         if let deviceToken = UserDefaults.standard.string(forKey: "deviceToken") {
-            DispatchQueue.global(qos: .utility).async {
-                self.requestService.registerDeviceToken(eventId: eventId, deviceToken: deviceToken)
-            }
+            self.requestService.registerDeviceToken(eventId: eventId, deviceToken: deviceToken)
         }
     }
     

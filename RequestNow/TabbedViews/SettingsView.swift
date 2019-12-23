@@ -36,6 +36,10 @@ struct SettingsView: View {
         NavigationView {
             List {
                 Section {
+                    Text(viewModel.eventNumber)
+                        .foregroundColor(.white)
+                }.listRowBackground(ColorCodes.lighterShadeOfDarkGrey.color())
+                Section {
                     Text("Send Thank you Note")
                         .foregroundColor(.white)
                 }.listRowBackground(ColorCodes.lighterShadeOfDarkGrey.color())

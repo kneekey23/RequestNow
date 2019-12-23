@@ -17,7 +17,7 @@ struct MainView: View {
                 .font(.title)
                 .tabItem {
                     VStack {
-                        Image("1.music.fill")
+                        selection == 0 ? Image("1.music.fill") : Image("1.music")
                         Text("Requests")
                     }
                 }
@@ -26,7 +26,8 @@ struct MainView: View {
                 .font(.title)
                 .tabItem {
                     VStack {
-                        Image("2.history")
+                        selection == 1 ? Image("2.history.fill") : Image("2.history")
+        
                         Text("Messages")
                     }
                 }
@@ -35,6 +36,7 @@ struct MainView: View {
                 .font(.title)
                 .tabItem {
                     VStack {
+                        selection == 2 ? Image("3.settings.fill") : Image("3.settings")
                         Image("3.settings")
                         Text("Settings")
                     }

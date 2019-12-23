@@ -229,7 +229,6 @@ final class RequestService: RequestServiceProtocol {
         var request = URLRequest(url: serviceUrl)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.setValue("application/json", forHTTPHeaderField: "Accept")
         guard let httpBody = try? JSONSerialization.data(withJSONObject: body, options: []) else {
             return
         }
