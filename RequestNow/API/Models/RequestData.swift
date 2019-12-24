@@ -10,7 +10,7 @@ struct RequestData: Codable {
     
     public let songRequests: [Request]
     public let eventName: String
-    public let userId: Int
+    public let userId: String
     public let messages: [Message]
     public let eventNumber: String
     
@@ -22,7 +22,7 @@ struct RequestData: Codable {
         case eventNumber = "eventNumber"
     }
 
-    public init(nameOfEvent: String, requestList: [Request], userId: Int, messages: [Message], eventNumber: String) {
+    public init(nameOfEvent: String, requestList: [Request], userId: String, messages: [Message], eventNumber: String) {
         self.songRequests = requestList
         self.eventName = nameOfEvent
         self.userId = userId

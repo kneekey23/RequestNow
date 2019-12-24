@@ -108,7 +108,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UserDefaults.standard.set(token, forKey: "deviceToken")
         let eventId = UserDefaults.standard.string(forKey: "eventId")
         if let eventId = eventId, !eventId.isEmpty {
-            requestService.registerDeviceToken(eventId: eventId, deviceToken: token)
+            DispatchQueue.once(executionToken: "registerDeviceToken") {
+                requestService.registerDeviceToken(eventId: eventId, deviceToken: token)
+            }
+           
         }
     }
     
@@ -130,12 +133,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return
         }
         print(aps)
-        //add notificaiton to request list
+        //add notification to request list
         let newRequestData = aps["songRequest"]
         let newRequest = try! JSONDecoder().decode(Request.self, from: newRequestData as! Data)
         NotificationCenter.default.post(name: UPDATE_REQUESTS, object:newRequest)
-      //  print(aps)
-    
     }
 }
 

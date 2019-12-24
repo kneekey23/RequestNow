@@ -31,7 +31,7 @@ struct RequestRow: View {
                     }
                 }
                 else {
-                    Text(viewModel.originalMessage)
+                    Text(viewModel.originalMessages[0])
                     .font(.custom("Segoe UI", size: 20))
                     .foregroundColor(Color.white)
                 }
@@ -52,7 +52,7 @@ struct RequestRow: View {
                 .background(ColorCodes.darkGrey.color())
                 HStack {
                     Image("chat")
-                    Text(viewModel.artist)
+                    Text(viewModel.count)
                     .font(.custom("Segou UI", size: 14))
                     .foregroundColor(ColorCodes.lightGrey.color())
                 }
@@ -60,9 +60,10 @@ struct RequestRow: View {
                 .background(ColorCodes.darkGrey.color())
                 }
                 if isExpanded {
+                ForEach((viewModel.originalMessages), id: \.self)  { message in
                     HStack {
                         Image("chat")
-                        Text(viewModel.originalMessage)
+                        Text(message)
                         .font(.custom("Segou UI", size: 14))
                         .foregroundColor(ColorCodes.lightGrey.color())
                         .fixedSize(horizontal: false, vertical: true)
@@ -71,6 +72,7 @@ struct RequestRow: View {
                     }
                     .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
                     .background(ColorCodes.darkGrey.color())
+                    }
                 }
             }
 
@@ -88,6 +90,6 @@ struct RequestRow: View {
 
 struct RequestRow_Previews: PreviewProvider {
     static var previews: some View {
-        RequestRow(viewModel: RequestCellViewModel(request: Request(id: 1234, originalRequest: "Some original request that is really freaking long and it is so many lines im not sure what to do with it", artist: "Taylor Swift", songName: "Fearless", timeOfRequest: Date(), isFavorite: false, fromNumber: "7149255555")))
+        RequestRow(viewModel: RequestCellViewModel(request: Request(count: "2", originalRequests: ["Some original request that is really freaking long and it is so many lines im not sure what to do with it"], artist: "Taylor Swift", songName: "Fearless", timeOfRequest: Date(), isFavorite: false, fromNumber: "7149255555")))
     }
 }

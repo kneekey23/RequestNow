@@ -19,7 +19,7 @@ let HEADER = [
 let API_ENDPOINT = "https://e0rrchgsgb.execute-api.us-east-1.amazonaws.com/prod/"
 let EVENT_DATA = API_ENDPOINT + "get_requests"
 let DELETE_REQUEST = API_ENDPOINT + "delete_request"
-let REGISTER_TOKEN = API_ENDPOINT + "get_mobile_arn"
+let REGISTER_TOKEN = API_ENDPOINT + "register_device"
 let EVENT_ID = API_ENDPOINT + "get_event_id"
 let SEND_THANKYOU_NOTE = API_ENDPOINT + "send_thank_you"
 

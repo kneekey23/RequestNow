@@ -223,7 +223,7 @@ final class RequestService: RequestServiceProtocol {
     
     func registerDeviceToken(eventId: String, deviceToken: String) {
 
-        let body = ["device_id": deviceToken,"event_id": eventId]
+        let body = ["device_token": deviceToken,"event_id": eventId]
         guard let serviceUrl = URL(string: REGISTER_TOKEN) else { return }
         
         var request = URLRequest(url: serviceUrl)

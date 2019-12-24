@@ -134,9 +134,9 @@ final class RequestViewModel: ObservableObject {
     
     func deleteRequest(index: Int) {
         state = .loading
-        let id = self.requestsViewModels[index].id
+       // let id = self.requestsViewModels[index].id
         deleteRequestCancellable = requestService
-            .deleteRequest(id: id)
+            .deleteRequest(id: 1234)
             .sink(receiveCompletion: { [weak self] (completion) in
                 switch completion {
                 case .failure(let error):
@@ -188,7 +188,9 @@ final class RequestViewModel: ObservableObject {
     
     func registerDeviceTokenForPushNotifications(with eventId: String) {
         if let deviceToken = UserDefaults.standard.string(forKey: "deviceToken") {
-            self.requestService.registerDeviceToken(eventId: eventId, deviceToken: deviceToken)
+             DispatchQueue.once(executionToken: "registerDeviceToken") {
+                self.requestService.registerDeviceToken(eventId: eventId, deviceToken: deviceToken)
+            }
         }
     }
     
@@ -202,9 +204,10 @@ final class RequestCellViewModel: ObservableObject {
     @Published var time: String = ""
     @Published var songName: String = ""
     @Published var artist: String = ""
-    @Published var originalMessage: String = ""
-    @Published var id: Int = 0
+    @Published var originalMessages: [String] = []
     @Published var fromNumber: String = ""
+    @Published var count: String = ""
+    @Published var id: UUID = UUID()
     
     private let request: Request
     
@@ -217,19 +220,20 @@ final class RequestCellViewModel: ObservableObject {
         time = request.timeOfRequest.toTime()
         songName = request.songName ?? ""
         artist = request.artist ?? ""
-        originalMessage = request.originalRequest
-        id = request.id
+        originalMessages = request.originalRequests
         fromNumber = request.fromNumber
+        count = request.count
+        id = request.id
     }
 }
 
 final class MessageCellViewModel: ObservableObject {
     
     @Published var time: String = ""
-    @Published var originalMessage: String = ""
+    @Published var originalMessages: [String] = []
     @Published var messageCount: String = ""
     @Published var fromNumber: String = ""
-    @Published var id: Int = 0
+    @Published var id: UUID = UUID()
     
     private let message: Message
     
@@ -240,7 +244,7 @@ final class MessageCellViewModel: ObservableObject {
     
     func setUpBindings() {
         time = message.timeOfRequest.toTime()
-        originalMessage = message.originalRequest
+        originalMessages = message.originalRequests
         messageCount = String(message.messageCount)
         fromNumber = message.fromNumber
         id = message.id
