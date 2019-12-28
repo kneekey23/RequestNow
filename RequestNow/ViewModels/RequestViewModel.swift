@@ -116,7 +116,7 @@ final class RequestViewModel: ObservableObject {
     func getEventId(with eventKey: String) {
         state = .loading
         eventIdCancellable = requestService
-        .getEventId(eventKey: eventKey)
+        .getEventId(eventKey: eventKey.lowercased())
         .sink(receiveCompletion: { [weak self] (completion) in
             switch completion {
             case .failure(let error):
@@ -128,6 +128,7 @@ final class RequestViewModel: ObservableObject {
             
         }) { [weak self] eventId in
             self?.eventId = eventId
+            self?.errorMessage = ""
            
         }
     }
@@ -151,6 +152,7 @@ final class RequestViewModel: ObservableObject {
                 
                 if success {
                     self?.requestsViewModels.remove(at: index)
+                    self?.errorMessage = ""
                 }
                 else{
                     self?.activeAlert = .error
@@ -177,6 +179,7 @@ final class RequestViewModel: ObservableObject {
                 self?.activeAlert = .success
                 self?.showAlert = true
                 self?.successMessage = "Thank you message was sent to " + String(count) + " guests."
+                self?.errorMessage = ""
             }
             else {
                 self?.activeAlert = .error

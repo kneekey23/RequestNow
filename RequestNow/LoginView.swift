@@ -49,16 +49,18 @@ struct LoginView: View {
                                     .font(.custom("Oswald-Regular", size: 21))
                             }
                             Rectangle()
-                                .frame(height: 0.5, alignment: .bottom)
-                                .foregroundColor(Color.white)
-                            if !viewModel.errorMessage.isEmpty {
-                                Text("There was an error with the request. That event key does not exist.")
-                                    .foregroundColor(ColorCodes.pastelRed.color())
-                                    .multilineTextAlignment(.center)
-                                    .lineLimit(nil)
-                            }
+                            .frame(height: 0.5, alignment: .bottom)
+                            .foregroundColor(Color.white)
+
                         }.padding()
                         
+                    }
+                    if !viewModel.errorMessage.isEmpty {
+                        VStack(alignment: .leading) {
+                            Text("There was an error with the request. That event key does not exist.")
+                                .foregroundColor(ColorCodes.pastelRed.color())
+                                .lineLimit(nil)
+                        }.padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
                     }
                     Button(action: {
                         if self.viewModel.eventId.isEmpty {
@@ -96,10 +98,10 @@ struct LoginView: View {
                             .font(.custom("Oswald-Light", size: 17))
                     }
                 }
-            }.offset(y: editingMode ? -150 : 0)
+            }
         }.sheet(isPresented: $showMessage, content: {
             LoginModalView()
-        })
+        }).offset(y: editingMode ? -150 : 0)
     }
 }
 
