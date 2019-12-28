@@ -35,9 +35,16 @@ struct SettingsView: View {
     var body: some View {
         NavigationView {
             List {
-                Section {
-                    Text(viewModel.eventNumber)
-                        .foregroundColor(.white)
+                Section(header: Text("Your Event Number").foregroundColor(.white)) {
+                    HStack(alignment: .center) {
+                    Text("+1 (714) 925-5830")
+                    .foregroundColor(.white)
+
+                    .alignmentGuide(.center, computeValue: {d in (d[.center])})
+                    }.frame(alignment: .center)
+                }.listRowBackground(ColorCodes.lighterShadeOfDarkGrey.color())
+                Section(header: Text("Status").foregroundColor(.white)) {
+                    Text("Status").foregroundColor(.white)
                 }.listRowBackground(ColorCodes.lighterShadeOfDarkGrey.color())
                 Section {
                     Text("Send Thank you Note")
@@ -48,7 +55,7 @@ struct SettingsView: View {
                 }
                 Section {
                     Text("Logout")
-                    .foregroundColor(.white)
+                    .foregroundColor(.red)
 
                 }
                 .onTapGesture {

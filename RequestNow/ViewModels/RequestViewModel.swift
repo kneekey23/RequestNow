@@ -103,7 +103,7 @@ final class RequestViewModel: ObservableObject {
                     MessageCellViewModel(message: $0)
                 }
                 self?.nameOfEvent = requestData.eventName
-                self?.eventNumber = requestData.eventNumber
+                self?.eventNumber = requestData.eventNumber.formattedNumber()
                 if let viewModel = self {
                     if viewModel.isShowingRefresh {
                         viewModel.isShowingRefresh.toggle()

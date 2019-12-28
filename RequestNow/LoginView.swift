@@ -13,6 +13,7 @@ struct LoginView: View {
     
     @ObservedObject var viewModel: RequestViewModel
     @State var editingMode: Bool = false
+    @State var showMessage = false
     @Environment(\.viewController) private var viewControllerHolder: UIViewController?
      private var viewController: UIViewController? {
         self.viewControllerHolder
@@ -31,9 +32,9 @@ struct LoginView: View {
                     Image("requestnowlogo")
                     .resizable()
                     .frame(width: 100.0, height: 100.0)
-                    Text("Request Now")
-                        .font(.custom("Segoe UI", size: 32))
-                        .foregroundColor(Color.white)
+                    Text("RequestNow")
+                    .font(.custom("Segoe UI", size: 32))
+                    .foregroundColor(Color.white)
                     
                     HStack{
                         VStack {
@@ -60,12 +61,15 @@ struct LoginView: View {
                         
                     }
                     Button(action: {
-                        self.viewModel.getEventId(with: self.viewModel.eventKey)
-                        if !self.viewModel.eventId.isEmpty {
+                        if self.viewModel.eventId.isEmpty {
+                            self.viewModel.getEventId(with: self.viewModel.eventKey)
+                        }
+                        else {
                             self.viewController?.present(style: .fullScreen) {
-                                  MainView()
+                                MainView()
                             }
                         }
+                        
                     }) {
                         HStack {
                             Text("LOGIN").font(.custom("Oswald-Regular", size: 21))
@@ -75,9 +79,27 @@ struct LoginView: View {
                         .foregroundColor(.white)
                         .background(ColorCodes.teal.color())
                     }.padding()
+                    Button(action: {
+                        self.showMessage.toggle()
+                    }){
+                        Text("Forgot your event key?")
+                            .foregroundColor(ColorCodes.lightGrey.color())
+                            .font(.custom("Oswald-Light", size: 17))
+                    }
+                    Spacer()
+                    Button(action: {
+                        let url: URL = URL(string: "https://requestnow.io")!
+                        UIApplication.shared.open(url)
+                    }) {
+                        Text("Don't have an account? Create one here")
+                            .foregroundColor(ColorCodes.lightGrey.color())
+                            .font(.custom("Oswald-Light", size: 17))
+                    }
                 }
             }.offset(y: editingMode ? -150 : 0)
-        }
+        }.sheet(isPresented: $showMessage, content: {
+            LoginModalView()
+        })
     }
 }
 

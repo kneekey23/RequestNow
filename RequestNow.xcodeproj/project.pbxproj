@@ -34,6 +34,7 @@
 		812A230223B0499C00F4D175 /* ThankYouNoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812A230123B0499C00F4D175 /* ThankYouNoteView.swift */; };
 		812A230423B05D6500F4D175 /* PullToRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812A230323B05D6500F4D175 /* PullToRefresh.swift */; };
 		812A230623B095B400F4D175 /* DispatchQueue+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812A230523B095B400F4D175 /* DispatchQueue+Extension.swift */; };
+		8166D45423B814B8000D5F5D /* LoginModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8166D45323B814B8000D5F5D /* LoginModalView.swift */; };
 		8192134523AA22E0002FF041 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8192134423AA22E0002FF041 /* AppDelegate.swift */; };
 		8192134723AA22E0002FF041 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8192134623AA22E0002FF041 /* SceneDelegate.swift */; };
 		8192134923AA22E0002FF041 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8192134823AA22E0002FF041 /* MainView.swift */; };
@@ -71,6 +72,7 @@
 		812A230123B0499C00F4D175 /* ThankYouNoteView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThankYouNoteView.swift; sourceTree = "<group>"; };
 		812A230323B05D6500F4D175 /* PullToRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullToRefresh.swift; sourceTree = "<group>"; };
 		812A230523B095B400F4D175 /* DispatchQueue+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DispatchQueue+Extension.swift"; sourceTree = "<group>"; };
+		8166D45323B814B8000D5F5D /* LoginModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModalView.swift; sourceTree = "<group>"; };
 		8192134123AA22E0002FF041 /* RequestNow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RequestNow.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8192134423AA22E0002FF041 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8192134623AA22E0002FF041 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -140,6 +142,7 @@
 				812A22DE23AA5A3B00F4D175 /* RequestRow.swift */,
 				812A22FD23B02EC500F4D175 /* MessageRow.swift */,
 				812A230123B0499C00F4D175 /* ThankYouNoteView.swift */,
+				8192134623AA22E0002FF041 /* SceneDelegate.swift */,
 			);
 			path = TabbedViews;
 			sourceTree = "<group>";
@@ -186,7 +189,7 @@
 				812A22C323AA558B00F4D175 /* ViewModels */,
 				812A22D523AA559B00F4D175 /* TabbedViews */,
 				8192134423AA22E0002FF041 /* AppDelegate.swift */,
-				8192134623AA22E0002FF041 /* SceneDelegate.swift */,
+				8166D45323B814B8000D5F5D /* LoginModalView.swift */,
 				812A22E023AA720800F4D175 /* LoginView.swift */,
 				8192134823AA22E0002FF041 /* MainView.swift */,
 				8192134A23AA22E3002FF041 /* Assets.xcassets */,
@@ -300,6 +303,7 @@
 				812A22D223AA558B00F4D175 /* Date+Extension.swift in Sources */,
 				812A22D923AA561600F4D175 /* MessagesView.swift in Sources */,
 				812A22CF23AA558B00F4D175 /* RequestService.swift in Sources */,
+				8166D45423B814B8000D5F5D /* LoginModalView.swift in Sources */,
 				812A22D423AA558B00F4D175 /* UITextField+Publisher.swift in Sources */,
 				812A22DD23AA56A100F4D175 /* Constants.swift in Sources */,
 				812A230423B05D6500F4D175 /* PullToRefresh.swift in Sources */,
@@ -444,7 +448,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = RequestNow/RequestNow.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.10;
+				CURRENT_PROJECT_VERSION = 1.11;
 				DEVELOPMENT_ASSET_PATHS = "\"RequestNow/Preview Content\"";
 				DEVELOPMENT_TEAM = 9EVWV3K6BK;
 				ENABLE_PREVIEWS = YES;
@@ -466,7 +470,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = RequestNow/RequestNow.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.10;
+				CURRENT_PROJECT_VERSION = 1.11;
 				DEVELOPMENT_ASSET_PATHS = "\"RequestNow/Preview Content\"";
 				DEVELOPMENT_TEAM = 9EVWV3K6BK;
 				ENABLE_PREVIEWS = YES;

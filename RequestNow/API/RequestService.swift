@@ -100,13 +100,12 @@ final class RequestService: RequestServiceProtocol {
                 do {
                     let json = try JSONSerialization.jsonObject(with: data, options: [])
                     if let dictionary = json as? [String: Any] {
-                        guard let eventId = dictionary["eventId"] as? Int else {
+                        guard let eventId = dictionary["eventId"] as? String else {
                             promise(.failure(ServiceError.internalError("Event Id not found")))
                             return
                         }
-                        let eventIdString = String(eventId)
-                        UserDefaults.standard.set(eventIdString, forKey: "eventId")
-                        promise(.success(eventIdString))
+                        UserDefaults.standard.set(eventId, forKey: "eventId")
+                        promise(.success(eventId))
                     }
                 } catch {
                     promise(.failure(ServiceError.decode))
