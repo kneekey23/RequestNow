@@ -12,14 +12,12 @@ import Foundation
 struct Request: Codable, Identifiable {
     
     
-    public let id: UUID = UUID()
+    public let id: String
     public let count: String
     public let originalRequests: [String]
     public let artist: String?
     public let songName: String?
     public let timeOfRequest: Date
-    public let isFavorite: Bool
-    public let fromNumber: String
     
     enum CodingKeys: String, CodingKey {
   
@@ -27,10 +25,29 @@ struct Request: Codable, Identifiable {
         case songName = "song"
         case artist = "artist"
         case originalRequests = "originals"
-        case isFavorite = "starred"
-        case fromNumber = "fromNumber"
         case count = "count"
+        case id = "groupId"
      
+    }
+    
+    @discardableResult
+    static func makeRequestGroup(_ notification: [String: AnyObject]) -> Request? {
+        guard let request = notification["songRequest"] as? [String: AnyObject],
+        let jsonData = try? JSONSerialization.data(withJSONObject: request, options: .prettyPrinted)
+        else {
+            return nil
+        }
+        let decoder = JSONDecoder()
+        let formatter = DateFormatter.dateTimeFormat
+        decoder.dateDecodingStrategy = .formatted(formatter)
+        
+        let newRequest = try! decoder.decode(Request.self, from: jsonData)
+        
+        NotificationCenter.default.post(
+            name: UPDATE_REQUESTS,
+            object: newRequest)
+        
+        return newRequest
     }
 }
 

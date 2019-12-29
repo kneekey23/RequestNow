@@ -34,10 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let aps = notification["aps"] as? [String: AnyObject] {
           
             // refresh notifications
-           
-            let newRequestData = aps["songRequest"]
-            let newRequest = try! JSONDecoder().decode(Request.self, from: newRequestData as! Data)
-            NotificationCenter.default.post(name: UPDATE_REQUESTS, object:newRequest)
+            Request.makeRequestGroup(aps)
             
             // 3
            (window?.rootViewController as? UITabBarController)?.selectedIndex = 0
@@ -133,10 +130,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return
         }
         print(aps)
-        //add notification to request list
-        let newRequestData = aps["songRequest"]
-        let newRequest = try! JSONDecoder().decode(Request.self, from: newRequestData as! Data)
-        NotificationCenter.default.post(name: UPDATE_REQUESTS, object:newRequest)
+        Request.makeRequestGroup(aps)
+
     }
 }
 
@@ -152,9 +147,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         // 2
         if let aps = userInfo["aps"] as? [String: AnyObject] {
             print(aps)
-            let newRequestData = aps["songRequest"]
-            let newRequest = try! JSONDecoder().decode(Request.self, from: newRequestData as! Data)
-            NotificationCenter.default.post(name: UPDATE_REQUESTS, object:newRequest)
+            Request.makeRequestGroup(aps)
         }
         
         // 4

@@ -37,14 +37,25 @@ struct SettingsView: View {
             List {
                 Section(header: Text("Your Event Number").foregroundColor(.white)) {
                     HStack(alignment: .center) {
-                    Text("+1 (714) 925-5830")
+                    Text(viewModel.eventNumber)
                     .foregroundColor(.white)
-
                     .alignmentGuide(.center, computeValue: {d in (d[.center])})
                     }.frame(alignment: .center)
                 }.listRowBackground(ColorCodes.lighterShadeOfDarkGrey.color())
+                .onTapGesture {
+                      // validation of phone number not included
+                      let dash = CharacterSet(charactersIn: "-")
+
+                      let cleanString = self.viewModel.eventNumber.trimmingCharacters(in: dash)
+
+                      let tel = "tel://"
+                      let formattedString = tel + cleanString.replacingOccurrences(of: "+1", with: "", options: .literal, range: nil).replacingOccurrences(of: "(", with: "", options: .literal, range: nil).replacingOccurrences(of: ") ", with: "", options: .literal, range: nil).replacingOccurrences(of: "-", with: "", options: .literal, range: nil).replacingOccurrences(of: " ", with: "", options: .literal, range: nil)
+                      let url: NSURL = URL(string: formattedString)! as NSURL
+
+                      UIApplication.shared.open(url as URL)
+                }
                 Section(header: Text("Status").foregroundColor(.white)) {
-                    Text("Status").foregroundColor(.white)
+                    Text(viewModel.eventStatus).foregroundColor(.white)
                 }.listRowBackground(ColorCodes.lighterShadeOfDarkGrey.color())
                 Section {
                     Text("Send Thank you Note")

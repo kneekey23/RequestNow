@@ -19,7 +19,7 @@ enum ServiceError: Error {
 protocol RequestServiceProtocol {
     func getRequests(eventId: String?) -> AnyPublisher<RequestData, Error>
     func getEventId(eventKey: String?) -> AnyPublisher<String, Error>
-    func deleteRequest(id: Int) -> AnyPublisher<Bool, Error>
+    func deleteRequest(id: String) -> AnyPublisher<Bool, Error>
     func sendThankYouNote(eventId: String) -> AnyPublisher<Int, Error>
     func registerDeviceToken(eventId: String, deviceToken: String)
 }
@@ -118,7 +118,7 @@ final class RequestService: RequestServiceProtocol {
         .eraseToAnyPublisher()
     }
     
-    func deleteRequest(id: Int) -> AnyPublisher<Bool, Error> {
+    func deleteRequest(id: String) -> AnyPublisher<Bool, Error> {
         
         var dataTask: URLSessionDataTask?
         
@@ -128,7 +128,7 @@ final class RequestService: RequestServiceProtocol {
         return Future<Bool, Error> { promise in
             
             let body: [String: Any] = [
-                "request_id": String(id)
+                "request_id": id
             ]
             
             guard let serviceUrl = URL(string: DELETE_REQUEST) else { return }

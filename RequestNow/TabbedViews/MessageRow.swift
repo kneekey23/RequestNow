@@ -48,6 +48,6 @@ struct MessageRow: View {
 
 struct MessageRow_Previews: PreviewProvider {
     static var previews: some View {
-        MessageRow(viewModel: MessageCellViewModel(message: Message( originalRequests: ["This is the original message and it's really long and has a lot of words in it and so it doesn't ellipsis on me."], timeOfRequest: Date(), fromNumber: "123456789", messageCount: "2")))
+        MessageRow(viewModel: MessageCellViewModel(message: Message(id: "12345", originalRequests: ["This is the original message and it's really long and has a lot of words in it and so it doesn't ellipsis on me."], timeOfRequest: Date(), fromNumber: "123456789", messageCount: "2")))
     }
 }

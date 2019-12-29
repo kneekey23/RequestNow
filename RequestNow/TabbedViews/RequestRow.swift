@@ -90,6 +90,6 @@ struct RequestRow: View {
 
 struct RequestRow_Previews: PreviewProvider {
     static var previews: some View {
-        RequestRow(viewModel: RequestCellViewModel(request: Request(count: "2", originalRequests: ["Some original request that is really freaking long and it is so many lines im not sure what to do with it"], artist: "Taylor Swift", songName: "Fearless", timeOfRequest: Date(), isFavorite: false, fromNumber: "7149255555")))
+        RequestRow(viewModel: RequestCellViewModel(request: Request(id: "12345", count: "2", originalRequests: ["Some original request that is really freaking long and it is so many lines im not sure what to do with it"], artist: "Taylor Swift", songName: "Fearless", timeOfRequest: Date())))
     }
 }

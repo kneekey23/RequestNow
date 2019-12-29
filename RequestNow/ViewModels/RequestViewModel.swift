@@ -35,6 +35,8 @@ final class RequestViewModel: ObservableObject {
     
     @Published var successMessage: String = ""
     
+    @Published var eventStatus: String = ""
+    
     @Published var showAlert: Bool = false
     
     @Published var activeAlert: ActiveAlert = .error
@@ -80,7 +82,16 @@ final class RequestViewModel: ObservableObject {
                                                                    object: nil)
         .sink { notification in
            
-            self.requestsViewModels.append(RequestCellViewModel(request: notification.object as! Request))
+            let requestCellViewModel = RequestCellViewModel(request: notification.object as! Request)
+            if self.requestsViewModels.contains(where: {$0.id == requestCellViewModel.id}) {
+                if let index = self.requestsViewModels.firstIndex(where: {$0.id == requestCellViewModel.id}) {
+                self.requestsViewModels[index] = requestCellViewModel
+                }
+            }
+            else {
+                self.requestsViewModels.append(requestCellViewModel)
+            }
+            
         }
     }
     
@@ -104,6 +115,7 @@ final class RequestViewModel: ObservableObject {
                 }
                 self?.nameOfEvent = requestData.eventName
                 self?.eventNumber = requestData.eventNumber.formattedNumber()
+                self?.eventStatus = requestData.eventActive ? "Active" : "Inactive"
                 if let viewModel = self {
                     if viewModel.isShowingRefresh {
                         viewModel.isShowingRefresh.toggle()
@@ -135,9 +147,9 @@ final class RequestViewModel: ObservableObject {
     
     func deleteRequest(index: Int) {
         state = .loading
-       // let id = self.requestsViewModels[index].id
+        let id = self.requestsViewModels[index].id
         deleteRequestCancellable = requestService
-            .deleteRequest(id: 1234)
+            .deleteRequest(id: id)
             .sink(receiveCompletion: { [weak self] (completion) in
                 switch completion {
                 case .failure(let error):
@@ -208,9 +220,8 @@ final class RequestCellViewModel: ObservableObject {
     @Published var songName: String = ""
     @Published var artist: String = ""
     @Published var originalMessages: [String] = []
-    @Published var fromNumber: String = ""
     @Published var count: String = ""
-    @Published var id: UUID = UUID()
+    @Published var id: String = ""
     
     private let request: Request
     
@@ -224,7 +235,6 @@ final class RequestCellViewModel: ObservableObject {
         songName = request.songName ?? ""
         artist = request.artist ?? ""
         originalMessages = request.originalRequests
-        fromNumber = request.fromNumber
         count = request.count
         id = request.id
     }
@@ -236,7 +246,7 @@ final class MessageCellViewModel: ObservableObject {
     @Published var originalMessages: [String] = []
     @Published var messageCount: String = ""
     @Published var fromNumber: String = ""
-    @Published var id: UUID = UUID()
+    @Published var id: String = ""
     
     private let message: Message
     
