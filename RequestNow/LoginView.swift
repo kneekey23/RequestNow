@@ -24,11 +24,11 @@ struct LoginView: View {
     }
     
     var body: some View {
-        NavigationView {
             ZStack {
                 ColorCodes.darkGrey.color()
                     .edgesIgnoringSafeArea(.all)
                 VStack {
+                    Spacer()
                     Image("requestnowlogo")
                     .resizable()
                     .frame(width: 100.0, height: 100.0)
@@ -98,10 +98,10 @@ struct LoginView: View {
                             .font(.custom("Oswald-Light", size: 17))
                     }
                 }
-            }
-        }.sheet(isPresented: $showMessage, content: {
-            LoginModalView()
-        }).offset(y: editingMode ? -150 : 0)
+            }.sheet(isPresented: $showMessage, content: {
+                LoginModalView()
+            }).offset(y: editingMode ? -150 : 0)
+
     }
 }
 

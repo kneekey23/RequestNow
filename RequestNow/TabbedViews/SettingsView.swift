@@ -13,6 +13,7 @@ let navAppearance = UINavigationBarAppearance()
 struct SettingsView: View {
     
     @ObservedObject var viewModel: RequestViewModel
+    @State var showActionSheet = false
     @Environment(\.viewController) private var viewControllerHolder: UIViewController?
      private var viewController: UIViewController? {
         self.viewControllerHolder
@@ -32,61 +33,80 @@ struct SettingsView: View {
         
     }
     
+    func copyPhoneNumber() {
+        UIPasteboard.general.string = viewModel.eventNumber
+    }
+    
+    var actionSheet: ActionSheet {
+        ActionSheet(title: Text("Choose an option"), buttons: [
+            .default(Text("Copy " + viewModel.eventNumber), action: {self.copyPhoneNumber()}),
+            .destructive(Text("Cancel"))
+        ])
+    }
+    
     var body: some View {
         NavigationView {
-            List {
-                Section(header: Text("Your Event Number").foregroundColor(.white)) {
-                    HStack(alignment: .center) {
-                    Text(viewModel.eventNumber)
-                    .foregroundColor(.white)
-                    .alignmentGuide(.center, computeValue: {d in (d[.center])})
-                    }.frame(alignment: .center)
-                }.listRowBackground(ColorCodes.lighterShadeOfDarkGrey.color())
-                .onTapGesture {
-                      // validation of phone number not included
-                      let dash = CharacterSet(charactersIn: "-")
-
-                      let cleanString = self.viewModel.eventNumber.trimmingCharacters(in: dash)
-
-                      let tel = "tel://"
-                      let formattedString = tel + cleanString.replacingOccurrences(of: "+1", with: "", options: .literal, range: nil).replacingOccurrences(of: "(", with: "", options: .literal, range: nil).replacingOccurrences(of: ") ", with: "", options: .literal, range: nil).replacingOccurrences(of: "-", with: "", options: .literal, range: nil).replacingOccurrences(of: " ", with: "", options: .literal, range: nil)
-                      let url: NSURL = URL(string: formattedString)! as NSURL
-
-                      UIApplication.shared.open(url as URL)
-                }
-                Section(header: Text("Status").foregroundColor(.white)) {
-                    Text(viewModel.eventStatus).foregroundColor(.white)
-                }.listRowBackground(ColorCodes.lighterShadeOfDarkGrey.color())
-                Section {
-                    Text("Send Thank you Note")
-                        .foregroundColor(.white)
-                }.listRowBackground(ColorCodes.lighterShadeOfDarkGrey.color())
-                .onTapGesture {
-                    self.viewModel.sendThankYouNote()
-                }
-                Section {
-                    Text("Logout")
-                    .foregroundColor(.red)
-
-                }
-                .onTapGesture {
+            ZStack {
+                ColorCodes.darkGrey.color()
+                    .edgesIgnoringSafeArea(.all)
+                VStack(alignment: .center, spacing: 30) {
+                    HStack {
+                        Text("Event is " + viewModel.eventStatus)
+                            .foregroundColor(.white)
+                            .font(.custom("Oswald-Regular", size: 20))
+                    }.padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
+                    Button(action: {
+                        self.showActionSheet.toggle()
+                    }) {
+                        HStack {
+                            Text(viewModel.eventNumber)
+                            .foregroundColor(.blue)
+                            .font(.custom("Oswald-Regular", size: 20))
+                        }
+                        .frame(minWidth: 0, maxWidth: .infinity)
+                        .padding()
+                        .background(ColorCodes.lighterShadeOfDarkGrey.color())
+                    }
+                    Button(action: {
+                        self.viewModel.sendThankYouNote()
+                    }) {
+                        HStack {
+                            Text("Send Thank You Note")
+                            .foregroundColor(.white)
+                            .font(.custom("Oswald-Regular", size: 17))
+                        }
+                        .frame(minWidth: 0, maxWidth: .infinity)
+                        .padding()
+                        .background(ColorCodes.teal.color())
+                    }
+                    Button(action: {
                         self.viewModel.logout()
                         self.viewController?.present(style: .fullScreen) {
-                               LoginView()
+                            LoginView()
                         }
-                }
-                .listRowBackground(ColorCodes.lighterShadeOfDarkGrey.color())
+                    }) {
+                        HStack {
+                            Text("Logout")
+                                .foregroundColor(.white)
+                                .font(.custom("Oswald-Regular", size: 17))
+                        }
+                        .frame(minWidth: 0, maxWidth: .infinity)
+                        .padding()
+                        .background(ColorCodes.pastelRed.color())
+                    }
+                    Spacer()
+                }     .actionSheet(isPresented: $showActionSheet, content: {
+                       self.actionSheet })
             }
+            .navigationBarTitle(Text("Settings"), displayMode: .inline)
             .alert(isPresented: $viewModel.showAlert) {
                 switch viewModel.activeAlert {
                 case .error:
-                    return  Alert(title: Text("Error"), message: Text(viewModel.errorMessage), dismissButton: .default(Text("Ok")))
+                    return Alert(title: Text("Error"), message: Text(viewModel.errorMessage), dismissButton: .default(Text("Ok")))
                 case .success:
                     return Alert(title: Text("Success"), message: Text(viewModel.successMessage), dismissButton: .default(Text("Ok")))
                 }
             }
-            .listStyle(GroupedListStyle())
-            .navigationBarTitle(Text("Settings"))
         }
     }
 }

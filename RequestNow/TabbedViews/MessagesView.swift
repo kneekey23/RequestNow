@@ -33,11 +33,13 @@ struct MessagesView: View {
         NavigationView {
             List{
                 ForEach(viewModel.messageViewModels, id: \.id) { messageViewModel in
-                    MessageRow(viewModel: messageViewModel)
-                }.listRowBackground(ColorCodes.darkGrey.color())
+                    NavigationLink(destination: MessageHistoryView(viewModel: messageViewModel)) {
+                        MessageRow(viewModel: messageViewModel)
+                        }
+                }.listRowBackground(ColorCodes.darkGrey.color()).accentColor(ColorCodes.lighterShadeOfDarkGrey.color()).background(ColorCodes.darkGrey.color())
                 
             }
-            .navigationBarTitle(Text("Messages").font(.custom("Segoe UI", size: 40)))
+            .navigationBarTitle(Text("Messages"), displayMode:.inline)
         }
     }
 }

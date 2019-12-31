@@ -45,7 +45,7 @@ struct RequestsView: View {
                 .alert(isPresented: $viewModel.showAlert) {
                     Alert(title: Text("Error"), message: Text(viewModel.errorMessage), dismissButton: .default(Text("Ok")))
                 }
-                .navigationBarTitle(Text("Song Requests").font(.custom("Segoe UI", size: 40)))
+                .navigationBarTitle(Text("Song Requests"), displayMode:.inline)
         }
     }
     

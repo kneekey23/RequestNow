@@ -17,23 +17,23 @@ enum ServiceError: Error {
 }
 
 protocol RequestServiceProtocol {
-    func getRequests(eventId: String?) -> AnyPublisher<RequestData, Error>
+    func getRequests(eventId: String?, sortKey: String) -> AnyPublisher<RequestData, Error>
     func getEventId(eventKey: String?) -> AnyPublisher<String, Error>
     func deleteRequest(id: String) -> AnyPublisher<Bool, Error>
-    func sendThankYouNote(eventId: String) -> AnyPublisher<Int, Error>
+    func sendThankYouNote(eventId: String) -> AnyPublisher<String, Error>
     func registerDeviceToken(eventId: String, deviceToken: String)
 }
 
 final class RequestService: RequestServiceProtocol {
     
-    func getRequests(eventId: String?) -> AnyPublisher<RequestData, Error> {
+    func getRequests(eventId: String?, sortKey: String = "recency") -> AnyPublisher<RequestData, Error> {
         var dataTask: URLSessionDataTask?
         
         let onSubscription: (Subscription) -> Void = { _ in dataTask?.resume() }
         let onCancel: () -> Void = { dataTask?.cancel() }
         
         return Future<RequestData, Error> { promise in
-            guard let eventId = eventId, let url = URL(string: EVENT_DATA + "?event_id=" + eventId) else {
+            guard let eventId = eventId, let url = URL(string: EVENT_DATA + "?event_id=" + eventId + "&song_request_groups_sort_key=" + sortKey) else {
                 promise(.failure(ServiceError.urlRequest))
                 return
             }
@@ -128,7 +128,7 @@ final class RequestService: RequestServiceProtocol {
         return Future<Bool, Error> { promise in
             
             let body: [String: Any] = [
-                "request_id": id
+                "group_id": id
             ]
             
             guard let serviceUrl = URL(string: DELETE_REQUEST) else { return }
@@ -171,13 +171,13 @@ final class RequestService: RequestServiceProtocol {
         .eraseToAnyPublisher()
     }
     
-    func sendThankYouNote(eventId: String) -> AnyPublisher<Int, Error> {
+    func sendThankYouNote(eventId: String) -> AnyPublisher<String, Error> {
         var dataTask: URLSessionDataTask?
         
         let onSubscription: (Subscription) -> Void = { _ in dataTask?.resume() }
         let onCancel: () -> Void = { dataTask?.cancel() }
         
-        return Future<Int, Error> { promise in
+        return Future<String, Error> { promise in
             let body: [String: Any] = [
                 "event_id": eventId
             ]
@@ -205,7 +205,7 @@ final class RequestService: RequestServiceProtocol {
                 do {
                     let json = try JSONSerialization.jsonObject(with: data, options: [])
                     if let dictionary = json as? [String: Any] {
-                        guard let count = dictionary["partygoerCount"] as? Int else {
+                        guard let count = dictionary["partygoerCount"] as? String else {
                             promise(.failure(ServiceError.internalError(dictionary["error"] as? String ?? "Internal Server Error")))
                             return
                         }

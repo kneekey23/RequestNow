@@ -17,7 +17,7 @@ struct MessageRow: View {
         HStack {
             VStack(alignment: .leading) {
                 Text(viewModel.originalMessages[0])
-                .font(.custom("Segoe UI", size: 20))
+                .font(.custom("Segoe UI", size: 17))
                 .foregroundColor(Color.white)
                 .fixedSize(horizontal: false, vertical: true)
                 .transition(.opacity)
@@ -48,6 +48,6 @@ struct MessageRow: View {
 
 struct MessageRow_Previews: PreviewProvider {
     static var previews: some View {
-        MessageRow(viewModel: MessageCellViewModel(message: Message(id: "12345", originalRequests: ["This is the original message and it's really long and has a lot of words in it and so it doesn't ellipsis on me."], timeOfRequest: Date(), fromNumber: "123456789", messageCount: "2")))
+        MessageRow(viewModel: MessageCellViewModel(message: Message(id: "12345", originalRequests: [OriginalRequest(timeStamp: Date(), original: "test string", fromDJ: false)], timeOfRequest: Date(), messageCount: "2")))
     }
 }

@@ -41,6 +41,9 @@
 		8192134B23AA22E3002FF041 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8192134A23AA22E3002FF041 /* Assets.xcassets */; };
 		8192134E23AA22E3002FF041 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8192134D23AA22E3002FF041 /* Preview Assets.xcassets */; };
 		8192135123AA22E3002FF041 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8192134F23AA22E3002FF041 /* LaunchScreen.storyboard */; };
+		81AF9B1123BA984A00C74ED0 /* OriginalRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AF9B1023BA984A00C74ED0 /* OriginalRequest.swift */; };
+		81AF9B1323BB068400C74ED0 /* MessageHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AF9B1223BB068400C74ED0 /* MessageHistoryView.swift */; };
+		81AF9B1523BB0C3100C74ED0 /* IndividualMessageRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AF9B1423BB0C3100C74ED0 /* IndividualMessageRow.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -81,6 +84,9 @@
 		8192134D23AA22E3002FF041 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		8192135023AA22E3002FF041 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8192135223AA22E3002FF041 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		81AF9B1023BA984A00C74ED0 /* OriginalRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OriginalRequest.swift; sourceTree = "<group>"; };
+		81AF9B1223BB068400C74ED0 /* MessageHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageHistoryView.swift; sourceTree = "<group>"; };
+		81AF9B1423BB0C3100C74ED0 /* IndividualMessageRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndividualMessageRow.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +123,7 @@
 				812A22C823AA558B00F4D175 /* RequestData.swift */,
 				812A22C923AA558B00F4D175 /* Request.swift */,
 				812A22F823AB59DA00F4D175 /* Message.swift */,
+				81AF9B1023BA984A00C74ED0 /* OriginalRequest.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -143,6 +150,8 @@
 				812A22FD23B02EC500F4D175 /* MessageRow.swift */,
 				812A230123B0499C00F4D175 /* ThankYouNoteView.swift */,
 				8192134623AA22E0002FF041 /* SceneDelegate.swift */,
+				81AF9B1223BB068400C74ED0 /* MessageHistoryView.swift */,
+				81AF9B1423BB0C3100C74ED0 /* IndividualMessageRow.swift */,
 			);
 			path = TabbedViews;
 			sourceTree = "<group>";
@@ -298,7 +307,10 @@
 				812A22CE23AA558B00F4D175 /* RequestViewModel.swift in Sources */,
 				812A22D023AA558B00F4D175 /* RequestData.swift in Sources */,
 				812A22D323AA558B00F4D175 /* String+Extensions.swift in Sources */,
+				81AF9B1123BA984A00C74ED0 /* OriginalRequest.swift in Sources */,
 				812A22FB23ABC00100F4D175 /* UIViewController+Extension.swift in Sources */,
+				81AF9B1523BB0C3100C74ED0 /* IndividualMessageRow.swift in Sources */,
+				81AF9B1323BB068400C74ED0 /* MessageHistoryView.swift in Sources */,
 				812A22D123AA558B00F4D175 /* Request.swift in Sources */,
 				812A22D223AA558B00F4D175 /* Date+Extension.swift in Sources */,
 				812A22D923AA561600F4D175 /* MessagesView.swift in Sources */,
@@ -448,7 +460,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = RequestNow/RequestNow.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.13;
+				CURRENT_PROJECT_VERSION = 1.15;
 				DEVELOPMENT_ASSET_PATHS = "\"RequestNow/Preview Content\"";
 				DEVELOPMENT_TEAM = 9EVWV3K6BK;
 				ENABLE_PREVIEWS = YES;
@@ -470,7 +482,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = RequestNow/RequestNow.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.13;
+				CURRENT_PROJECT_VERSION = 1.15;
 				DEVELOPMENT_ASSET_PATHS = "\"RequestNow/Preview Content\"";
 				DEVELOPMENT_TEAM = 9EVWV3K6BK;
 				ENABLE_PREVIEWS = YES;

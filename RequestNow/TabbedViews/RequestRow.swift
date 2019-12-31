@@ -22,7 +22,7 @@ struct RequestRow: View {
                 if !viewModel.songName.isEmpty && !viewModel.artist.isEmpty {
                 VStack(alignment: .leading) {
                 Text(viewModel.songName)
-                    .font(.custom("Segoe UI", size: 20))
+                    .font(.custom("Segoe UI", size: 17))
                     .foregroundColor(Color.white)
                    
                 Text(viewModel.artist)

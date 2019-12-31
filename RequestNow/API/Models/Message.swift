@@ -11,16 +11,14 @@ import UIKit
 struct Message: Codable, Identifiable {
     
     public let id: String
-    public let originalRequests: [String]
+    public let originalRequests: [OriginalRequest]
     public let timeOfRequest: Date
-    public let fromNumber: String
     public let messageCount: String
     
     enum CodingKeys: String, CodingKey {
         case id = "groupId"
         case timeOfRequest = "timestamp"
         case originalRequests = "originals"
-        case fromNumber = "fromNumber"
         case messageCount = "count"
      
     }

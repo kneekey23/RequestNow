@@ -98,7 +98,7 @@ final class RequestViewModel: ObservableObject {
     func getRequests(with eventId: String?) {
         state = .loading
         getRequestsCancellable = requestService
-            .getRequests(eventId: eventId)
+            .getRequests(eventId: eventId, sortKey: "recency")
             .sink(receiveCompletion: { [weak self] (completion) in
                 switch completion {
                 case .failure(let error):
@@ -184,10 +184,12 @@ final class RequestViewModel: ObservableObject {
                 self?.state = .error(error)
                 self?.errorMessage = error.localizedDescription
                 self?.showAlert = true
+                self?.successMessage = ""
             case .finished: self?.state = .finishedLoading
             }
         }) { [weak self] count in
-            if count > 0 {
+            
+            if let countInt = Int(count), countInt > 0 {
                 self?.activeAlert = .success
                 self?.showAlert = true
                 self?.successMessage = "Thank you message was sent to " + String(count) + " guests."
@@ -245,8 +247,8 @@ final class MessageCellViewModel: ObservableObject {
     @Published var time: String = ""
     @Published var originalMessages: [String] = []
     @Published var messageCount: String = ""
-    @Published var fromNumber: String = ""
     @Published var id: String = ""
+    @Published var messages: [MessageHistoryCellViewModel] = []
     
     private let message: Message
     
@@ -257,9 +259,37 @@ final class MessageCellViewModel: ObservableObject {
     
     func setUpBindings() {
         time = message.timeOfRequest.toTime()
-        originalMessages = message.originalRequests
+        originalMessages = message.originalRequests.map({$0.original})
+        messages = message.originalRequests.map {
+            MessageHistoryCellViewModel(originalRequest: $0)
+        }
         messageCount = String(message.messageCount)
-        fromNumber = message.fromNumber
         id = message.id
     }
+}
+
+final class MessageHistoryCellViewModel: ObservableObject {
+    @Published var message: String = ""
+    @Published var fromDJ: Bool = false
+    @Published var timeStamp: Date = Date()
+    @Published var color: Color = ColorCodes.teal.color()
+    @Published var id: UUID  = UUID()
+    
+    private let messageRequest: OriginalRequest
+    
+    init(originalRequest: OriginalRequest) {
+        self.messageRequest = originalRequest
+        setUpBindings()
+    }
+    
+    func setUpBindings() {
+        message = messageRequest.original
+        fromDJ = messageRequest.fromDJ
+        timeStamp = messageRequest.timeStamp
+        id = messageRequest.id
+        if fromDJ {
+            color = ColorCodes.pastelRed.color()
+        }
+    }
+        
 }
