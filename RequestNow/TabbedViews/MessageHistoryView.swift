@@ -10,7 +10,7 @@ import SwiftUI
 
 struct MessageHistoryView: View {
     @ObservedObject var viewModel: MessageCellViewModel
-    
+    @State var editingMode: Bool = false
     var body: some View {
         ZStack {
             ColorCodes.darkGrey.color()
@@ -27,7 +27,12 @@ struct MessageHistoryView: View {
             }
             Spacer()
             HStack {
-                TextField("Message...", text: $viewModel.composedMessage)
+                TextField("Message...", text: $viewModel.composedMessage, onEditingChanged: {edit in
+                    if edit == true
+                    {self.editingMode = true}
+                    else
+                    {self.editingMode = false}
+                })
                 .frame(minHeight: 30)
                 .foregroundColor(.white)
                 .background(ColorCodes.lighterShadeOfDarkGrey.color())
@@ -43,6 +48,7 @@ struct MessageHistoryView: View {
         }.alert(isPresented: $viewModel.showAlert) {
             return Alert(title: Text("Error"), message: Text(viewModel.errorMessage), dismissButton: .default(Text("Ok")))
         }
+        .offset(y: editingMode ? -150 : 0)
     }
 }
 
