@@ -27,7 +27,7 @@ protocol RequestServiceProtocol {
 
 final class RequestService: RequestServiceProtocol {
     
-    func getRequests(eventId: String?, sortKey: String = "recency") -> AnyPublisher<RequestData, Error> {
+    func getRequests(eventId: String?, sortKey: String) -> AnyPublisher<RequestData, Error> {
         var dataTask: URLSessionDataTask?
         
         let onSubscription: (Subscription) -> Void = { _ in dataTask?.resume() }

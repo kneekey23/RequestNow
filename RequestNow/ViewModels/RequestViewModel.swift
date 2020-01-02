@@ -20,6 +20,11 @@ enum ActiveAlert {
     case error, success
 }
 
+enum SortBy: String {
+    case recency = "recency"
+    case popularity = "popularity"
+}
+
 final class RequestViewModel: ObservableObject {
     
     var didChange = PassthroughSubject<RequestViewModel, Never>()
@@ -44,6 +49,8 @@ final class RequestViewModel: ObservableObject {
     
     @Published var isShowingRefresh: Bool = false
     
+    @Published var sortSelection: SortBy = .recency
+    
     @Published private(set) var requestsViewModels: [RequestCellViewModel] = []
     
     @Published private(set) var messageViewModels: [MessageCellViewModel] = []
@@ -51,6 +58,8 @@ final class RequestViewModel: ObservableObject {
     @Published private(set) var state: RequestViewModelState = .loading
     
     private var eventIdCancellable: AnyCancellable?
+    
+    private var sortByCancellable: AnyCancellable?
     
     private var eventKeyCancellable: AnyCancellable?
     
@@ -74,8 +83,12 @@ final class RequestViewModel: ObservableObject {
         }
         
         eventIdCancellable = $eventId.sink { [weak self] in
-            self?.getRequests(with: $0)
+            self?.getRequests(with: $0, sortSelection: self?.sortSelection ?? .recency)
             self?.registerDeviceTokenForPushNotifications(with: $0)
+        }
+        
+        sortByCancellable = $sortSelection.sink { [weak self] in
+            self?.getRequests(with: self?.eventId, sortSelection: $0)
         }
         
         pushNotificationCancellable = NotificationCenter.Publisher(center: .default,
@@ -96,10 +109,10 @@ final class RequestViewModel: ObservableObject {
         }
     }
     
-    func getRequests(with eventId: String?) {
+    func getRequests(with eventId: String?, sortSelection: SortBy) {
         state = .loading
         getRequestsCancellable = requestService
-            .getRequests(eventId: eventId, sortKey: "recency")
+            .getRequests(eventId: eventId, sortKey: sortSelection.rawValue)
             .sink(receiveCompletion: { [weak self] (completion) in
                 switch completion {
                 case .failure(let serviceError):

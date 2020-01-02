@@ -13,7 +13,7 @@ let coloredNavAppearance = UINavigationBarAppearance()
 struct RequestsView: View {
     
     @ObservedObject var viewModel: RequestViewModel
-   
+    @State var showSortModal: Bool = false
     init() {
         viewModel = RequestViewModel()
         
@@ -25,6 +25,8 @@ struct RequestsView: View {
         
         UINavigationBar.appearance().standardAppearance = coloredNavAppearance
         UINavigationBar.appearance().scrollEdgeAppearance = coloredNavAppearance
+       
+        UINavigationBar.appearance().tintColor = .white
         
         UITableView.appearance().separatorStyle = .none
     }
@@ -39,13 +41,22 @@ struct RequestsView: View {
                     
                 }
                 .background(PullToRefresh(action: {
-                    self.viewModel.getRequests(with: self.viewModel.eventId)
+                    self.viewModel.getRequests(with: self.viewModel.eventId, sortSelection: self.viewModel.sortSelection)
 
                 }, isShowing: $viewModel.isShowingRefresh))
                 .alert(isPresented: $viewModel.showAlert) {
                     Alert(title: Text("Error"), message: Text(viewModel.errorMessage), dismissButton: .default(Text("Ok")))
                 }
+                .navigationBarItems(trailing:
+                    Button("Sort By") {
+                        self.showSortModal.toggle()
+                    }
+                ).font(.custom("Segoe UI", size: 17))
                 .navigationBarTitle(Text("Song Requests"), displayMode:.inline)
+                .sheet(isPresented: $showSortModal) {
+                    SortModal(viewModel: self.viewModel)
+            }
+                
         }
     }
     
@@ -55,6 +66,7 @@ struct RequestsView: View {
         }
     }
 }
+
 
 
 struct RequestsView_Previews: PreviewProvider {

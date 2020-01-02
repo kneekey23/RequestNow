@@ -39,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LiveChatDelegate {
             // 3
            (window?.rootViewController as? UITabBarController)?.selectedIndex = 0
         }
-        
+       // UINavigationBar.appearance().tintColor = .white
         return true
     }
 
