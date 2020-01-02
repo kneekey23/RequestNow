@@ -9,6 +9,7 @@
 import SwiftUI
 import Combine
 
+
 enum RequestViewModelState {
     case loading
     case finishedLoading
@@ -35,7 +36,7 @@ final class RequestViewModel: ObservableObject {
     
     @Published var successMessage: String = ""
     
-    @Published var eventStatus: String = ""
+    @Published var eventStatus: String = "Inactive"
     
     @Published var showAlert: Bool = false
     
@@ -101,8 +102,10 @@ final class RequestViewModel: ObservableObject {
             .getRequests(eventId: eventId, sortKey: "recency")
             .sink(receiveCompletion: { [weak self] (completion) in
                 switch completion {
-                case .failure(let error):
-                    self?.state = .error(error)
+                case .failure(let serviceError):
+                    let errorCasted = serviceError as! ServiceError
+                    self?.unWrapError(error: errorCasted)
+                    self?.state = .error(serviceError)
                 case .finished: self?.state = .finishedLoading
                 }
             }) { [weak self] requestData in
@@ -131,9 +134,10 @@ final class RequestViewModel: ObservableObject {
         .getEventId(eventKey: eventKey.lowercased())
         .sink(receiveCompletion: { [weak self] (completion) in
             switch completion {
-            case .failure(let error):
-                self?.state = .error(error)
-                self?.errorMessage = error.localizedDescription
+            case .failure(let serviceError):
+                let errorCasted = serviceError as! ServiceError
+                self?.unWrapError(error: errorCasted)
+                self?.state = .error(serviceError)
                 self?.showAlert = true
             case .finished: self?.state = .finishedLoading
             }
@@ -152,11 +156,10 @@ final class RequestViewModel: ObservableObject {
             .deleteRequest(id: id)
             .sink(receiveCompletion: { [weak self] (completion) in
                 switch completion {
-                case .failure(let error):
-                    
-                    
-                    self?.state = .error(error)
-                    self?.errorMessage = error.localizedDescription
+                case .failure(let serviceError):
+                    let errorCasted = serviceError as! ServiceError
+                    self?.unWrapError(error: errorCasted)
+                    self?.state = .error(serviceError)
                     self?.showAlert = true
                 case .finished: self?.state = .finishedLoading
                 }
@@ -180,9 +183,10 @@ final class RequestViewModel: ObservableObject {
         .sendThankYouNote(eventId: eventId)
         .sink(receiveCompletion: { [weak self] (completion) in
             switch completion {
-            case .failure(let error):
-                self?.state = .error(error)
-                self?.errorMessage = error.localizedDescription
+            case .failure(let serviceError):
+                let errorCasted = serviceError as! ServiceError
+                self?.unWrapError(error: errorCasted)
+                self?.state = .error(serviceError)
                 self?.showAlert = true
                 self?.successMessage = ""
             case .finished: self?.state = .finishedLoading
@@ -203,7 +207,9 @@ final class RequestViewModel: ObservableObject {
         }
     }
     
-
+    func openSupport(){
+        LiveChat.presentChat()
+    }
     
     func registerDeviceTokenForPushNotifications(with eventId: String) {
         if let deviceToken = UserDefaults.standard.string(forKey: "deviceToken") {
@@ -213,115 +219,27 @@ final class RequestViewModel: ObservableObject {
         }
     }
     
+    
     func logout() {
         UserDefaults.standard.removeObject(forKey: "eventId")
     }
-}
-
-final class RequestCellViewModel: ObservableObject {
-
-    @Published var time: String = ""
-    @Published var songName: String = ""
-    @Published var artist: String = ""
-    @Published var originalMessages: [String] = []
-    @Published var count: String = ""
-    @Published var id: String = ""
-   
-    private let request: Request
     
-    init(request: Request) {
-        self.request = request
-        setUpBindings()
-    }
-    
-    func setUpBindings() {
-        time = request.timeOfRequest.toTime()
-        songName = request.songName ?? ""
-        artist = request.artist ?? ""
-        originalMessages = request.originalRequests
-        count = request.count
-        id = request.id
-    }
-}
-
-final class MessageCellViewModel: ObservableObject {
-    
-    @Published var time: String = ""
-    @Published var originalMessages: [String] = []
-    @Published var messageCount: String = ""
-    @Published var id: String = ""
-    @Published var showAlert: Bool = false
-    @Published var errorMessage: String = ""
-    @Published var messages: [MessageHistoryCellViewModel] = []
-    @Published var composedMessage: String = ""
-    private var replyRequestCancellable: AnyCancellable?
-    private let message: Message
-    private let requestService: RequestServiceProtocol
-    init(message: Message, requestService: RequestServiceProtocol = RequestService()) {
-        self.message = message
-        self.requestService = requestService
-        setUpBindings()
-    }
-    
-    func setUpBindings() {
-        time = message.timeOfRequest.toTime()
-        originalMessages = message.originalRequests.map({$0.original})
-        let sortedMessages = message.originalRequests.sorted(by: {$0.timeStamp.compare($1.timeStamp) == .orderedAscending})
-        messages = sortedMessages.map {
-            MessageHistoryCellViewModel(originalRequest: $0)
-        }
-        messageCount = String(message.messageCount)
-        id = message.id
-    }
-    
-    func replyToRequest() {
-     
-        replyRequestCancellable = requestService
-        .replyToRequest(groupId: id, reply: composedMessage)
-        .sink(receiveCompletion: { [weak self] (completion) in
-            switch completion {
-            case .failure:
-                self?.errorMessage = "Request could not be completed for some unknown reason. Please contact support."
-                self?.showAlert = true
-            case .finished: print("finished")
-            }
-            
-        }) { [weak self] success in
-            
-            if success {
-                self?.messages.append(MessageHistoryCellViewModel(originalRequest: OriginalRequest(timeStamp: Date(), original: self?.composedMessage ?? "", fromDJ: true)))
-                self?.composedMessage = ""
-            }
-            else {
-
-            }
-            
+    func unWrapError(error: ServiceError) {
+        switch error {
+        case .url(let urlError):
+            self.errorMessage = "There was something wrong with the url request, please contact support."
+        case .urlRequest:
+             self.errorMessage = "There was something wrong with the url request, please contact support."
+        case .decode:
+             self.errorMessage = "There was something wrong with the response. Please make sure you are on the latest version of the app or contact support."
+        case .internalError(let errorString):
+             self.errorMessage = errorString
         }
     }
 }
 
-final class MessageHistoryCellViewModel: ObservableObject {
-    @Published var message: String = ""
-    @Published var fromDJ: Bool = false
-    @Published var timeStamp: Date = Date()
-    @Published var color: Color = ColorCodes.lighterShadeOfDarkGrey.color()
-    @Published var id: UUID  = UUID()
-    
-    private let messageRequest: OriginalRequest
-    
-    init(originalRequest: OriginalRequest) {
-        self.messageRequest = originalRequest
-        setUpBindings()
-    }
-    
-    func setUpBindings() {
-        message = messageRequest.original
-        fromDJ = messageRequest.fromDJ
-        timeStamp = messageRequest.timeStamp
-        id = messageRequest.id
-        if fromDJ {
-            color = ColorCodes.teal.color()
-        }
-    }
-        
-}
+
+
+
+
+

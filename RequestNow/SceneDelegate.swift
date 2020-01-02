@@ -25,14 +25,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {
+            LiveChat.windowScene = windowScene
             let window = UIWindow(windowScene: windowScene)
             if UserDefaults.standard.string(forKey: "eventId") != nil {
-            window.rootViewController = UIHostingController(rootView: mainView)
+                window.rootViewController = UIHostingController(rootView: mainView)
             }
             else {
                 window.rootViewController = UIHostingController(rootView: loginView)
             }
             self.window = window
+            
             window.makeKeyAndVisible()
         }
     }

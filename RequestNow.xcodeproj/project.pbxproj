@@ -44,6 +44,23 @@
 		81AF9B1123BA984A00C74ED0 /* OriginalRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AF9B1023BA984A00C74ED0 /* OriginalRequest.swift */; };
 		81AF9B1323BB068400C74ED0 /* MessageHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AF9B1223BB068400C74ED0 /* MessageHistoryView.swift */; };
 		81AF9B1523BB0C3100C74ED0 /* IndividualMessageRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AF9B1423BB0C3100C74ED0 /* IndividualMessageRow.swift */; };
+		81AF9B1723BD970F00C74ED0 /* RequestCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AF9B1623BD970F00C74ED0 /* RequestCellViewModel.swift */; };
+		81AF9B1923BD973C00C74ED0 /* MessageCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AF9B1823BD973C00C74ED0 /* MessageCellViewModel.swift */; };
+		81AF9B1B23BD976000C74ED0 /* MessageHistoryCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AF9B1A23BD976000C74ED0 /* MessageHistoryCellViewModel.swift */; };
+		81AF9B1D23BD9A0100C74ED0 /* LiveChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AF9B1C23BD9A0100C74ED0 /* LiveChatViewController.swift */; };
+		81AF9B2E23BD9FC800C74ED0 /* LiveChatConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AF9B1F23BD9FC700C74ED0 /* LiveChatConfiguration.swift */; };
+		81AF9B3023BD9FC800C74ED0 /* WebViewBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AF9B2123BD9FC700C74ED0 /* WebViewBridge.swift */; };
+		81AF9B3123BD9FC800C74ED0 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AF9B2223BD9FC700C74ED0 /* ChatView.swift */; };
+		81AF9B3223BD9FC800C74ED0 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AF9B2323BD9FC700C74ED0 /* LoadingView.swift */; };
+		81AF9B3323BD9FC800C74ED0 /* KeyboardNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AF9B2423BD9FC700C74ED0 /* KeyboardNotification.swift */; };
+		81AF9B3423BD9FC800C74ED0 /* LiveChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AF9B2523BD9FC700C74ED0 /* LiveChat.swift */; };
+		81AF9B3523BD9FC800C74ED0 /* LiveChatState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AF9B2623BD9FC700C74ED0 /* LiveChatState.swift */; };
+		81AF9B3623BD9FC800C74ED0 /* URLBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AF9B2823BD9FC800C74ED0 /* URLBuilder.swift */; };
+		81AF9B3723BD9FC800C74ED0 /* LiveChatOverlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AF9B2923BD9FC800C74ED0 /* LiveChatOverlayViewController.swift */; };
+		81AF9B3823BD9FC800C74ED0 /* JSONRequestCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AF9B2A23BD9FC800C74ED0 /* JSONRequestCache.swift */; };
+		81AF9B3923BD9FC800C74ED0 /* LiveChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AF9B2B23BD9FC800C74ED0 /* LiveChatMessage.swift */; };
+		81AF9B3A23BD9FC800C74ED0 /* LiveChatWidget.js in Resources */ = {isa = PBXBuildFile; fileRef = 81AF9B2C23BD9FC800C74ED0 /* LiveChatWidget.js */; };
+		81AF9B3B23BD9FC800C74ED0 /* UnreadMessagesCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AF9B2D23BD9FC800C74ED0 /* UnreadMessagesCounter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -87,6 +104,25 @@
 		81AF9B1023BA984A00C74ED0 /* OriginalRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OriginalRequest.swift; sourceTree = "<group>"; };
 		81AF9B1223BB068400C74ED0 /* MessageHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageHistoryView.swift; sourceTree = "<group>"; };
 		81AF9B1423BB0C3100C74ED0 /* IndividualMessageRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndividualMessageRow.swift; sourceTree = "<group>"; };
+		81AF9B1623BD970F00C74ED0 /* RequestCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestCellViewModel.swift; sourceTree = "<group>"; };
+		81AF9B1823BD973C00C74ED0 /* MessageCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCellViewModel.swift; sourceTree = "<group>"; };
+		81AF9B1A23BD976000C74ED0 /* MessageHistoryCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageHistoryCellViewModel.swift; sourceTree = "<group>"; };
+		81AF9B1C23BD9A0100C74ED0 /* LiveChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveChatViewController.swift; sourceTree = "<group>"; };
+		81AF9B1F23BD9FC700C74ED0 /* LiveChatConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LiveChatConfiguration.swift; sourceTree = "<group>"; };
+		81AF9B2023BD9FC700C74ED0 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		81AF9B2123BD9FC700C74ED0 /* WebViewBridge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewBridge.swift; sourceTree = "<group>"; };
+		81AF9B2223BD9FC700C74ED0 /* ChatView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
+		81AF9B2323BD9FC700C74ED0 /* LoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		81AF9B2423BD9FC700C74ED0 /* KeyboardNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardNotification.swift; sourceTree = "<group>"; };
+		81AF9B2523BD9FC700C74ED0 /* LiveChat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LiveChat.swift; sourceTree = "<group>"; };
+		81AF9B2623BD9FC700C74ED0 /* LiveChatState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LiveChatState.swift; sourceTree = "<group>"; };
+		81AF9B2723BD9FC700C74ED0 /* LiveChat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiveChat.h; sourceTree = "<group>"; };
+		81AF9B2823BD9FC800C74ED0 /* URLBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLBuilder.swift; sourceTree = "<group>"; };
+		81AF9B2923BD9FC800C74ED0 /* LiveChatOverlayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LiveChatOverlayViewController.swift; sourceTree = "<group>"; };
+		81AF9B2A23BD9FC800C74ED0 /* JSONRequestCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONRequestCache.swift; sourceTree = "<group>"; };
+		81AF9B2B23BD9FC800C74ED0 /* LiveChatMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LiveChatMessage.swift; sourceTree = "<group>"; };
+		81AF9B2C23BD9FC800C74ED0 /* LiveChatWidget.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = LiveChatWidget.js; sourceTree = "<group>"; };
+		81AF9B2D23BD9FC800C74ED0 /* UnreadMessagesCounter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnreadMessagesCounter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +140,9 @@
 			isa = PBXGroup;
 			children = (
 				812A22C423AA558B00F4D175 /* RequestViewModel.swift */,
+				81AF9B1623BD970F00C74ED0 /* RequestCellViewModel.swift */,
+				81AF9B1823BD973C00C74ED0 /* MessageCellViewModel.swift */,
+				81AF9B1A23BD976000C74ED0 /* MessageHistoryCellViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -149,7 +188,6 @@
 				812A22DE23AA5A3B00F4D175 /* RequestRow.swift */,
 				812A22FD23B02EC500F4D175 /* MessageRow.swift */,
 				812A230123B0499C00F4D175 /* ThankYouNoteView.swift */,
-				8192134623AA22E0002FF041 /* SceneDelegate.swift */,
 				81AF9B1223BB068400C74ED0 /* MessageHistoryView.swift */,
 				81AF9B1423BB0C3100C74ED0 /* IndividualMessageRow.swift */,
 			);
@@ -175,6 +213,7 @@
 			children = (
 				8192134323AA22E0002FF041 /* RequestNow */,
 				8192134223AA22E0002FF041 /* Products */,
+				E52265C253D5F481F7C1D99A /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -189,6 +228,7 @@
 		8192134323AA22E0002FF041 /* RequestNow */ = {
 			isa = PBXGroup;
 			children = (
+				81AF9B1E23BD9FA600C74ED0 /* LiveChat */,
 				812A22F723AB395600F4D175 /* RequestNow.entitlements */,
 				812A22E423AB2D6900F4D175 /* Fonts */,
 				812A22DC23AA56A100F4D175 /* Constants.swift */,
@@ -198,6 +238,7 @@
 				812A22C323AA558B00F4D175 /* ViewModels */,
 				812A22D523AA559B00F4D175 /* TabbedViews */,
 				8192134423AA22E0002FF041 /* AppDelegate.swift */,
+				8192134623AA22E0002FF041 /* SceneDelegate.swift */,
 				8166D45323B814B8000D5F5D /* LoginModalView.swift */,
 				812A22E023AA720800F4D175 /* LoginView.swift */,
 				8192134823AA22E0002FF041 /* MainView.swift */,
@@ -206,6 +247,7 @@
 				8192135223AA22E3002FF041 /* Info.plist */,
 				8192134C23AA22E3002FF041 /* Preview Content */,
 				812A230323B05D6500F4D175 /* PullToRefresh.swift */,
+				81AF9B1C23BD9A0100C74ED0 /* LiveChatViewController.swift */,
 			);
 			path = RequestNow;
 			sourceTree = "<group>";
@@ -216,6 +258,35 @@
 				8192134D23AA22E3002FF041 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		81AF9B1E23BD9FA600C74ED0 /* LiveChat */ = {
+			isa = PBXGroup;
+			children = (
+				81AF9B2223BD9FC700C74ED0 /* ChatView.swift */,
+				81AF9B2023BD9FC700C74ED0 /* Info.plist */,
+				81AF9B2A23BD9FC800C74ED0 /* JSONRequestCache.swift */,
+				81AF9B2423BD9FC700C74ED0 /* KeyboardNotification.swift */,
+				81AF9B2723BD9FC700C74ED0 /* LiveChat.h */,
+				81AF9B2523BD9FC700C74ED0 /* LiveChat.swift */,
+				81AF9B1F23BD9FC700C74ED0 /* LiveChatConfiguration.swift */,
+				81AF9B2B23BD9FC800C74ED0 /* LiveChatMessage.swift */,
+				81AF9B2923BD9FC800C74ED0 /* LiveChatOverlayViewController.swift */,
+				81AF9B2623BD9FC700C74ED0 /* LiveChatState.swift */,
+				81AF9B2C23BD9FC800C74ED0 /* LiveChatWidget.js */,
+				81AF9B2323BD9FC700C74ED0 /* LoadingView.swift */,
+				81AF9B2D23BD9FC800C74ED0 /* UnreadMessagesCounter.swift */,
+				81AF9B2823BD9FC800C74ED0 /* URLBuilder.swift */,
+				81AF9B2123BD9FC700C74ED0 /* WebViewBridge.swift */,
+			);
+			path = LiveChat;
+			sourceTree = "<group>";
+		};
+		E52265C253D5F481F7C1D99A /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -284,6 +355,7 @@
 				812A22EE23AB2F0200F4D175 /* Oswald-Light.ttf in Resources */,
 				812A22F623AB2F2100F4D175 /* Segoe UI Italic.ttf in Resources */,
 				8192134E23AA22E3002FF041 /* Preview Assets.xcassets in Resources */,
+				81AF9B3A23BD9FC800C74ED0 /* LiveChatWidget.js in Resources */,
 				8192134B23AA22E3002FF041 /* Assets.xcassets in Resources */,
 				812A22F423AB2F2100F4D175 /* Segoe UI Bold.ttf in Resources */,
 			);
@@ -302,26 +374,42 @@
 				812A230223B0499C00F4D175 /* ThankYouNoteView.swift in Sources */,
 				812A22F923AB59DA00F4D175 /* Message.swift in Sources */,
 				812A230623B095B400F4D175 /* DispatchQueue+Extension.swift in Sources */,
+				81AF9B3023BD9FC800C74ED0 /* WebViewBridge.swift in Sources */,
+				81AF9B1923BD973C00C74ED0 /* MessageCellViewModel.swift in Sources */,
 				812A22FE23B02EC500F4D175 /* MessageRow.swift in Sources */,
+				81AF9B3323BD9FC800C74ED0 /* KeyboardNotification.swift in Sources */,
 				8192134723AA22E0002FF041 /* SceneDelegate.swift in Sources */,
 				812A22CE23AA558B00F4D175 /* RequestViewModel.swift in Sources */,
 				812A22D023AA558B00F4D175 /* RequestData.swift in Sources */,
+				81AF9B3123BD9FC800C74ED0 /* ChatView.swift in Sources */,
+				81AF9B1723BD970F00C74ED0 /* RequestCellViewModel.swift in Sources */,
 				812A22D323AA558B00F4D175 /* String+Extensions.swift in Sources */,
 				81AF9B1123BA984A00C74ED0 /* OriginalRequest.swift in Sources */,
+				81AF9B3623BD9FC800C74ED0 /* URLBuilder.swift in Sources */,
 				812A22FB23ABC00100F4D175 /* UIViewController+Extension.swift in Sources */,
 				81AF9B1523BB0C3100C74ED0 /* IndividualMessageRow.swift in Sources */,
+				81AF9B3523BD9FC800C74ED0 /* LiveChatState.swift in Sources */,
 				81AF9B1323BB068400C74ED0 /* MessageHistoryView.swift in Sources */,
 				812A22D123AA558B00F4D175 /* Request.swift in Sources */,
+				81AF9B3823BD9FC800C74ED0 /* JSONRequestCache.swift in Sources */,
+				81AF9B3723BD9FC800C74ED0 /* LiveChatOverlayViewController.swift in Sources */,
 				812A22D223AA558B00F4D175 /* Date+Extension.swift in Sources */,
 				812A22D923AA561600F4D175 /* MessagesView.swift in Sources */,
 				812A22CF23AA558B00F4D175 /* RequestService.swift in Sources */,
 				8166D45423B814B8000D5F5D /* LoginModalView.swift in Sources */,
+				81AF9B3923BD9FC800C74ED0 /* LiveChatMessage.swift in Sources */,
 				812A22D423AA558B00F4D175 /* UITextField+Publisher.swift in Sources */,
+				81AF9B3B23BD9FC800C74ED0 /* UnreadMessagesCounter.swift in Sources */,
+				81AF9B1B23BD976000C74ED0 /* MessageHistoryCellViewModel.swift in Sources */,
 				812A22DD23AA56A100F4D175 /* Constants.swift in Sources */,
+				81AF9B1D23BD9A0100C74ED0 /* LiveChatViewController.swift in Sources */,
 				812A230423B05D6500F4D175 /* PullToRefresh.swift in Sources */,
 				8192134923AA22E0002FF041 /* MainView.swift in Sources */,
 				812A22E123AA720800F4D175 /* LoginView.swift in Sources */,
 				812A22DB23AA565200F4D175 /* SettingsView.swift in Sources */,
+				81AF9B3423BD9FC800C74ED0 /* LiveChat.swift in Sources */,
+				81AF9B2E23BD9FC800C74ED0 /* LiveChatConfiguration.swift in Sources */,
+				81AF9B3223BD9FC800C74ED0 /* LoadingView.swift in Sources */,
 				812A22E323AB262C00F4D175 /* ColorCodes.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

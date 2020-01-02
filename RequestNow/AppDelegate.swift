@@ -15,14 +15,14 @@ enum Identifiers {
 }
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, LiveChatDelegate {
 
     var window: UIWindow?
     private var requestService: RequestServiceProtocol = RequestService()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-
+        LiveChat.delegate = self // Set self as delegate
         UITableView.appearance().backgroundColor = ColorCodes.darkGrey.uicolor()
         registerForPushNotifications()
         

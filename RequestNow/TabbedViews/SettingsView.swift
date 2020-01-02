@@ -80,6 +80,19 @@ struct SettingsView: View {
                         .background(ColorCodes.teal.color())
                     }
                     Button(action: {
+                      
+                        LiveChat.presentChat()
+                    }) {
+                        HStack {
+                            Text("Support")
+                                .foregroundColor(.white)
+                                .font(.custom("Oswald-Regular", size: 17))
+                        }
+                        .frame(minWidth: 0, maxWidth: .infinity)
+                        .padding()
+                        .background(ColorCodes.lightGrey.color())
+                    }
+                    Button(action: {
                         self.viewModel.logout()
                         self.viewController?.present(style: .fullScreen) {
                             LoginView()
