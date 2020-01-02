@@ -22,6 +22,7 @@ let DELETE_REQUEST = API_ENDPOINT + "delete_request_group"
 let REGISTER_TOKEN = API_ENDPOINT + "register_device"
 let EVENT_ID = API_ENDPOINT + "get_event_id"
 let SEND_THANKYOU_NOTE = API_ENDPOINT + "send_thank_you"
+let REPLY_REQUEST = API_ENDPOINT + "reply_request"
 
 let UPDATE_REQUESTS = Notification.Name("updateRequests")
 

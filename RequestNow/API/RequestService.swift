@@ -22,6 +22,7 @@ protocol RequestServiceProtocol {
     func deleteRequest(id: String) -> AnyPublisher<Bool, Error>
     func sendThankYouNote(eventId: String) -> AnyPublisher<String, Error>
     func registerDeviceToken(eventId: String, deviceToken: String)
+    func replyToRequest(groupId: String, reply: String) -> AnyPublisher<Bool, Error>
 }
 
 final class RequestService: RequestServiceProtocol {
@@ -247,6 +248,57 @@ final class RequestService: RequestServiceProtocol {
             }
             }.resume()
     }
+    
+    func replyToRequest(groupId: String, reply: String) -> AnyPublisher<Bool, Error>  {
+
+         var dataTask: URLSessionDataTask?
+         
+         let onSubscription: (Subscription) -> Void = { _ in dataTask?.resume() }
+         let onCancel: () -> Void = { dataTask?.cancel() }
+         
+         return Future<Bool, Error> { promise in
+             let body: [String: Any] = [
+                 "group_id": groupId,
+                 "reply": reply
+             ]
+             
+             guard let serviceUrl = URL(string: REPLY_REQUEST) else { return }
+             
+             var request = URLRequest(url: serviceUrl)
+             request.httpMethod = "POST"
+             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+             request.setValue("application/json", forHTTPHeaderField: "Accept")
+             
+             guard let httpBody = try? JSONSerialization.data(withJSONObject: body, options: []) else {
+                 return
+             }
+             request.httpBody = httpBody
+             print(request)
+             dataTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
+                 guard let data = data else {
+                     if let error = error {
+                         promise(.failure(error))
+                     }
+                     return
+                 }
+                 
+                 do {
+                     let json = try JSONSerialization.jsonObject(with: data, options: [])
+                     if let dictionary = json as? [String: Any] {
+                         guard let success = dictionary["success"] as? Bool else {
+                             promise(.failure(ServiceError.internalError(dictionary["message"] as? String ?? "Internal Server Error")))
+                             return
+                         }
+                          promise(.success(success))
+                     }
+                 } catch {
+                      promise(.failure(ServiceError.decode))
+                 }
+             }
+         }.receive(on: DispatchQueue.main)
+         .handleEvents(receiveSubscription: onSubscription, receiveCancel: onCancel)
+         .eraseToAnyPublisher()
+     }
     
    
 }

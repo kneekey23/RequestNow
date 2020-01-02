@@ -12,25 +12,31 @@ struct IndividualMessageRow: View {
     @ObservedObject var viewModel: MessageHistoryCellViewModel
     
     var body: some View {
-        HStack {
+        Group {
             if viewModel.fromDJ {
-                VStack(alignment: .leading, spacing: 10) {
-                    Text(viewModel.message)
-                        .foregroundColor(.white)
-                        .font(.custom("Segoe UI", size: 17))
-                        .background(viewModel.color)
-                        .cornerRadius(6)
-                        .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
+                HStack{
+                    Group {
+                        Spacer()
+                        Text(viewModel.message)
+                            .foregroundColor(.white)
+                            .font(.custom("Segoe UI", size: 17))
+                            .padding(10)
+                            .background(viewModel.color)
+                            .cornerRadius(6)
+                    }
                 }
+                
             }
             else{
-                VStack(alignment: .trailing, spacing: 10) {
-                    Text(viewModel.message)
-                        .foregroundColor(.white)
-                        .font(.custom("Segoe UI", size: 17))
-                        .background(viewModel.color)
-                        .cornerRadius(6)
-                        .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
+                HStack {
+                    Group {
+                        Text(viewModel.message)
+                            .foregroundColor(.white)
+                            .font(.custom("Segoe UI", size: 17))
+                            .padding(10)
+                            .background(viewModel.color)
+                            .cornerRadius(6)
+                    }
                 }
             }
         }
