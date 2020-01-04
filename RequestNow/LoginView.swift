@@ -21,6 +21,7 @@ struct LoginView: View {
     
     init() {
         viewModel = RequestViewModel()
+        viewModel.errorMessage = ""
     }
     
     var body: some View {
@@ -71,7 +72,6 @@ struct LoginView: View {
                                 MainView()
                             }
                         }
-                        
                     }) {
                         HStack {
                             Text("LOGIN").font(.custom("Oswald-Regular", size: 21))

@@ -93,9 +93,12 @@ struct SettingsView: View {
                         .background(ColorCodes.lightGrey.color())
                     }
                     Button(action: {
-                        self.viewModel.logout()
-                        self.viewController?.present(style: .fullScreen) {
-                            LoginView()
+                        self.viewModel.logout() { completion in
+                            if completion {
+                                self.viewController?.present(style: .fullScreen) {
+                                    LoginView()
+                                }
+                            }
                         }
                     }) {
                         HStack {

@@ -71,6 +71,8 @@ final class RequestViewModel: ObservableObject {
     
     private var thankYouNoteRequestCancellable: AnyCancellable?
     
+    private var logoutCancellable: AnyCancellable?
+    
     private let requestService: RequestServiceProtocol
     
     init(requestService: RequestServiceProtocol = RequestService()) {
@@ -111,14 +113,18 @@ final class RequestViewModel: ObservableObject {
     
     func getRequests(with eventId: String?, sortSelection: SortBy) {
         state = .loading
+        if let eventId = eventId, eventId.isEmpty {
+            return
+        }
         getRequestsCancellable = requestService
             .getRequests(eventId: eventId, sortKey: sortSelection.rawValue)
             .sink(receiveCompletion: { [weak self] (completion) in
                 switch completion {
                 case .failure(let serviceError):
-                    let errorCasted = serviceError as! ServiceError
+                    if let errorCasted = serviceError as? ServiceError {
                     self?.unWrapError(error: errorCasted)
                     self?.state = .error(serviceError)
+                    }
                 case .finished: self?.state = .finishedLoading
                 }
             }) { [weak self] requestData in
@@ -220,6 +226,37 @@ final class RequestViewModel: ObservableObject {
         }
     }
     
+    func logout(completedLogout: @escaping (Bool) -> Void) {
+        state = .loading
+        
+        logoutCancellable = requestService
+            .logout(eventId: eventId)
+            .sink(receiveCompletion: { [weak self] (completion) in
+                switch completion {
+                case .failure(let serviceError):
+                    let errorCasted = serviceError as! ServiceError
+                    self?.unWrapError(error: errorCasted)
+                    self?.state = .error(serviceError)
+                    self?.showAlert = true
+                  
+                case .finished: self?.state = .finishedLoading
+                }
+            }) { [weak self] success in
+                
+                if success {
+                    self?.errorMessage = ""
+                     UserDefaults.standard.removeObject(forKey: "eventId")
+                    completedLogout(true)
+                }
+                else{
+                    self?.activeAlert = .error
+                    self?.errorMessage = "Request could not be completed for some unknown reason. Please contact support."
+                    self?.showAlert = true
+                    completedLogout(false)
+                }
+        }
+    }
+    
     func openSupport(){
         LiveChat.presentChat()
     }
@@ -232,14 +269,9 @@ final class RequestViewModel: ObservableObject {
         }
     }
     
-    
-    func logout() {
-        UserDefaults.standard.removeObject(forKey: "eventId")
-    }
-    
     func unWrapError(error: ServiceError) {
         switch error {
-        case .url(let urlError):
+        case .url:
             self.errorMessage = "There was something wrong with the url request, please contact support."
         case .urlRequest:
              self.errorMessage = "There was something wrong with the url request, please contact support."

@@ -60,18 +60,30 @@ struct RequestRow: View {
                 .background(ColorCodes.darkGrey.color())
                 }
                 if isExpanded {
-                ForEach((viewModel.originalMessages), id: \.self)  { message in
-                    HStack {
-                        Image("chat")
-                        Text(message)
-                        .font(.custom("Segou UI", size: 14))
-                        .foregroundColor(ColorCodes.lightGrey.color())
-                        .fixedSize(horizontal: false, vertical: true)
-                                                 .transition(.opacity)
-                                                 .transition(.slide)
-                    }
-                    .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
-                    .background(ColorCodes.darkGrey.color())
+                    HStack{
+                        ForEach((viewModel.originalMessages), id: \.self)  { message in
+                            HStack {
+                                Image("chat")
+                                Text(message)
+                                    .font(.custom("Segou UI", size: 14))
+                                    .foregroundColor(ColorCodes.lightGrey.color())
+                                    .fixedSize(horizontal: false, vertical: true)
+                                    .transition(.opacity)
+                                    .transition(.slide)
+                            }
+                            .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
+                            .background(ColorCodes.darkGrey.color())
+                        }
+                        Spacer()
+                        Button(action: {
+                          print("button pressed")
+
+                        }) {
+                            Image("megaphone")
+                            .renderingMode(.original)
+                            .resizable()
+                            .frame(width: 32.0, height: 32.0)
+                        }
                     }
                 }
             }
