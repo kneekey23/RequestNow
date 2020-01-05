@@ -31,6 +31,8 @@ final class RequestViewModel: ObservableObject {
     
     @Published var eventId: String = ""
     
+    @Published var userId: String = ""
+    
     @Published var eventKey: String = ""
     
     @Published var nameOfEvent: String = ""
@@ -137,6 +139,8 @@ final class RequestViewModel: ObservableObject {
                 self?.messageViewModels = requestData.messages.map {
                     MessageCellViewModel(message: $0)
                 }
+                self?.userId = requestData.userId
+                UserDefaults.standard.set(requestData.userId, forKey: "userId")
                 self?.nameOfEvent = requestData.eventName
                 self?.eventNumber = requestData.eventNumber.formattedNumber()
                 self?.eventStatus = requestData.eventActive ? "Active" : "Inactive"

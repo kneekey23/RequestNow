@@ -17,6 +17,7 @@ let HEADER = [
 ]
 //https://e0rrchgsgb.execute-api.us-east-1.amazonaws.com/prod/get_event_id?event_code=691b
 let API_ENDPOINT = "https://e0rrchgsgb.execute-api.us-east-1.amazonaws.com/prod/"
+let API_KEY = "P2yy4ZmhCz15DxJsndejh8mAkeRXzmse1IjpbVVi"
 let EVENT_DATA = API_ENDPOINT + "get_requests"
 let DELETE_REQUEST = API_ENDPOINT + "delete_request_group"
 let REGISTER_TOKEN = API_ENDPOINT + "register_device"

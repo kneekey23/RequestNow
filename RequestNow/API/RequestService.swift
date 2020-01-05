@@ -47,7 +47,8 @@ final class RequestService: RequestServiceProtocol {
             urlRequest.httpMethod = "GET"
             urlRequest.allHTTPHeaderFields = [
                 "Content-Type": "application/json",
-                "Accept": "application/json"
+                "Accept": "application/json",
+                "x-api-key": API_KEY
             ]
             
             dataTask = URLSession.shared.dataTask(with: urlRequest) { (data, _, error) in
@@ -89,7 +90,8 @@ final class RequestService: RequestServiceProtocol {
             urlRequest.httpMethod = "GET"
             urlRequest.allHTTPHeaderFields = [
                 "Content-Type": "application/json",
-                "Accept": "application/json"
+                "Accept": "application/json",
+                "x-api-key": API_KEY
             ]
             
             dataTask = URLSession.shared.dataTask(with: urlRequest) { data, _,error in
@@ -140,6 +142,7 @@ final class RequestService: RequestServiceProtocol {
             var request = URLRequest(url: serviceUrl)
             request.httpMethod = "PUT"
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.setValue(API_KEY, forHTTPHeaderField: "x-api-key")
             
             guard let httpBody = try? JSONSerialization.data(withJSONObject: body, options: []) else {
                 return
@@ -191,6 +194,7 @@ final class RequestService: RequestServiceProtocol {
             request.httpMethod = "PUT"
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             request.setValue("application/json", forHTTPHeaderField: "Accept")
+            request.setValue(API_KEY, forHTTPHeaderField: "x-api-key")
             
             guard let httpBody = try? JSONSerialization.data(withJSONObject: body, options: []) else {
                 return
@@ -231,6 +235,7 @@ final class RequestService: RequestServiceProtocol {
         var request = URLRequest(url: serviceUrl)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue(API_KEY, forHTTPHeaderField: "x-api-key")
         guard let httpBody = try? JSONSerialization.data(withJSONObject: body, options: []) else {
             return
         }
@@ -270,7 +275,7 @@ final class RequestService: RequestServiceProtocol {
              request.httpMethod = "POST"
              request.setValue("application/json", forHTTPHeaderField: "Content-Type")
              request.setValue("application/json", forHTTPHeaderField: "Accept")
-             
+             request.setValue(API_KEY, forHTTPHeaderField: "x-api-key")
              guard let httpBody = try? JSONSerialization.data(withJSONObject: body, options: []) else {
                  return
              }
@@ -317,7 +322,7 @@ final class RequestService: RequestServiceProtocol {
            var request = URLRequest(url: serviceUrl)
            request.httpMethod = "PUT"
            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-           
+           request.setValue(API_KEY, forHTTPHeaderField: "x-api-key")
            guard let httpBody = try? JSONSerialization.data(withJSONObject: body, options: []) else {
                return
            }
@@ -369,7 +374,7 @@ final class RequestService: RequestServiceProtocol {
             var request = URLRequest(url: serviceUrl)
             request.httpMethod = "PUT"
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            
+            request.setValue(API_KEY, forHTTPHeaderField: "x-api-key")
             guard let httpBody = try? JSONSerialization.data(withJSONObject: body, options: []) else {
                 return
             }
@@ -420,7 +425,8 @@ final class RequestService: RequestServiceProtocol {
             request.httpMethod = "GET"
             request.allHTTPHeaderFields = [
                 "Content-Type": "application/json",
-                "Accept": "application/json"
+                "Accept": "application/json",
+                "x-api-key": API_KEY
             ]
             
             dataTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
