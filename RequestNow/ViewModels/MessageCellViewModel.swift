@@ -51,16 +51,9 @@ final class MessageCellViewModel: ObservableObject {
             case .finished: print("finished")
             }
             
-        }) { [weak self] success in
-            
-            if success {
-                self?.messages.append(MessageHistoryCellViewModel(originalRequest: OriginalRequest(timeStamp: Date(), original: self?.composedMessage ?? "", fromDJ: true)))
-                self?.composedMessage = ""
-            }
-            else {
-
-            }
-            
+        }) { [weak self] originalRequest in
+            self?.messages.append(MessageHistoryCellViewModel(originalRequest: originalRequest))
+            self?.composedMessage = ""
         }
     }
 }

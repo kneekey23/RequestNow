@@ -22,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LiveChatDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        LiveChat.licenseId = "11538363"
         LiveChat.delegate = self // Set self as delegate
         UITableView.appearance().backgroundColor = ColorCodes.darkGrey.uicolor()
         registerForPushNotifications()

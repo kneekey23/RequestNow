@@ -27,6 +27,7 @@ struct MessagesView: View {
         UINavigationBar.appearance().scrollEdgeAppearance = messageNavAppearance
         
         UITableView.appearance().separatorStyle = .none
+        UITableView.appearance().separatorColor = .clear
     }
     
     var body: some View {
@@ -36,7 +37,7 @@ struct MessagesView: View {
                     NavigationLink(destination: MessageHistoryView(viewModel: messageViewModel)) {
                         MessageRow(viewModel: messageViewModel)
                         }
-                }.listRowBackground(ColorCodes.darkGrey.color()).accentColor(ColorCodes.lighterShadeOfDarkGrey.color()).background(ColorCodes.darkGrey.color())
+                }.listRowBackground(ColorCodes.darkGrey.color())
                 
             }
             .navigationBarTitle(Text("Messages"), displayMode:.inline)

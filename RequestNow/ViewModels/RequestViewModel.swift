@@ -73,6 +73,8 @@ final class RequestViewModel: ObservableObject {
     
     private var logoutCancellable: AnyCancellable?
     
+    private var beginRaffleCancellable: AnyCancellable?
+    
     private let requestService: RequestServiceProtocol
     
     init(requestService: RequestServiceProtocol = RequestService()) {
@@ -223,6 +225,36 @@ final class RequestViewModel: ObservableObject {
                 self?.errorMessage = "Request could not be completed for some unknown reason. Please contact support."
                 self?.showAlert = true
             }
+        }
+    }
+    
+    func beginRaffle() {
+        state = .loading
+        beginRaffleCancellable = requestService
+            .runRaffle(eventId: eventId)
+            .sink(receiveCompletion: { [weak self] (completion) in
+                switch completion {
+                case .failure(let serviceError):
+                    let errorCasted = serviceError as! ServiceError
+                    self?.unWrapError(error: errorCasted)
+                    self?.state = .error(serviceError)
+                    self?.showAlert = true
+                  
+                case .finished: self?.state = .finishedLoading
+                }
+            }) { [weak self] raffleWinner in
+                
+                if !raffleWinner.isEmpty {
+                    self?.errorMessage = ""
+                    self?.activeAlert = .success
+                    self?.successMessage = "Congrats, you have a winner! The winner’s last 4 digits are: " + raffleWinner
+                    self?.showAlert = true
+                }
+                else{
+                    self?.activeAlert = .error
+                    self?.errorMessage = "Request could not be completed for some unknown reason. Please contact support."
+                    self?.showAlert = true
+                }
         }
     }
     

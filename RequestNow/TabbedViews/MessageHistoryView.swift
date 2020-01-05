@@ -44,11 +44,11 @@ struct MessageHistoryView: View {
                     Text("Send")
                 }
                 }.frame(minHeight: CGFloat(50)).padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 15))
-            }
+            }.offset(y: editingMode ? -250 : 0)
         }.alert(isPresented: $viewModel.showAlert) {
             return Alert(title: Text("Error"), message: Text(viewModel.errorMessage), dismissButton: .default(Text("Ok")))
         }
-        .offset(y: editingMode ? -150 : 0)
+        
     }
 }
 

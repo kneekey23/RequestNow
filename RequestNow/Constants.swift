@@ -24,6 +24,8 @@ let EVENT_ID = API_ENDPOINT + "get_event_id"
 let SEND_THANKYOU_NOTE = API_ENDPOINT + "send_thank_you"
 let REPLY_REQUEST = API_ENDPOINT + "reply_request"
 let LOGOUT = API_ENDPOINT + "logout"
+let INFORM_UP_NEXT = API_ENDPOINT + "/inform_next_up"
+let GET_RAFFLE_WINNER = API_ENDPOINT + "get_raffle_winner"
 
 let UPDATE_REQUESTS = Notification.Name("updateRequests")
 

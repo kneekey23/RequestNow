@@ -16,7 +16,6 @@ struct RequestRow: View {
     
     var body: some View {
         HStack {
-           // Image("chat")
             VStack(alignment: .leading) {
                 HStack {
                 if !viewModel.songName.isEmpty && !viewModel.artist.isEmpty {
@@ -36,10 +35,17 @@ struct RequestRow: View {
                     .foregroundColor(Color.white)
                 }
                 Spacer()
+
                 Image(systemName: isExpanded ? "minus": "plus")
                     .foregroundColor(ColorCodes.lightGrey.color())
                     .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
                     .background(ColorCodes.darkGrey.color())
+                    .onTapGesture {
+                        withAnimation {
+                            self.isExpanded.toggle()
+                        }
+                }
+                
                 }
                 HStack {
                 HStack {
@@ -61,6 +67,7 @@ struct RequestRow: View {
                 }
                 if isExpanded {
                     HStack{
+                        VStack(alignment: .leading) {
                         ForEach((viewModel.originalMessages), id: \.self)  { message in
                             HStack {
                                 Image("chat")
@@ -74,34 +81,37 @@ struct RequestRow: View {
                             .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
                             .background(ColorCodes.darkGrey.color())
                         }
-                        Spacer()
-                        Button(action: {
-                          print("button pressed")
-
-                        }) {
-                            Image("megaphone")
-                            .renderingMode(.original)
-                            .resizable()
-                            .frame(width: 32.0, height: 32.0)
                         }
+                        Spacer()
+                        Image("megaphone")
+                        .renderingMode(.original)
+                        .resizable()
+                        .frame(width: 32.0, height: 32.0)
+                            .onTapGesture {
+                                self.viewModel.informUpNext()
+                        }
+                    
                     }
                 }
             }
 
             }
-        .onTapGesture {
-            withAnimation {
-                self.isExpanded.toggle()
-            }
-        }
+
         .padding(EdgeInsets(top: 10, leading: 15, bottom: 10, trailing: 10))
         .background(ColorCodes.lighterShadeOfDarkGrey.color())
-      
+        .alert(isPresented: $viewModel.showAlert) {
+            switch viewModel.activeAlert {
+            case .error:
+                return Alert(title: Text("Error"), message: Text(viewModel.errorMessage), dismissButton: .default(Text("Ok")))
+            case .success:
+                return Alert(title: Text("Success"), message: Text(viewModel.successMessage), dismissButton: .default(Text("Ok")))
+            }
+        }
     }
 }
 
 struct RequestRow_Previews: PreviewProvider {
     static var previews: some View {
-        RequestRow(viewModel: RequestCellViewModel(request: Request(id: "12345", count: "2", originalRequests: ["Some original request that is really freaking long and it is so many lines im not sure what to do with it"], artist: "Taylor Swift", songName: "Fearless", timeOfRequest: Date())))
+        RequestRow(viewModel: RequestCellViewModel(request: Request(id: "12345", count: "2", originalRequests: ["Some original request that is really freaking long and it is so many lines im not sure what to do with it", "another request for the same song"], artist: "Taylor Swift", songName: "Fearless", timeOfRequest: Date())))
     }
 }

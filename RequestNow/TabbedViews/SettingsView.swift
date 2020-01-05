@@ -80,6 +80,20 @@ struct SettingsView: View {
                         .background(ColorCodes.teal.color())
                     }
                     Button(action: {
+                        self.viewModel.beginRaffle()
+                    }) {
+                        HStack {
+                            Text("Run Raffle")
+                            .foregroundColor(.white)
+                            .font(.custom("Oswald-Regular", size: 17))
+                        }
+                        .frame(minWidth: 0, maxWidth: .infinity)
+                        .padding()
+                        .background(ColorCodes.teal.color())
+                    }
+                    Spacer()
+                    Spacer()
+                    Button(action: {
                       
                         LiveChat.presentChat()
                     }) {
