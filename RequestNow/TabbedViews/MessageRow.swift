@@ -29,14 +29,14 @@ struct MessageRow: View {
                             .font(.custom("Segou UI", size: 14))
                             .foregroundColor(ColorCodes.lightGrey.color())
                     }.padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
-                    .background(ColorCodes.darkGrey.color())
+                    .background(ColorCodes.darkGrey.color()).cornerRadius(2)
                     HStack {
                         Image("chat")
                         Text(viewModel.messageCount)
                             .font(.custom("Segou UI", size: 14))
                             .foregroundColor(ColorCodes.lightGrey.color())
                     }.padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
-                    .background(ColorCodes.darkGrey.color())
+                    .background(ColorCodes.darkGrey.color()).cornerRadius(2)
                     Spacer()
                 }
             }

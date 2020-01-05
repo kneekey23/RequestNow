@@ -39,13 +39,12 @@ struct RequestRow: View {
                 Image(systemName: isExpanded ? "minus": "plus")
                     .foregroundColor(ColorCodes.lightGrey.color())
                     .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
-                    .background(ColorCodes.darkGrey.color())
+                    .background(ColorCodes.darkGrey.color()).cornerRadius(2)
                     .onTapGesture {
                         withAnimation {
                             self.isExpanded.toggle()
                         }
-                }
-                
+                    }
                 }
                 HStack {
                 HStack {
@@ -55,7 +54,7 @@ struct RequestRow: View {
                     .foregroundColor(ColorCodes.lightGrey.color())
                 }
                 .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
-                .background(ColorCodes.darkGrey.color())
+                .background(ColorCodes.darkGrey.color()).cornerRadius(2)
                 HStack {
                     Image("chat")
                     Text(viewModel.count)
@@ -63,7 +62,7 @@ struct RequestRow: View {
                     .foregroundColor(ColorCodes.lightGrey.color())
                 }
                 .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
-                .background(ColorCodes.darkGrey.color())
+                .background(ColorCodes.darkGrey.color()).cornerRadius(2)
                 }
                 if isExpanded {
                     HStack{
@@ -79,18 +78,20 @@ struct RequestRow: View {
                                     .transition(.slide)
                             }
                             .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
-                            .background(ColorCodes.darkGrey.color())
+                            .background(ColorCodes.darkGrey.color()).cornerRadius(2)
                         }
                         }
                         Spacer()
                         Image("megaphone")
                         .renderingMode(.original)
                         .resizable()
-                        .frame(width: 32.0, height: 32.0)
+                        .frame(width: 24.0, height: 24.0)
                             .onTapGesture {
-                                self.viewModel.informUpNext()
+                                self.viewModel.activeAlert = .confirm
+                                self.viewModel.showAlert = true
                         }
-                    
+                        .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
+                    .background(ColorCodes.darkGrey.color()).cornerRadius(2)
                     }
                 }
             }
@@ -105,6 +106,10 @@ struct RequestRow: View {
                 return Alert(title: Text("Error"), message: Text(viewModel.errorMessage), dismissButton: .default(Text("Ok")))
             case .success:
                 return Alert(title: Text("Success"), message: Text(viewModel.successMessage), dismissButton: .default(Text("Ok")))
+            case .confirm:
+                return Alert(title: Text("Confirmation"), message: Text("Are you sure you want to notify everyone that " + viewModel.songName + " song is next?"), primaryButton: .default(Text("Yes"), action: {
+                    self.viewModel.informUpNext()
+                }), secondaryButton: .cancel(Text("Cancel")))
             }
         }
     }

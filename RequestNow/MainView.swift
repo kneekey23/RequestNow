@@ -10,9 +10,10 @@ import SwiftUI
 
 struct MainView: View {
     @State private var selection = 0
- 
+
     var body: some View {
         TabView(selection: $selection){
+        
             RequestsView()
                 .font(.title)
                 .tabItem {
@@ -42,7 +43,8 @@ struct MainView: View {
                     }
                 }
                 .tag(2)
-        }.edgesIgnoringSafeArea(.top)
+            }.edgesIgnoringSafeArea(.top)
+            
     }
 }
 
@@ -50,11 +52,12 @@ extension UITabBarController {
     override open func viewDidLoad() {
         let standardAppearance = UITabBarAppearance()
         standardAppearance.backgroundColor = ColorCodes.lighterShadeOfDarkGrey.uicolor()
+        standardAppearance.stackedItemPositioning = .centered
     standardAppearance.stackedLayoutAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.white, .font: UIFont(name: "Segoe UI", size: 10)!]
         standardAppearance.stackedLayoutAppearance.selected.titleTextAttributes = [.foregroundColor: ColorCodes.teal.uicolor(), .font: UIFont(name: "Segoe UI", size: 10)!]
         standardAppearance.selectionIndicatorTintColor = ColorCodes.teal.uicolor()
         standardAppearance.shadowColor = .white
-        standardAppearance.stackedItemPositioning = .fill
+        // standardAppearance.stackedItemPositioning = .fill
         
         tabBar.standardAppearance = standardAppearance
     }

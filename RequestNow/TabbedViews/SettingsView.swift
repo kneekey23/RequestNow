@@ -68,7 +68,8 @@ struct SettingsView: View {
                         .background(ColorCodes.lighterShadeOfDarkGrey.color())
                     }
                     Button(action: {
-                        self.viewModel.sendThankYouNote()
+                        self.viewModel.activeAlert = .confirm
+                        self.viewModel.showAlert = true
                     }) {
                         HStack {
                             Text("Send Thank You Note")
@@ -135,6 +136,10 @@ struct SettingsView: View {
                     return Alert(title: Text("Error"), message: Text(viewModel.errorMessage), dismissButton: .default(Text("Ok")))
                 case .success:
                     return Alert(title: Text("Success"), message: Text(viewModel.successMessage), dismissButton: .default(Text("Ok")))
+                case .confirm:
+                    return Alert(title: Text("Confirmation"), message: Text("Are you sure you want to send a thank you note to"), primaryButton: .default(Text("Yes"), action: {
+                        self.viewModel.sendThankYouNote()
+                    }), secondaryButton: .cancel(Text("Cancel")))
                 }
             }
         }

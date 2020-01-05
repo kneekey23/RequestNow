@@ -17,7 +17,7 @@ enum RequestViewModelState {
 }
 
 enum ActiveAlert {
-    case error, success
+    case error, success, confirm
 }
 
 enum SortBy: String {
@@ -212,6 +212,7 @@ final class RequestViewModel: ObservableObject {
                 let errorCasted = serviceError as! ServiceError
                 self?.unWrapError(error: errorCasted)
                 self?.state = .error(serviceError)
+                self?.activeAlert = .error
                 self?.showAlert = true
                 self?.successMessage = ""
             case .finished: self?.state = .finishedLoading
