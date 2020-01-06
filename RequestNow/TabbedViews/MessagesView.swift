@@ -32,15 +32,30 @@ struct MessagesView: View {
     
     var body: some View {
         NavigationView {
-            List{
-                ForEach(viewModel.messageViewModels, id: \.id) { messageViewModel in
-                    NavigationLink(destination: MessageHistoryView(viewModel: messageViewModel)) {
-                        MessageRow(viewModel: messageViewModel)
+            if viewModel.messageViewModels.isEmpty {
+                ZStack {
+                    ColorCodes.darkGrey.color()
+                        .edgesIgnoringSafeArea(.all)
+                    Text("No messages have been sent yet").foregroundColor(.white).font(.custom("Segoe UI", size: 17))
+                }
+            }else {
+                List{
+                    ForEach(viewModel.messageViewModels, id: \.id) { messageViewModel in
+                        NavigationLink(destination: MessageHistoryView(viewModel: messageViewModel)) {
+                            MessageRow(viewModel: messageViewModel)
                         }
-                }.listRowBackground(ColorCodes.darkGrey.color())
-                
+                    }.onDelete(perform: delete)
+                        .listRowBackground(ColorCodes.darkGrey.color())
+                    
+                }
+                .navigationBarTitle(Text("Messages"), displayMode:.inline)
             }
-            .navigationBarTitle(Text("Messages"), displayMode:.inline)
+        }
+    }
+    
+    func delete(at offsets: IndexSet) {
+        for index in offsets {
+        viewModel.deleteRequest(index: index)
         }
     }
 }

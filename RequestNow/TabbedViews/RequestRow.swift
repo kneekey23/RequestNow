@@ -107,7 +107,7 @@ struct RequestRow: View {
             case .success:
                 return Alert(title: Text("Success"), message: Text(viewModel.successMessage), dismissButton: .default(Text("Ok")))
             case .confirm:
-                return Alert(title: Text("Confirmation"), message: Text("Are you sure you want to notify everyone that " + viewModel.songName + " song is next?"), primaryButton: .default(Text("Yes"), action: {
+                return Alert(title: Text("Confirmation"), message: Text("Are you sure you want to notify everyone that " + viewModel.songName + " is next?"), primaryButton: .default(Text("Yes"), action: {
                     self.viewModel.informUpNext()
                 }), secondaryButton: .cancel(Text("Cancel")))
             }

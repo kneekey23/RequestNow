@@ -33,30 +33,37 @@ struct RequestsView: View {
     
     var body: some View {
         NavigationView {
+            if viewModel.requestsViewModels.isEmpty {
+                ZStack {
+                    ColorCodes.darkGrey.color()
+                    .edgesIgnoringSafeArea(.all)
+                    Text("No songs have been requested yet").foregroundColor(.white).font(.custom("Segoe UI", size: 17))
+                }
+            }else {
                 List{
                     ForEach(viewModel.requestsViewModels, id: \.id) { requestViewModel in
                         RequestRow(viewModel: requestViewModel)
-                        }.onDelete(perform: delete)
-                    .listRowBackground(ColorCodes.darkGrey.color())
+                    }.onDelete(perform: delete)
+                        .listRowBackground(ColorCodes.darkGrey.color())
                     
                 }
                 .background(PullToRefresh(action: {
                     self.viewModel.getRequests(with: self.viewModel.eventId, sortSelection: self.viewModel.sortSelection)
-
+                    
                 }, isShowing: $viewModel.isShowingRefresh))
-                .alert(isPresented: $viewModel.showAlert) {
-                    Alert(title: Text("Error"), message: Text(viewModel.errorMessage), dismissButton: .default(Text("Ok")))
+                    .alert(isPresented: $viewModel.showAlert) {
+                        Alert(title: Text("Error"), message: Text(viewModel.errorMessage), dismissButton: .default(Text("Ok")))
                 }
                 .navigationBarItems(trailing:
                     Button("Sort By") {
                         self.showSortModal.toggle()
                     }
                 ).font(.custom("Segoe UI", size: 17))
-                .navigationBarTitle(Text("Song Requests"), displayMode:.inline)
-                .sheet(isPresented: $showSortModal) {
-                    SortModal(viewModel: self.viewModel)
+                    .navigationBarTitle(Text("Song Requests"), displayMode:.inline)
+                    .sheet(isPresented: $showSortModal) {
+                        SortModal(viewModel: self.viewModel)
+                }
             }
-                
         }
     }
     

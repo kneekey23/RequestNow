@@ -52,13 +52,12 @@ extension UITabBarController {
     override open func viewDidLoad() {
         let standardAppearance = UITabBarAppearance()
         standardAppearance.backgroundColor = ColorCodes.lighterShadeOfDarkGrey.uicolor()
-        standardAppearance.stackedItemPositioning = .centered
     standardAppearance.stackedLayoutAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.white, .font: UIFont(name: "Segoe UI", size: 10)!]
         standardAppearance.stackedLayoutAppearance.selected.titleTextAttributes = [.foregroundColor: ColorCodes.teal.uicolor(), .font: UIFont(name: "Segoe UI", size: 10)!]
         standardAppearance.selectionIndicatorTintColor = ColorCodes.teal.uicolor()
         standardAppearance.shadowColor = .white
-        // standardAppearance.stackedItemPositioning = .fill
-        
+         standardAppearance.stackedItemPositioning = .fill
+        standardAppearance.stackedItemPositioning = .centered
         tabBar.standardAppearance = standardAppearance
     }
 }
