@@ -44,11 +44,12 @@ struct RequestsView: View {
                     ForEach(viewModel.requestsViewModels, id: \.id) { requestViewModel in
                         RequestRow(viewModel: requestViewModel)
                     }.onDelete(perform: delete)
-                        .listRowBackground(ColorCodes.darkGrey.color())
-                    
+                    .listRowBackground(ColorCodes.darkGrey.color())
                 }
                 .background(PullToRefresh(action: {
+ 
                     self.viewModel.getRequests(with: self.viewModel.eventId, sortSelection: self.viewModel.sortSelection)
+                    
                     
                 }, isShowing: $viewModel.isShowingRefresh))
                     .alert(isPresented: $viewModel.showAlert) {
@@ -69,7 +70,7 @@ struct RequestsView: View {
     
     func delete(at offsets: IndexSet) {
         for index in offsets {
-        viewModel.deleteRequest(index: index)
+        viewModel.deleteRequest(index: index, fromRequests: true)
         }
     }
 }

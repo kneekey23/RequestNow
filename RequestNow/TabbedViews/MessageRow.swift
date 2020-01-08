@@ -43,11 +43,12 @@ struct MessageRow: View {
         }
         .padding(EdgeInsets(top: 10, leading: 25, bottom: 10, trailing: 20))
         .background(ColorCodes.lighterShadeOfDarkGrey.color())
+        .listRowBackground(ColorCodes.lighterShadeOfDarkGrey.color())
     }
 }
 
 struct MessageRow_Previews: PreviewProvider {
     static var previews: some View {
-        MessageRow(viewModel: MessageCellViewModel(message: Message(id: "12345", originalRequests: [OriginalRequest(timeStamp: Date(), original: "test string", fromDJ: false)], timeOfRequest: Date(), messageCount: "2")))
+        MessageRow(viewModel: MessageCellViewModel(message: Message(id: "12345", originalRequests: [OriginalMessage(timeStamp: Date(), original: "test string", fromDJ: false, name: "someone")], timeOfRequest: Date(), messageCount: "2")))
     }
 }

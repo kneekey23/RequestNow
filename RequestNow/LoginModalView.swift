@@ -17,7 +17,7 @@ struct LoginModalView: View {
                 ColorCodes.darkGrey.color()
                     .edgesIgnoringSafeArea(.all)
                 VStack {
-                    Text("The Event Key can be viewed in the dashboard or in your email. Contact us for help")
+                    Text("The Event Key can be viewed in the dashboard or in your event confirmation email. If you cannot find it, please contact us at contact@requestnow.io.")
                         .foregroundColor(.white)
                         .font(.custom("Segoe UI", size: 17))
                         .padding()

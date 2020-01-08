@@ -22,7 +22,7 @@ protocol RequestServiceProtocol {
     func deleteRequest(id: String) -> AnyPublisher<Bool, Error>
     func sendThankYouNote(eventId: String) -> AnyPublisher<String, Error>
     func registerDeviceToken(eventId: String, deviceToken: String)
-    func replyToRequest(groupId: String, reply: String) -> AnyPublisher<OriginalRequest, Error>
+    func replyToRequest(groupId: String, reply: String) -> AnyPublisher<OriginalMessage, Error>
     func logout(eventId: String) -> AnyPublisher<Bool, Error>
     func informUpNext(groupId: String) -> AnyPublisher<Bool, Error>
     func runRaffle(eventId: String) -> AnyPublisher<String, Error>
@@ -47,8 +47,8 @@ final class RequestService: RequestServiceProtocol {
             urlRequest.httpMethod = "GET"
             urlRequest.allHTTPHeaderFields = [
                 "Content-Type": "application/json",
-                "Accept": "application/json",
-                "x-api-key": API_KEY
+                "Accept": "application/json"
+               // "x-api-key": API_KEY
             ]
             
             dataTask = URLSession.shared.dataTask(with: urlRequest) { (data, _, error) in
@@ -229,7 +229,7 @@ final class RequestService: RequestServiceProtocol {
     
     func registerDeviceToken(eventId: String, deviceToken: String) {
 
-        let body = ["device_token": deviceToken,"event_id": eventId]
+        let body = ["device_token": deviceToken,"event_id": eventId, "platform": "IOS"]
         guard let serviceUrl = URL(string: REGISTER_TOKEN) else { return }
         
         var request = URLRequest(url: serviceUrl)
@@ -256,14 +256,14 @@ final class RequestService: RequestServiceProtocol {
             }.resume()
     }
     
-    func replyToRequest(groupId: String, reply: String) -> AnyPublisher<OriginalRequest, Error>  {
+    func replyToRequest(groupId: String, reply: String) -> AnyPublisher<OriginalMessage, Error>  {
 
          var dataTask: URLSessionDataTask?
          
          let onSubscription: (Subscription) -> Void = { _ in dataTask?.resume() }
          let onCancel: () -> Void = { dataTask?.cancel() }
          
-         return Future<OriginalRequest, Error> { promise in
+         return Future<OriginalMessage, Error> { promise in
              let body: [String: Any] = [
                  "group_id": groupId,
                  "reply": reply
@@ -293,7 +293,7 @@ final class RequestService: RequestServiceProtocol {
                       let decoder = JSONDecoder()
                       let formatter = DateFormatter.dateTimeFormat
                       decoder.dateDecodingStrategy = .formatted(formatter)
-                      let request = try decoder.decode(OriginalRequest.self, from: data)
+                      let request = try decoder.decode(OriginalMessage.self, from: data)
                       promise(.success(request))
                  } catch {
                       promise(.failure(ServiceError.decode))

@@ -14,7 +14,7 @@ struct Request: Codable, Identifiable {
     
     public let id: String
     public let count: String
-    public let originalRequests: [String]
+    public let originalRequests: [OriginalRequest]
     public let artist: String?
     public let songName: String?
     public let timeOfRequest: Date

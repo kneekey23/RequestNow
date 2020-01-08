@@ -90,7 +90,7 @@ struct LoginView: View {
                     }
                     Spacer()
                     Button(action: {
-                        let url: URL = URL(string: "https://requestnow.io")!
+                        let url: URL = URL(string: "https://requestnow.io/?ref=ios")!
                         UIApplication.shared.open(url)
                     }) {
                         Text("Don't have an account? Create one here")

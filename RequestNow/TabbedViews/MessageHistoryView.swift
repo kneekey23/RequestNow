@@ -54,6 +54,6 @@ struct MessageHistoryView: View {
 
 struct MessageHistoryView_Previews: PreviewProvider {
     static var previews: some View {
-        MessageHistoryView(viewModel: MessageCellViewModel(message: Message(id: "1234", originalRequests: [OriginalRequest(timeStamp: Date(), original: "orgiinal request test", fromDJ: false), OriginalRequest(timeStamp: Date(), original: "response from dj", fromDJ: true)], timeOfRequest: Date(), messageCount:"2")))
+        MessageHistoryView(viewModel: MessageCellViewModel(message: Message(id: "1234", originalRequests: [OriginalMessage(timeStamp: Date(), original: "orgiinal request test", fromDJ: false, name: "someone"), OriginalMessage(timeStamp: Date(), original: "response from dj", fromDJ: true, name: "someone")], timeOfRequest: Date(), messageCount:"2")))
     }
 }

@@ -11,7 +11,7 @@ import UIKit
 struct Message: Codable, Identifiable {
     
     public let id: String
-    public let originalRequests: [OriginalRequest]
+    public let originalRequests: [OriginalMessage]
     public let timeOfRequest: Date
     public let messageCount: String
     

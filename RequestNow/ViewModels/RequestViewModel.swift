@@ -27,8 +27,6 @@ enum SortBy: String {
 
 final class RequestViewModel: ObservableObject {
     
-    var didChange = PassthroughSubject<RequestViewModel, Never>()
-    
     @Published var eventId: String = ""
     
     @Published var userId: String = ""
@@ -88,7 +86,7 @@ final class RequestViewModel: ObservableObject {
             }
         }
         
-        eventIdCancellable = $eventId.sink { [weak self] in
+        eventIdCancellable = $eventId.removeDuplicates().sink { [weak self] in
             self?.getRequests(with: $0, sortSelection: self?.sortSelection ?? .recency)
             self?.registerDeviceTokenForPushNotifications(with: $0)
         }
@@ -132,7 +130,6 @@ final class RequestViewModel: ObservableObject {
                 case .finished: self?.state = .finishedLoading
                 }
             }) { [weak self] requestData in
-               
                 self?.requestsViewModels = requestData.songRequests.map {
                     RequestCellViewModel(request: $0)
                 }
@@ -170,11 +167,10 @@ final class RequestViewModel: ObservableObject {
         }) { [weak self] eventId in
             self?.eventId = eventId
             self?.errorMessage = ""
-           
         }
     }
     
-    func deleteRequest(index: Int) {
+    func deleteRequest(index: Int, fromRequests: Bool) {
         state = .loading
         let id = self.requestsViewModels[index].id
         deleteRequestCancellable = requestService
@@ -191,7 +187,12 @@ final class RequestViewModel: ObservableObject {
             }) { [weak self] success in
                 
                 if success {
+                    if fromRequests {
                     self?.requestsViewModels.remove(at: index)
+                    }
+                    else {
+                    self?.messageViewModels.remove(at: index)
+                    }
                     self?.errorMessage = ""
                 }
                 else{

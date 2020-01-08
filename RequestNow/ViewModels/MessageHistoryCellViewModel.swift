@@ -16,9 +16,9 @@ final class MessageHistoryCellViewModel: ObservableObject {
     @Published var color: Color = ColorCodes.lighterShadeOfDarkGrey.color()
     @Published var id: UUID  = UUID()
     
-    private let messageRequest: OriginalRequest
+    private let messageRequest: OriginalMessage
     
-    init(originalRequest: OriginalRequest) {
+    init(originalRequest: OriginalMessage) {
         self.messageRequest = originalRequest
         setUpBindings()
     }

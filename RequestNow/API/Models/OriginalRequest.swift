@@ -2,8 +2,8 @@
 //  OriginalRequest.swift
 //  RequestNow
 //
-//  Created by Nicole Klein on 12/30/19.
-//  Copyright © 2019 Confir Inc. All rights reserved.
+//  Created by Nicole Klein on 1/5/20.
+//  Copyright © 2020 Confir Inc. All rights reserved.
 //
 
 import Foundation
@@ -11,19 +11,16 @@ import Foundation
 struct OriginalRequest: Codable, Identifiable {
     
     public let id: UUID = UUID()
-    public let timeStamp: Date
     public let original: String
-    public let fromDJ: Bool
+    public let name: String?
     
-    init(timeStamp: Date, original: String, fromDJ: Bool) {
-        self.timeStamp = timeStamp
+    init(original: String, name: String) {
         self.original = original
-        self.fromDJ = fromDJ
+        self.name = name
     }
     
     enum CodingKeys: String, CodingKey {
-        case timeStamp = "timestamp"
+        case name = "name"
         case original = "original"
-        case fromDJ = "fromDj"
     }
 }

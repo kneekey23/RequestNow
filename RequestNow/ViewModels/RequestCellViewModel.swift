@@ -14,7 +14,7 @@ final class RequestCellViewModel: ObservableObject {
     @Published var time: String = ""
     @Published var songName: String = ""
     @Published var artist: String = ""
-    @Published var originalMessages: [String] = []
+    @Published var originalRequests: [OriginalRequestViewModel] = []
     @Published var count: String = ""
     @Published var id: String = ""
     @Published var showAlert: Bool = false
@@ -36,7 +36,9 @@ final class RequestCellViewModel: ObservableObject {
         time = request.timeOfRequest.toTime()
         songName = request.songName ?? ""
         artist = request.artist ?? ""
-        originalMessages = request.originalRequests
+        originalRequests = request.originalRequests.map {
+            OriginalRequestViewModel(originalRequest: $0)
+        }
         count = request.count
         id = request.id
     }

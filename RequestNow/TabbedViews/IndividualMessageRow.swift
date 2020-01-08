@@ -45,6 +45,6 @@ struct IndividualMessageRow: View {
 
 struct IndividualMessageRow_Previews: PreviewProvider {
     static var previews: some View {
-        IndividualMessageRow(viewModel: MessageHistoryCellViewModel(originalRequest: OriginalRequest(timeStamp: Date(), original: "Orginal test message", fromDJ: false)))
+        IndividualMessageRow(viewModel: MessageHistoryCellViewModel(originalRequest: OriginalMessage(timeStamp: Date(), original: "Orginal test message", fromDJ: false, name: "someone")))
     }
 }

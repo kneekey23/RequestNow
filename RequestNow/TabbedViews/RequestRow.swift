@@ -30,9 +30,9 @@ struct RequestRow: View {
                     }
                 }
                 else {
-                    Text(viewModel.originalMessages[0])
-                    .font(.custom("Segoe UI", size: 20))
-                    .foregroundColor(Color.white)
+                    Text(viewModel.originalRequests[0].original)
+                        .font(.custom("Segoe UI", size: 17))
+                        .foregroundColor(Color.white)
                 }
                 Spacer()
 
@@ -67,15 +67,26 @@ struct RequestRow: View {
                 if isExpanded {
                     HStack{
                         VStack(alignment: .leading) {
-                        ForEach((viewModel.originalMessages), id: \.self)  { message in
+                        ForEach((viewModel.originalRequests), id: \.id)  { request in
                             HStack {
-                                Image("chat")
-                                Text(message)
+                               Image("chat")
+                                VStack(alignment: .leading) {
+                                if !request.name.isEmpty {
+                                Text(request.name)
+                                    .font(.custom("Segou UI", size: 14))
+                                    .foregroundColor(ColorCodes.lightGrey.color())
+                                    .fixedSize(horizontal: false, vertical: true)
+                                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 3, trailing: 0))
+                                    .transition(.opacity)
+                                    .transition(.slide)
+                                    }
+                                Text(request.original)
                                     .font(.custom("Segou UI", size: 14))
                                     .foregroundColor(ColorCodes.lightGrey.color())
                                     .fixedSize(horizontal: false, vertical: true)
                                     .transition(.opacity)
                                     .transition(.slide)
+                                }
                             }
                             .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
                             .background(ColorCodes.darkGrey.color()).cornerRadius(2)
@@ -117,6 +128,6 @@ struct RequestRow: View {
 
 struct RequestRow_Previews: PreviewProvider {
     static var previews: some View {
-        RequestRow(viewModel: RequestCellViewModel(request: Request(id: "12345", count: "2", originalRequests: ["Some original request that is really freaking long and it is so many lines im not sure what to do with it", "another request for the same song"], artist: "Taylor Swift", songName: "Fearless", timeOfRequest: Date())))
+        RequestRow(viewModel: RequestCellViewModel(request: Request(id: "12345", count: "2", originalRequests: [OriginalRequest(original: "Some original request that is really freaking long and it is so many lines im not sure what to do with it", name: "me"), OriginalRequest(original:"another request for the same song", name: "justin") ], artist: "Taylor Swift", songName: "Fearless", timeOfRequest: Date())))
     }
 }

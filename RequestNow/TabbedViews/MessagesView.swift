@@ -27,7 +27,8 @@ struct MessagesView: View {
         UINavigationBar.appearance().scrollEdgeAppearance = messageNavAppearance
         
         UITableView.appearance().separatorStyle = .none
-        UITableView.appearance().separatorColor = .clear
+      
+        UITableView.appearance().tableFooterView = UIView()
     }
     
     var body: some View {
@@ -45,17 +46,15 @@ struct MessagesView: View {
                             MessageRow(viewModel: messageViewModel)
                         }
                     }.onDelete(perform: delete)
-                        .listRowBackground(ColorCodes.darkGrey.color())
-                    
-                }
-                .navigationBarTitle(Text("Messages"), displayMode:.inline)
+                     .listRowBackground(ColorCodes.darkGrey.color())
+                }.navigationBarTitle(Text("Messages"), displayMode:.inline)
             }
         }
     }
     
     func delete(at offsets: IndexSet) {
         for index in offsets {
-        viewModel.deleteRequest(index: index)
+        viewModel.deleteRequest(index: index, fromRequests: false)
         }
     }
 }
