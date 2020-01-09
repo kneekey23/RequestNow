@@ -12,8 +12,10 @@ import Combine
 struct LoginView: View {
     
     @ObservedObject var viewModel: RequestViewModel
+    let loginUrl: URL = URL(string: "https://requestnow.io/?ref=ios")!
     @State var editingMode: Bool = false
     @State var showMessage = false
+    @State var showLogin = false
     @Environment(\.viewController) private var viewControllerHolder: UIViewController?
      private var viewController: UIViewController? {
         self.viewControllerHolder
@@ -88,19 +90,22 @@ struct LoginView: View {
                             .foregroundColor(ColorCodes.lightGrey.color())
                             .font(.custom("Oswald-Light", size: 17))
                     }
-                    Spacer()
-                    Button(action: {
-                        let url: URL = URL(string: "https://requestnow.io/?ref=ios")!
-                        UIApplication.shared.open(url)
-                    }) {
-                        Text("Don't have an account? Create one here")
-                            .foregroundColor(ColorCodes.lightGrey.color())
-                            .font(.custom("Oswald-Light", size: 17))
+                    .sheet(isPresented: $showMessage) {
+                        LoginModalView()
                     }
+                    Spacer()
+//                    Button(action: {
+//                        self.showLogin.toggle()
+//                    }) {
+//                        Text("Don't have an account? Create one here")
+//                            .foregroundColor(ColorCodes.lightGrey.color())
+//                            .font(.custom("Oswald-Light", size: 17))
+//                    }
+//                    .sheet(isPresented: $showLogin) {
+//                        SafariView(url: self.loginUrl)
+//                    }
                 }
-            }.sheet(isPresented: $showMessage, content: {
-                LoginModalView()
-            }).offset(y: editingMode ? -150 : 0)
+            }.offset(y: editingMode ? -150 : 0)
 
     }
 }

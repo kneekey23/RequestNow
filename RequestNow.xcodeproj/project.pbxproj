@@ -47,7 +47,6 @@
 		81AF9B1723BD970F00C74ED0 /* RequestCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AF9B1623BD970F00C74ED0 /* RequestCellViewModel.swift */; };
 		81AF9B1923BD973C00C74ED0 /* MessageCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AF9B1823BD973C00C74ED0 /* MessageCellViewModel.swift */; };
 		81AF9B1B23BD976000C74ED0 /* MessageHistoryCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AF9B1A23BD976000C74ED0 /* MessageHistoryCellViewModel.swift */; };
-		81AF9B1D23BD9A0100C74ED0 /* LiveChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AF9B1C23BD9A0100C74ED0 /* LiveChatViewController.swift */; };
 		81AF9B2E23BD9FC800C74ED0 /* LiveChatConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AF9B1F23BD9FC700C74ED0 /* LiveChatConfiguration.swift */; };
 		81AF9B3023BD9FC800C74ED0 /* WebViewBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AF9B2123BD9FC700C74ED0 /* WebViewBridge.swift */; };
 		81AF9B3123BD9FC800C74ED0 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AF9B2223BD9FC700C74ED0 /* ChatView.swift */; };
@@ -64,6 +63,7 @@
 		81AF9B3D23BDB0C100C74ED0 /* SortModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AF9B3C23BDB0C100C74ED0 /* SortModal.swift */; };
 		81AF9B3F23C2D5B900C74ED0 /* OriginalRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AF9B3E23C2D5B900C74ED0 /* OriginalRequest.swift */; };
 		81AF9B4123C2D68400C74ED0 /* OriginalRequestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AF9B4023C2D68400C74ED0 /* OriginalRequestViewModel.swift */; };
+		81AF9B4323C66B0000C74ED0 /* SafariView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AF9B4223C66B0000C74ED0 /* SafariView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -110,7 +110,6 @@
 		81AF9B1623BD970F00C74ED0 /* RequestCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestCellViewModel.swift; sourceTree = "<group>"; };
 		81AF9B1823BD973C00C74ED0 /* MessageCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCellViewModel.swift; sourceTree = "<group>"; };
 		81AF9B1A23BD976000C74ED0 /* MessageHistoryCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageHistoryCellViewModel.swift; sourceTree = "<group>"; };
-		81AF9B1C23BD9A0100C74ED0 /* LiveChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveChatViewController.swift; sourceTree = "<group>"; };
 		81AF9B1F23BD9FC700C74ED0 /* LiveChatConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LiveChatConfiguration.swift; sourceTree = "<group>"; };
 		81AF9B2023BD9FC700C74ED0 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		81AF9B2123BD9FC700C74ED0 /* WebViewBridge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewBridge.swift; sourceTree = "<group>"; };
@@ -129,6 +128,7 @@
 		81AF9B3C23BDB0C100C74ED0 /* SortModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortModal.swift; sourceTree = "<group>"; };
 		81AF9B3E23C2D5B900C74ED0 /* OriginalRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OriginalRequest.swift; sourceTree = "<group>"; };
 		81AF9B4023C2D68400C74ED0 /* OriginalRequestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OriginalRequestViewModel.swift; sourceTree = "<group>"; };
+		81AF9B4223C66B0000C74ED0 /* SafariView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -245,18 +245,14 @@
 				812A22C523AA558B00F4D175 /* API */,
 				812A22CA23AA558B00F4D175 /* Extensions */,
 				812A22C323AA558B00F4D175 /* ViewModels */,
+				81AF9B4423C66B0F00C74ED0 /* Views */,
 				812A22D523AA559B00F4D175 /* TabbedViews */,
 				8192134423AA22E0002FF041 /* AppDelegate.swift */,
 				8192134623AA22E0002FF041 /* SceneDelegate.swift */,
-				8166D45323B814B8000D5F5D /* LoginModalView.swift */,
-				812A22E023AA720800F4D175 /* LoginView.swift */,
-				8192134823AA22E0002FF041 /* MainView.swift */,
 				8192134A23AA22E3002FF041 /* Assets.xcassets */,
 				8192134F23AA22E3002FF041 /* LaunchScreen.storyboard */,
 				8192135223AA22E3002FF041 /* Info.plist */,
 				8192134C23AA22E3002FF041 /* Preview Content */,
-				812A230323B05D6500F4D175 /* PullToRefresh.swift */,
-				81AF9B1C23BD9A0100C74ED0 /* LiveChatViewController.swift */,
 			);
 			path = RequestNow;
 			sourceTree = "<group>";
@@ -289,6 +285,18 @@
 				81AF9B2123BD9FC700C74ED0 /* WebViewBridge.swift */,
 			);
 			path = LiveChat;
+			sourceTree = "<group>";
+		};
+		81AF9B4423C66B0F00C74ED0 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8166D45323B814B8000D5F5D /* LoginModalView.swift */,
+				812A22E023AA720800F4D175 /* LoginView.swift */,
+				8192134823AA22E0002FF041 /* MainView.swift */,
+				81AF9B4223C66B0000C74ED0 /* SafariView.swift */,
+				812A230323B05D6500F4D175 /* PullToRefresh.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		E52265C253D5F481F7C1D99A /* Pods */ = {
@@ -412,12 +420,12 @@
 				81AF9B3B23BD9FC800C74ED0 /* UnreadMessagesCounter.swift in Sources */,
 				81AF9B1B23BD976000C74ED0 /* MessageHistoryCellViewModel.swift in Sources */,
 				812A22DD23AA56A100F4D175 /* Constants.swift in Sources */,
-				81AF9B1D23BD9A0100C74ED0 /* LiveChatViewController.swift in Sources */,
 				812A230423B05D6500F4D175 /* PullToRefresh.swift in Sources */,
 				8192134923AA22E0002FF041 /* MainView.swift in Sources */,
 				812A22E123AA720800F4D175 /* LoginView.swift in Sources */,
 				812A22DB23AA565200F4D175 /* SettingsView.swift in Sources */,
 				81AF9B3D23BDB0C100C74ED0 /* SortModal.swift in Sources */,
+				81AF9B4323C66B0000C74ED0 /* SafariView.swift in Sources */,
 				81AF9B3423BD9FC800C74ED0 /* LiveChat.swift in Sources */,
 				81AF9B3F23C2D5B900C74ED0 /* OriginalRequest.swift in Sources */,
 				81AF9B2E23BD9FC800C74ED0 /* LiveChatConfiguration.swift in Sources */,
@@ -560,7 +568,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = RequestNow/RequestNow.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.25;
+				CURRENT_PROJECT_VERSION = 1.26;
 				DEVELOPMENT_ASSET_PATHS = "\"RequestNow/Preview Content\"";
 				DEVELOPMENT_TEAM = 9EVWV3K6BK;
 				ENABLE_PREVIEWS = YES;
@@ -583,7 +591,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = RequestNow/RequestNow.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.25;
+				CURRENT_PROJECT_VERSION = 1.26;
 				DEVELOPMENT_ASSET_PATHS = "\"RequestNow/Preview Content\"";
 				DEVELOPMENT_TEAM = 9EVWV3K6BK;
 				ENABLE_PREVIEWS = YES;
