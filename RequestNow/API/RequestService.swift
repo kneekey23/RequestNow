@@ -26,7 +26,6 @@ protocol RequestServiceProtocol {
     func replyToRequest(groupId: String, reply: String) -> AnyPublisher<OriginalMessage, Error>
     func informUpNext(groupId: String) -> AnyPublisher<Bool, Error>
     func runRaffle(eventId: String) -> AnyPublisher<String, Error>
-    func logIn(username: String, password: String) -> AnyPublisher<Credentials, Error>
 }
 
 final class RequestService: RequestServiceProtocol {
@@ -304,31 +303,6 @@ final class RequestService: RequestServiceProtocol {
          .handleEvents(receiveSubscription: onSubscription, receiveCancel: onCancel)
          .eraseToAnyPublisher()
      }
-    
-    func logIn(username: String, password: String) -> AnyPublisher<Credentials, Error> {
-        return Future<Credentials, Error> { promise in
-            Auth0
-            .authentication()
-            .login(
-                usernameOrEmail: username,
-                password: password,
-                realm: "Username-Password-Authentication",
-                scope: "openid")
-             .start { result in
-                 switch result {
-                 case .success(let credentials):
-                    print("Obtained credentials: \(credentials)")
-                    promise(.success(credentials))
-                   
-                 case .failure(let error):
-                    print("Failed with \(error)")
-                       promise(.failure(error))
-                 }
-             }
-        }
-        .receive(on: DispatchQueue.main)
-        .eraseToAnyPublisher()
-    }
     
     func informUpNext(groupId: String) -> AnyPublisher<Bool, Error> {
         

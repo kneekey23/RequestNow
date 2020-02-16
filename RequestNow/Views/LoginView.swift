@@ -59,7 +59,7 @@ struct LoginView: View {
                 
                 if !auth.errorMessage.isEmpty {
                     VStack(alignment: .leading) {
-                        Text("There was an error with the request. That event key does not exist.")
+                        Text(auth.errorMessage)
                             .foregroundColor(ColorCodes.pastelRed.color())
                             .lineLimit(nil)
                     }.padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))

@@ -32,20 +32,32 @@ class AuthAccess: ObservableObject {
     }
     
     func logIn() {         
-         loginCancellable = requestService
-         .logIn(username: username, password: password)
-         .sink(receiveCompletion: { [weak self] (completion) in
-             switch completion {
-             case .failure(let serviceError):
-                break
-             case .finished: break
-             }
-         }) { [weak self] credentials in
-             print("Access Token" + (credentials.accessToken ?? ""))
-             self?.credentials = credentials
-             self?.isLoggedIn = true
+         Auth0
+         .authentication()
+         .login(
+             usernameOrEmail: username,
+             password: password,
+             realm: "Username-Password-Authentication",
+             scope: "openid")
+          .start { result in
+              switch result {
+              case .success(let credentials):
+                 print("Obtained credentials: \(credentials)")
+                 DispatchQueue.main.async {
+                    self.credentials = credentials
+                    self.isLoggedIn = true
+                 }
+                
+              case .failure(let error):
+                 print("Failed with \(error)")
+                 DispatchQueue.main.async {
+                    self.errorMessage = error.localizedDescription
+                 }
+              }
+          }
+            
              
-         }
+         
      }
     
     func signUp() {
@@ -66,6 +78,7 @@ class AuthAccess: ObservableObject {
         self.credentials = nil
         self.username = ""
         self.password = ""
+        self.errorMessage = ""
         self.isLoggedIn = false
     }
 }
