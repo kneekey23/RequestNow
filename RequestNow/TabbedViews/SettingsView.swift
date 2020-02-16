@@ -11,7 +11,7 @@ import SwiftUI
 let navAppearance = UINavigationBarAppearance()
 
 struct SettingsView: View {
-    
+    @EnvironmentObject var auth: AuthAccess
     @ObservedObject var viewModel: RequestViewModel
     @State var showActionSheet = false
     @Environment(\.viewController) private var viewControllerHolder: UIViewController?
@@ -108,13 +108,7 @@ struct SettingsView: View {
                         .background(ColorCodes.lightGrey.color())
                     }
                     Button(action: {
-                        self.viewModel.logout() { completion in
-                            if completion {
-                                self.viewController?.present(style: .fullScreen) {
-                                    LoginView()
-                                }
-                            }
-                        }
+                        self.auth.logout()
                     }) {
                         HStack {
                             Text("Logout")

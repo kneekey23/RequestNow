@@ -8,7 +8,7 @@
 
 import SwiftUI
 import Combine
-
+import Auth0
 
 enum RequestViewModelState {
     case loading
@@ -70,8 +70,6 @@ final class RequestViewModel: ObservableObject {
     private var deleteRequestCancellable: AnyCancellable?
     
     private var thankYouNoteRequestCancellable: AnyCancellable?
-    
-    private var logoutCancellable: AnyCancellable?
     
     private var beginRaffleCancellable: AnyCancellable?
     
@@ -264,40 +262,11 @@ final class RequestViewModel: ObservableObject {
         }
     }
     
-    func logout(completedLogout: @escaping (Bool) -> Void) {
-        state = .loading
-        
-        logoutCancellable = requestService
-            .logout(eventId: eventId)
-            .sink(receiveCompletion: { [weak self] (completion) in
-                switch completion {
-                case .failure(let serviceError):
-                    let errorCasted = serviceError as! ServiceError
-                    self?.unWrapError(error: errorCasted)
-                    self?.state = .error(serviceError)
-                    self?.showAlert = true
-                  
-                case .finished: self?.state = .finishedLoading
-                }
-            }) { [weak self] success in
-                
-                if success {
-                    self?.errorMessage = ""
-                     UserDefaults.standard.removeObject(forKey: "eventId")
-                    completedLogout(true)
-                }
-                else{
-                    self?.activeAlert = .error
-                    self?.errorMessage = "Request could not be completed for some unknown reason. Please contact support."
-                    self?.showAlert = true
-                    completedLogout(false)
-                }
-        }
-    }
-    
     func openSupport(){
         LiveChat.presentChat()
     }
+    
+
     
     func registerDeviceTokenForPushNotifications(with eventId: String) {
         if let deviceToken = UserDefaults.standard.string(forKey: "deviceToken") {

@@ -8,6 +8,7 @@
 
 import Foundation
 import Combine
+import Auth0
 
 enum ServiceError: Error {
     case url(URLError)
@@ -23,9 +24,9 @@ protocol RequestServiceProtocol {
     func sendThankYouNote(eventId: String) -> AnyPublisher<String, Error>
     func registerDeviceToken(eventId: String, deviceToken: String)
     func replyToRequest(groupId: String, reply: String) -> AnyPublisher<OriginalMessage, Error>
-    func logout(eventId: String) -> AnyPublisher<Bool, Error>
     func informUpNext(groupId: String) -> AnyPublisher<Bool, Error>
     func runRaffle(eventId: String) -> AnyPublisher<String, Error>
+    func logIn(username: String, password: String) -> AnyPublisher<Credentials, Error>
 }
 
 final class RequestService: RequestServiceProtocol {
@@ -304,57 +305,30 @@ final class RequestService: RequestServiceProtocol {
          .eraseToAnyPublisher()
      }
     
-    func logout(eventId: String) -> AnyPublisher<Bool, Error> {
-       
-       var dataTask: URLSessionDataTask?
-       
-       let onSubscription: (Subscription) -> Void = { _ in dataTask?.resume() }
-       let onCancel: () -> Void = { dataTask?.cancel() }
-       
-       return Future<Bool, Error> { promise in
-           
-           let body: [String: Any] = [
-               "event_id": eventId
-           ]
-           
-           guard let serviceUrl = URL(string: LOGOUT) else { return }
-           
-           var request = URLRequest(url: serviceUrl)
-           request.httpMethod = "PUT"
-           request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-           request.setValue(API_KEY, forHTTPHeaderField: "x-api-key")
-           guard let httpBody = try? JSONSerialization.data(withJSONObject: body, options: []) else {
-               return
-           }
-           request.httpBody = httpBody
-           
-           dataTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
-               guard let data = data else {
-                   if let error = error {
+    func logIn(username: String, password: String) -> AnyPublisher<Credentials, Error> {
+        return Future<Credentials, Error> { promise in
+            Auth0
+            .authentication()
+            .login(
+                usernameOrEmail: username,
+                password: password,
+                realm: "Username-Password-Authentication",
+                scope: "openid")
+             .start { result in
+                 switch result {
+                 case .success(let credentials):
+                    print("Obtained credentials: \(credentials)")
+                    promise(.success(credentials))
+                   
+                 case .failure(let error):
+                    print("Failed with \(error)")
                        promise(.failure(error))
-                   }
-                   return
-               }
-               
-               do {
-                   let json = try JSONSerialization.jsonObject(with: data, options: [])
-                   if let dictionary = json as? [String: Any] {
-                       guard let success = dictionary["success"] as? Bool else {
-                           promise(.failure(ServiceError.internalError(dictionary["message"] as? String ?? "Internal Server Error")))
-                           return
-                       }
-                        promise(.success(success))
-                   }
-               } catch {
-                    promise(.failure(ServiceError.decode))
-               }
-           }
-           
-       }
-       .receive(on: DispatchQueue.main)
-       .handleEvents(receiveSubscription: onSubscription, receiveCancel: onCancel)
-       .eraseToAnyPublisher()
-   }
+                 }
+             }
+        }
+        .receive(on: DispatchQueue.main)
+        .eraseToAnyPublisher()
+    }
     
     func informUpNext(groupId: String) -> AnyPublisher<Bool, Error> {
         

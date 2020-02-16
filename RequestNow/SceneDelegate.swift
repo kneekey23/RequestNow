@@ -20,19 +20,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
 
         // Create the SwiftUI view that provides the window contents.
-        let mainView = MainView()
-        let loginView = LoginView()
+        let startView = StartView()
 
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {
             LiveChat.windowScene = windowScene
             let window = UIWindow(windowScene: windowScene)
-            if UserDefaults.standard.string(forKey: "eventId") != nil {
-                window.rootViewController = UIHostingController(rootView: mainView)
-            }
-            else {
-                window.rootViewController = UIHostingController(rootView: loginView)
-            }
+
+            window.rootViewController = UIHostingController(rootView: startView.environmentObject(AuthAccess()))
+       
             self.window = window
             
             window.makeKeyAndVisible()
