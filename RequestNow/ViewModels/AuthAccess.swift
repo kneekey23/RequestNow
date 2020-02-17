@@ -18,18 +18,7 @@ class AuthAccess: ObservableObject {
     @Published var password: String = ""
     
     @Published var errorMessage: String = ""
-    
-    private var loginCancellable: AnyCancellable?
-    
-    private var logoutCancellable: AnyCancellable?
-    
-    var credentials: Credentials?
-    
-    private let requestService: RequestServiceProtocol
-    
-    init(requestService: RequestServiceProtocol = RequestService()) {
-        self.requestService = requestService
-    }
+
     
     func logIn() {         
          Auth0
@@ -43,8 +32,12 @@ class AuthAccess: ObservableObject {
               switch result {
               case .success(let credentials):
                  print("Obtained credentials: \(credentials)")
+                 if let accessToken = credentials.accessToken,
+                    let idToken = credentials.idToken {
+                    let user = User(username: self.username, userId: idToken, accessToken: accessToken)
+                    User.setCurrent(user, writeToUserDefaults: true)
+                 }
                  DispatchQueue.main.async {
-                    self.credentials = credentials
                     self.isLoggedIn = true
                  }
                 
@@ -75,10 +68,10 @@ class AuthAccess: ObservableObject {
     }
     
     func logout() {
-        self.credentials = nil
         self.username = ""
         self.password = ""
         self.errorMessage = ""
         self.isLoggedIn = false
+        User.removeCurrent()
     }
 }

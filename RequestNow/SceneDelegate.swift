@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftUI
+import Auth0
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -22,6 +23,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Create the SwiftUI view that provides the window contents.
         let startView = StartView()
        
+        if let userData = UserDefaults.standard.object(forKey: CURRENT_USER) as? Data,
+           let user = try? JSONDecoder().decode(User.self, from: userData) {
+            User.setCurrent(user)
+            auth.isLoggedIn = true
+            auth.username = user.username
+        }
 
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {

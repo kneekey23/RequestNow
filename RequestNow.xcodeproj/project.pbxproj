@@ -45,6 +45,7 @@
 		8192134B23AA22E3002FF041 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8192134A23AA22E3002FF041 /* Assets.xcassets */; };
 		8192134E23AA22E3002FF041 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8192134D23AA22E3002FF041 /* Preview Assets.xcassets */; };
 		8192135123AA22E3002FF041 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8192134F23AA22E3002FF041 /* LaunchScreen.storyboard */; };
+		81AC4A0023F9DBA60081EE18 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AC49FF23F9DBA60081EE18 /* User.swift */; };
 		81AF9B1123BA984A00C74ED0 /* OriginalMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AF9B1023BA984A00C74ED0 /* OriginalMessage.swift */; };
 		81AF9B1323BB068400C74ED0 /* MessageHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AF9B1223BB068400C74ED0 /* MessageHistoryView.swift */; };
 		81AF9B1523BB0C3100C74ED0 /* IndividualMessageRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AF9B1423BB0C3100C74ED0 /* IndividualMessageRow.swift */; };
@@ -113,6 +114,7 @@
 		8192134D23AA22E3002FF041 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		8192135023AA22E3002FF041 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8192135223AA22E3002FF041 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		81AC49FF23F9DBA60081EE18 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		81AF9B1023BA984A00C74ED0 /* OriginalMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OriginalMessage.swift; sourceTree = "<group>"; };
 		81AF9B1223BB068400C74ED0 /* MessageHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageHistoryView.swift; sourceTree = "<group>"; };
 		81AF9B1423BB0C3100C74ED0 /* IndividualMessageRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndividualMessageRow.swift; sourceTree = "<group>"; };
@@ -183,6 +185,7 @@
 				812A22F823AB59DA00F4D175 /* Message.swift */,
 				81AF9B1023BA984A00C74ED0 /* OriginalMessage.swift */,
 				81AF9B3E23C2D5B900C74ED0 /* OriginalRequest.swift */,
+				81AC49FF23F9DBA60081EE18 /* User.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -496,6 +499,7 @@
 				812A22E123AA720800F4D175 /* LoginView.swift in Sources */,
 				812A22DB23AA565200F4D175 /* SettingsView.swift in Sources */,
 				81AF9B3D23BDB0C100C74ED0 /* SortModal.swift in Sources */,
+				81AC4A0023F9DBA60081EE18 /* User.swift in Sources */,
 				81AF9B4323C66B0000C74ED0 /* SafariView.swift in Sources */,
 				81AF9B3423BD9FC800C74ED0 /* LiveChat.swift in Sources */,
 				81AF9B3F23C2D5B900C74ED0 /* OriginalRequest.swift in Sources */,

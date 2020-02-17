@@ -29,5 +29,6 @@ let INFORM_UP_NEXT = API_ENDPOINT + "/inform_next_up"
 let GET_RAFFLE_WINNER = API_ENDPOINT + "get_raffle_winner"
 
 let UPDATE_REQUESTS = Notification.Name("updateRequests")
+let CURRENT_USER = "currentUser"
 
 typealias CompletionHandler = (_ success: Bool) -> ()
