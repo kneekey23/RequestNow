@@ -15,6 +15,13 @@ extension Date {
         let time = dateFormatter.string(from: self)
         return time
     }
+    
+    func toShortDate() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/dd/yyyy hh:mm a"
+        let date = dateFormatter.string(from: self)
+        return date
+    }
 }
 
 extension DateFormatter {

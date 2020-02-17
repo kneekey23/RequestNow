@@ -10,10 +10,11 @@ import SwiftUI
 
 struct MainView: View {
     @State private var selection = 0
+    @State private var eventSelected = false
 
     var body: some View {
         TabView(selection: $selection){
-        
+            if eventSelected {
             RequestsView()
                 .font(.title)
                 .tabItem {
@@ -28,11 +29,22 @@ struct MainView: View {
                 .tabItem {
                     VStack {
                         selection == 1 ? Image("2.history.fill") : Image("2.history")
-        
                         Text("Messages")
                     }
                 }
                 .tag(1)
+            }
+            else {
+                EventsView()
+                    .font(.title)
+                    .tabItem {
+                        VStack {
+                            selection == 0 ? Image("1.music.fill") : Image("1.music")
+                            Text("Events")
+                        }
+                }
+            .tag(0)
+            }
             SettingsView()
                 .font(.title)
                 .tabItem {
@@ -42,7 +54,7 @@ struct MainView: View {
                         Text("Settings")
                     }
                 }
-                .tag(2)
+            .tag(eventSelected ? 2 : 1)
             }.edgesIgnoringSafeArea(.top)
             
     }

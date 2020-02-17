@@ -46,6 +46,12 @@
 		8192134E23AA22E3002FF041 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8192134D23AA22E3002FF041 /* Preview Assets.xcassets */; };
 		8192135123AA22E3002FF041 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8192134F23AA22E3002FF041 /* LaunchScreen.storyboard */; };
 		81AC4A0023F9DBA60081EE18 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AC49FF23F9DBA60081EE18 /* User.swift */; };
+		81AC4A0223FA14830081EE18 /* EventsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AC4A0123FA14830081EE18 /* EventsView.swift */; };
+		81AC4A0423FA14DD0081EE18 /* EventsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AC4A0323FA14DD0081EE18 /* EventsViewModel.swift */; };
+		81AC4A0623FA15030081EE18 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AC4A0523FA15030081EE18 /* Event.swift */; };
+		81AC4A0823FA186C0081EE18 /* EventCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AC4A0723FA186C0081EE18 /* EventCellViewModel.swift */; };
+		81AC4A0A23FA18FF0081EE18 /* EventService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AC4A0923FA18FE0081EE18 /* EventService.swift */; };
+		81AC4A0C23FA1D370081EE18 /* EventRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AC4A0B23FA1D370081EE18 /* EventRow.swift */; };
 		81AF9B1123BA984A00C74ED0 /* OriginalMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AF9B1023BA984A00C74ED0 /* OriginalMessage.swift */; };
 		81AF9B1323BB068400C74ED0 /* MessageHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AF9B1223BB068400C74ED0 /* MessageHistoryView.swift */; };
 		81AF9B1523BB0C3100C74ED0 /* IndividualMessageRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AF9B1423BB0C3100C74ED0 /* IndividualMessageRow.swift */; };
@@ -115,6 +121,12 @@
 		8192135023AA22E3002FF041 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8192135223AA22E3002FF041 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		81AC49FF23F9DBA60081EE18 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		81AC4A0123FA14830081EE18 /* EventsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsView.swift; sourceTree = "<group>"; };
+		81AC4A0323FA14DD0081EE18 /* EventsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsViewModel.swift; sourceTree = "<group>"; };
+		81AC4A0523FA15030081EE18 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		81AC4A0723FA186C0081EE18 /* EventCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCellViewModel.swift; sourceTree = "<group>"; };
+		81AC4A0923FA18FE0081EE18 /* EventService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventService.swift; sourceTree = "<group>"; };
+		81AC4A0B23FA1D370081EE18 /* EventRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventRow.swift; sourceTree = "<group>"; };
 		81AF9B1023BA984A00C74ED0 /* OriginalMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OriginalMessage.swift; sourceTree = "<group>"; };
 		81AF9B1223BB068400C74ED0 /* MessageHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageHistoryView.swift; sourceTree = "<group>"; };
 		81AF9B1423BB0C3100C74ED0 /* IndividualMessageRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndividualMessageRow.swift; sourceTree = "<group>"; };
@@ -164,6 +176,8 @@
 				81AF9B1A23BD976000C74ED0 /* MessageHistoryCellViewModel.swift */,
 				81AF9B4023C2D68400C74ED0 /* OriginalRequestViewModel.swift */,
 				8141BEAA23F913CC00C587DC /* AuthAccess.swift */,
+				81AC4A0323FA14DD0081EE18 /* EventsViewModel.swift */,
+				81AC4A0723FA186C0081EE18 /* EventCellViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -172,6 +186,7 @@
 			isa = PBXGroup;
 			children = (
 				812A22C623AA558B00F4D175 /* RequestService.swift */,
+				81AC4A0923FA18FE0081EE18 /* EventService.swift */,
 				812A22C723AA558B00F4D175 /* Models */,
 			);
 			path = API;
@@ -186,6 +201,7 @@
 				81AF9B1023BA984A00C74ED0 /* OriginalMessage.swift */,
 				81AF9B3E23C2D5B900C74ED0 /* OriginalRequest.swift */,
 				81AC49FF23F9DBA60081EE18 /* User.swift */,
+				81AC4A0523FA15030081EE18 /* Event.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -214,6 +230,8 @@
 				81AF9B1223BB068400C74ED0 /* MessageHistoryView.swift */,
 				81AF9B1423BB0C3100C74ED0 /* IndividualMessageRow.swift */,
 				81AF9B3C23BDB0C100C74ED0 /* SortModal.swift */,
+				81AC4A0123FA14830081EE18 /* EventsView.swift */,
+				81AC4A0B23FA1D370081EE18 /* EventRow.swift */,
 			);
 			path = TabbedViews;
 			sourceTree = "<group>";
@@ -459,10 +477,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				812A22D723AA55B800F4D175 /* RequestsView.swift in Sources */,
+				81AC4A0823FA186C0081EE18 /* EventCellViewModel.swift in Sources */,
 				812A22DF23AA5A3B00F4D175 /* RequestRow.swift in Sources */,
 				8192134523AA22E0002FF041 /* AppDelegate.swift in Sources */,
 				812A230223B0499C00F4D175 /* ThankYouNoteView.swift in Sources */,
 				812A22F923AB59DA00F4D175 /* Message.swift in Sources */,
+				81AC4A0A23FA18FF0081EE18 /* EventService.swift in Sources */,
 				812A230623B095B400F4D175 /* DispatchQueue+Extension.swift in Sources */,
 				81AF9B3023BD9FC800C74ED0 /* WebViewBridge.swift in Sources */,
 				81AF9B1923BD973C00C74ED0 /* MessageCellViewModel.swift in Sources */,
@@ -470,6 +490,7 @@
 				81AF9B3323BD9FC800C74ED0 /* KeyboardNotification.swift in Sources */,
 				8192134723AA22E0002FF041 /* SceneDelegate.swift in Sources */,
 				81AF9B4123C2D68400C74ED0 /* OriginalRequestViewModel.swift in Sources */,
+				81AC4A0623FA15030081EE18 /* Event.swift in Sources */,
 				812A22CE23AA558B00F4D175 /* RequestViewModel.swift in Sources */,
 				812A22D023AA558B00F4D175 /* RequestData.swift in Sources */,
 				81AF9B3123BD9FC800C74ED0 /* ChatView.swift in Sources */,
@@ -485,7 +506,9 @@
 				812A22D123AA558B00F4D175 /* Request.swift in Sources */,
 				81AF9B3823BD9FC800C74ED0 /* JSONRequestCache.swift in Sources */,
 				81AF9B3723BD9FC800C74ED0 /* LiveChatOverlayViewController.swift in Sources */,
+				81AC4A0423FA14DD0081EE18 /* EventsViewModel.swift in Sources */,
 				812A22D223AA558B00F4D175 /* Date+Extension.swift in Sources */,
+				81AC4A0C23FA1D370081EE18 /* EventRow.swift in Sources */,
 				812A22D923AA561600F4D175 /* MessagesView.swift in Sources */,
 				812A22CF23AA558B00F4D175 /* RequestService.swift in Sources */,
 				8166D45423B814B8000D5F5D /* LoginModalView.swift in Sources */,
@@ -499,6 +522,7 @@
 				812A22E123AA720800F4D175 /* LoginView.swift in Sources */,
 				812A22DB23AA565200F4D175 /* SettingsView.swift in Sources */,
 				81AF9B3D23BDB0C100C74ED0 /* SortModal.swift in Sources */,
+				81AC4A0223FA14830081EE18 /* EventsView.swift in Sources */,
 				81AC4A0023F9DBA60081EE18 /* User.swift in Sources */,
 				81AF9B4323C66B0000C74ED0 /* SafariView.swift in Sources */,
 				81AF9B3423BD9FC800C74ED0 /* LiveChat.swift in Sources */,
