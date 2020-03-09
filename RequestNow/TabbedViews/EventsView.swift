@@ -34,7 +34,7 @@ struct EventsView: View {
                     ColorCodes.darkGrey.color()
                         .edgesIgnoringSafeArea(.all)
                     Text("No events are active yet. Click the plus button to purchase an event.").foregroundColor(.white).font(.custom("Segoe UI", size: 17))
-                }
+                }.navigationBarTitle(Text("Active Events"), displayMode: .large)
             }else {
                 List{
                     ForEach(viewModel.eventViewModels, id: \.id) { eventViewModel in
