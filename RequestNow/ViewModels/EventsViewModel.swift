@@ -24,6 +24,8 @@ class EventsViewModel: ObservableObject {
     
     @Published var showAlert: Bool = false
     
+    @Published var showAddEventModal: Bool = false
+    
     private var getEventsCancellable: AnyCancellable?
     
     private let eventService: EventServiceProtocol

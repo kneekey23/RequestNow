@@ -53,6 +53,7 @@
 		81AC4A0A23FA18FF0081EE18 /* EventService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AC4A0923FA18FE0081EE18 /* EventService.swift */; };
 		81AC4A0C23FA1D370081EE18 /* EventRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AC4A0B23FA1D370081EE18 /* EventRow.swift */; };
 		81AC4A0E2415ED9E0081EE18 /* EventSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AC4A0D2415ED9E0081EE18 /* EventSettingsView.swift */; };
+		81AC4A102415F29E0081EE18 /* AddEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AC4A0F2415F29E0081EE18 /* AddEventView.swift */; };
 		81AF9B1123BA984A00C74ED0 /* OriginalMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AF9B1023BA984A00C74ED0 /* OriginalMessage.swift */; };
 		81AF9B1323BB068400C74ED0 /* MessageHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AF9B1223BB068400C74ED0 /* MessageHistoryView.swift */; };
 		81AF9B1523BB0C3100C74ED0 /* IndividualMessageRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AF9B1423BB0C3100C74ED0 /* IndividualMessageRow.swift */; };
@@ -129,6 +130,7 @@
 		81AC4A0923FA18FE0081EE18 /* EventService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventService.swift; sourceTree = "<group>"; };
 		81AC4A0B23FA1D370081EE18 /* EventRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventRow.swift; sourceTree = "<group>"; };
 		81AC4A0D2415ED9E0081EE18 /* EventSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventSettingsView.swift; sourceTree = "<group>"; };
+		81AC4A0F2415F29E0081EE18 /* AddEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEventView.swift; sourceTree = "<group>"; };
 		81AF9B1023BA984A00C74ED0 /* OriginalMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OriginalMessage.swift; sourceTree = "<group>"; };
 		81AF9B1223BB068400C74ED0 /* MessageHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageHistoryView.swift; sourceTree = "<group>"; };
 		81AF9B1423BB0C3100C74ED0 /* IndividualMessageRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndividualMessageRow.swift; sourceTree = "<group>"; };
@@ -235,6 +237,7 @@
 				81AC4A0123FA14830081EE18 /* EventsView.swift */,
 				81AC4A0B23FA1D370081EE18 /* EventRow.swift */,
 				81AC4A0D2415ED9E0081EE18 /* EventSettingsView.swift */,
+				81AC4A0F2415F29E0081EE18 /* AddEventView.swift */,
 			);
 			path = TabbedViews;
 			sourceTree = "<group>";
@@ -507,6 +510,7 @@
 				81AF9B3523BD9FC800C74ED0 /* LiveChatState.swift in Sources */,
 				81AF9B1323BB068400C74ED0 /* MessageHistoryView.swift in Sources */,
 				812A22D123AA558B00F4D175 /* Request.swift in Sources */,
+				81AC4A102415F29E0081EE18 /* AddEventView.swift in Sources */,
 				81AF9B3823BD9FC800C74ED0 /* JSONRequestCache.swift in Sources */,
 				81AF9B3723BD9FC800C74ED0 /* LiveChatOverlayViewController.swift in Sources */,
 				81AC4A0423FA14DD0081EE18 /* EventsViewModel.swift in Sources */,

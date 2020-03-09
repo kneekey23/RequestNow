@@ -29,23 +29,35 @@ struct EventsView: View {
     
     var body: some View {
         NavigationView {
-            if viewModel.eventViewModels.isEmpty {
-                ZStack {
-                    ColorCodes.darkGrey.color()
-                        .edgesIgnoringSafeArea(.all)
+            ZStack {
+                ColorCodes.darkGrey.color()
+                    .edgesIgnoringSafeArea(.all)
+                if viewModel.eventViewModels.isEmpty {
+                    
                     Text("No events are active yet. Click the plus button to purchase an event.").foregroundColor(.white).font(.custom("Segoe UI", size: 17))
-                }.navigationBarTitle(Text("Active Events"), displayMode: .large)
-            }else {
-                List{
-                    ForEach(viewModel.eventViewModels, id: \.id) { eventViewModel in
-                        EventRow(viewModel: eventViewModel)
-                    }.listRowBackground(ColorCodes.darkGrey.color())
+                }else {
+                    List{
+                        ForEach(viewModel.eventViewModels, id: \.id) { eventViewModel in
+                            EventRow(viewModel: eventViewModel)
+                        }.listRowBackground(ColorCodes.darkGrey.color())
+                    }
+                    
                 }
-                .alert(isPresented: $viewModel.showAlert) {
-                    Alert(title: Text("Error"), message: Text(viewModel.errorMessage), dismissButton: .default(Text("Ok")))
+            }.alert(isPresented: $viewModel.showAlert) {
+                Alert(title: Text("Error"), message: Text(viewModel.errorMessage), dismissButton: .default(Text("Ok")))
+            }
+            .font(.custom("Segoe UI", size: 17))
+            .navigationBarTitle(Text("Active Events"), displayMode: .large)
+            .navigationBarItems(trailing:
+                Button(action:  {
+                    //show add event modal
+                    self.viewModel.showAddEventModal.toggle()
+                }) {
+                    Image("plus")
                 }
-                .font(.custom("Segoe UI", size: 17))
-                .navigationBarTitle(Text("Active Events"), displayMode:.inline)
+            )
+                .sheet(isPresented: $viewModel.showAddEventModal) {
+                    AddEventView()
             }
         }
     }
