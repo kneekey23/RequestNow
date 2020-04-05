@@ -58,6 +58,7 @@ final class RequestService: RequestServiceProtocol {
                     }
                     return
                 }
+                
                 do {
                     let decoder = JSONDecoder()
                     let formatter = DateFormatter.dateTimeFormat

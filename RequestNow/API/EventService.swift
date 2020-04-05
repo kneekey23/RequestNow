@@ -26,7 +26,7 @@ final class EventService: EventServiceProtocol {
                 promise(.failure(ServiceError.urlRequest))
                 return
             }
-            
+            print("ACCESS TOKEN: " + User.current.accessToken)
             var urlRequest = URLRequest(url: url)
             urlRequest.timeoutInterval = 10.0
             urlRequest.httpMethod = "GET"
@@ -37,13 +37,17 @@ final class EventService: EventServiceProtocol {
                // "x-api-key": API_KEY
             ]
             
-            dataTask = URLSession.shared.dataTask(with: urlRequest) { (data, _, error) in
+            dataTask = URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in
                 guard let data = data else {
                     if let error = error {
                         promise(.failure(error))
                     }
                     return
                 }
+                if let httpResponse = response as? HTTPURLResponse {
+                    print(httpResponse.statusCode)
+                }
+                
                 do {
                     let decoder = JSONDecoder()
                     let formatter = DateFormatter.dateTimeFormat

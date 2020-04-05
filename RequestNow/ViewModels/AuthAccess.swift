@@ -27,7 +27,8 @@ class AuthAccess: ObservableObject {
              usernameOrEmail: username,
              password: password,
              realm: "Username-Password-Authentication",
-             scope: "openid")
+             audience: "https://api.requestnow.io",
+             scope: "openid profile email")
           .start { result in
               switch result {
               case .success(let credentials):

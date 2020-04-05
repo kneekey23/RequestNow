@@ -57,7 +57,7 @@ struct EventsView: View {
                 }
             )
                 .sheet(isPresented: $viewModel.showAddEventModal) {
-                    AddEventView()
+                    AddEventView(viewModel: AddEventViewModel())
             }
         }
     }
