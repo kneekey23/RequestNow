@@ -26,10 +26,11 @@ class User: Codable {
     private static var _current: User?
 
     // 2
-    static var current: User {
+    static var current: User? {
         // 3
         guard let currentUser = _current else {
-            fatalError("Error: current user doesn't exist")
+           // fatalError("Error: current user doesn't exist")
+            return nil
         }
 
         // 4

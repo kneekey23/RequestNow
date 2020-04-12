@@ -16,6 +16,12 @@ protocol EventServiceProtocol {
 final class EventService: EventServiceProtocol {
     
     func getEvents() -> AnyPublisher<[Event], Error> {
+        guard let currentUser = User.current else {
+            return Future<[Event], Error> { promise in
+                promise(.failure(ServiceError.internalError("No user signed in")))
+                return
+            }.eraseToAnyPublisher()
+        }
         var dataTask: URLSessionDataTask?
         
         let onSubscription: (Subscription) -> Void = { _ in dataTask?.resume() }
@@ -26,14 +32,14 @@ final class EventService: EventServiceProtocol {
                 promise(.failure(ServiceError.urlRequest))
                 return
             }
-            print("ACCESS TOKEN: " + User.current.accessToken)
+            
             var urlRequest = URLRequest(url: url)
             urlRequest.timeoutInterval = 10.0
             urlRequest.httpMethod = "GET"
             urlRequest.allHTTPHeaderFields = [
                 "Content-Type": "application/json",
                 "Accept": "application/json",
-                "Authorization": "Bearer " + User.current.accessToken
+                "Authorization": "Bearer " + currentUser.accessToken
                // "x-api-key": API_KEY
             ]
             
@@ -43,9 +49,6 @@ final class EventService: EventServiceProtocol {
                         promise(.failure(error))
                     }
                     return
-                }
-                if let httpResponse = response as? HTTPURLResponse {
-                    print(httpResponse.statusCode)
                 }
                 
                 do {

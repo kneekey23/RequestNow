@@ -26,7 +26,7 @@ class EventCellViewModel: ObservableObject {
     func setUpBindings() {
         id = String(event.id)
         name = event.name
-        eventPhoneNumber = event.phoneNumber
+        eventPhoneNumber = event.phoneNumber.phoneNumber
         startDate = event.startDate.toShortDate()
     }
 }

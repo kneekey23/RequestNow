@@ -8,9 +8,6 @@
 
 import Foundation
 
-let blueColor = "25a3d1"
-let greyColor = "aaa"
-let darkGreyColor = "bababa"
 
 let HEADER = [
     "Content-Type": "application/json; charset=utf-8"
@@ -28,7 +25,7 @@ let REPLY_REQUEST = API_ENDPOINT + "reply_message_group"
 let LOGOUT = API_ENDPOINT + "logout"
 let INFORM_UP_NEXT = API_ENDPOINT + "/inform_next_up"
 let GET_RAFFLE_WINNER = API_ENDPOINT + "get_raffle_winner"
-let EVENTS = LOCAL_ENDPOINT + "events"
+let EVENTS = LOCAL_ENDPOINT + "events/"
 
 let UPDATE_REQUESTS = Notification.Name("updateRequests")
 let CURRENT_USER = "currentUser"

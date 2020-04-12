@@ -8,11 +8,11 @@
 import Foundation
 import SwiftUI
 
-class Event: Codable, Identifiable {
+struct Event: Codable, Identifiable {
     
-    public let id: Int
+    public let id: String
     public let name: String
-    public let phoneNumber: String
+    public let phoneNumber: PhoneNumber
     public let startDate: Date
     public let endDate: Date
     public let autoReplySignature: String
@@ -21,9 +21,13 @@ class Event: Codable, Identifiable {
     public let autoSongDetectionEnabled: Bool
     public let pushNotificationsEnabled: Bool
     public let guestNamesEnabled: Bool
-    public let createdDate: Date
-    public let modifiedDate: Date
-    
+    public let createdDate: String
+    public let modifiedDate: String
+    public let isActive: Bool
+    public let textMessages: Dictionary<String, String>
+    public let songRequestGroups: Dictionary<String, String>
+    public let guestPhoneNumbers: Dictionary<String, String>
+    public let description: String
     
     
     enum CodingKeys: String, CodingKey {
@@ -40,6 +44,11 @@ class Event: Codable, Identifiable {
         case guestNamesEnabled = "guest_names_enabled"
         case createdDate = "created"
         case modifiedDate = "modstamp"
+        case isActive = "active"
+        case textMessages = "text_messages"
+        case songRequestGroups = "song_request_groups"
+        case guestPhoneNumbers = "guest_phone_numbers"
+        case description = "description"
         
     }
     
